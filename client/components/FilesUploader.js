@@ -18,7 +18,7 @@ class FilesUploader extends Component {
     });
     files.map(file => {
       let filesToSend = new FormData();
-      filesToSend.append('files', file);
+      filesToSend.append('file', file);
       this.props.getFiles(filesToSend);
     });
   };
@@ -68,7 +68,7 @@ class FilesUploader extends Component {
 
 const mapDispatch = dispatch => {
   return {
-    getFiles: () => dispatch(filesThunk())
+    getFiles: files => dispatch(filesThunk(files))
   };
 };
 
