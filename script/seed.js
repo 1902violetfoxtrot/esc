@@ -235,97 +235,212 @@ async function seed() {
       createdLocations[34],
       createdLocations[35]
     ]), // mountain
-
-    createdLabels[22].setLocations([
-      createdLocations[1],
-      createdLocations[3],
-      createdLocations[5],
-      createdLocations[16],
-      createdLocations[22],
-      createdLocations[23],
-      createdLocations[25],
-      createdLocations[26],
-      createdLocations[27],
-      createdLocations[28],
-      createdLocations[30],
-      createdLocations[31],
-      createdLocations[32],
-      createdLocations[33],
-      createdLocations[34],
-      createdLocations[39],
-      createdLocations[40],
-      createdLocations[41],
-      createdLocations[42],
-      createdLocations[43],
-      createdLocations[44],
-      createdLocations[45],
-      createdLocations[46],
-      createdLocations[47],
-      createdLocations[50],
-      createdLocations[52],
-      createdLocations[53],
-      createdLocations[54]
-    ]), // outdoors
-    createdLabels[23].setLocations([
-      createdLocations[5],
-      createdLocations[16],
-      createdLocations[24],
-      createdLocations[23],
-      createdLocations[24],
-      createdLocations[25],
-      createdLocations[26],
-      createdLocations[27],
-      createdLocations[28],
-      createdLocations[29],
-      createdLocations[31],
-      createdLocations[34],
-      createdLocations[36],
-      createdLocations[37],
-      createdLocations[44],
-      createdLocations[45],
-      createdLocations[53],
-      createdLocations[54]
-    ]), // resort
-    createdLabels[24].setLocations([
-      createdLocations[16],
-      createdLocations[28],
-      createdLocations[30],
-      createdLocations[31],
-      createdLocations[33],
-      createdLocations[42]
-    ]), // camp
-    createdLabels[25].setLocations([
-      createdLocations[0],
-      createdLocations[2],
-      createdLocations[3],
-      createdLocations[5],
-      createdLocations[6],
-      createdLocations[4],
-      createdLocations[7],
-      createdLocations[9],
-      createdLocations[10],
-      createdLocations[12],
-      createdLocations[13],
-      createdLocations[14],
-      createdLocations[15],
-      createdLocations[18],
-      createdLocations[19],
-      createdLocations[20],
-      createdLocations[21],
-      createdLocations[19],
-      createdLocations[35],
-      createdLocations[48]
-    ]), // restaurant
-    createdLabels[26].setLocations([
-      createdLocations[3],
-      createdLocations[12],
-      createdLocations[13],
-      createdLocations[14],
-      createdLocations[15],
-      createdLocations[34],
-      createdLocations[39],
-      createdLocations[40]
-    ]) // orchard
+    createdLabels[16].setLocations(
+      [1, 24, 25, 26, 36, 44, 53, 54].map(el => createdLocations[el])
+    ), // geyser
+    createdLabels[17].setLocations(
+      [1, 4, 32, 33, 42, 43, 44, 45, 46, 53, 54].map(el => createdLocations[el])
+    ), // volcano
+    createdLabels[18].setLocations(
+      [0, 1, 2, 4, 6, 7, 10, 12, 13, 14, 15, 20, 27, 42, 48, 49, 51].map(
+        el => createdLocations[el]
+      )
+    ), // museum
+    createdLabels[19].setLocations(
+      [0, 1, 2, 3, 4, 6, 7, 12, 13, 14, 15, 19, 20, 22, 27, 49, 48, 51].map(
+        el => createdLocations[el]
+      )
+    ), // cathedral
+    createdLabels[20].setLocations(
+      [0, 4, 5, 6, 7, 8, 9, 11, 17, 19, 20, 21, 35, 38, 48].map(
+        el => createdLocations[el]
+      )
+    ), // amusement park
+    createdLabels[21].setLocations(
+      [0, 1, 2, 4, 6, 7, 20, 21, 35, 48, 49].map(el => createdLocations[el])
+    ), // indoors
+    createdLabels[22].setLocations(
+      [
+        1,
+        3,
+        5,
+        16,
+        22,
+        23,
+        25,
+        26,
+        27,
+        28,
+        30,
+        31,
+        32,
+        33,
+        34,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        50,
+        52,
+        53,
+        54
+      ].map(el => createdLocations[el])
+    ), // outdoors
+    createdLabels[23].setLocations(
+      [5, 16, 24, 23, 25, 26, 27, 28, 29, 31, 34, 36, 37, 44, 45, 53, 54].map(
+        el => createdLocations[el]
+      )
+    ), // resort
+    createdLabels[24].setLocations(
+      [16, 28, 30, 31, 33, 42].map(el => createdLocations[el])
+    ), // camp
+    createdLabels[25].setLocations(
+      [0, 2, 3, 5, 6, 4, 7, 9, 10, 12, 13, 14, 15, 18, 19, 20, 21, 35, 48].map(
+        el => createdLocations[el]
+      )
+    ), // restaurant
+    createdLabels[26].setLocations(
+      [3, 12, 13, 14, 15, 34, 39, 40].map(el => createdLocations[el])
+    ), // orchard
+    createdLabels[27].setLocations(
+      [1, 2, 3, 10, 13, 14, 20, 28, 34, 45].map(el => createdLocations[el])
+    ), // valley
+    createdLabels[28].setLocations(
+      [12, 13, 14, 15, 16, 27, 42, 47, 51].map(el => createdLocations[el])
+    ), // temple
+    createdLabels[29].setLocations(
+      [1, 2, 6, 9, 10, 16, 20, 28, 30].map(el => createdLocations[el])
+    ), // lake
+    createdLabels[30].setLocations(
+      [1, 3, 5, 23, 24, 25, 26, 28, 29, 33, 44, 45, 53, 54].map(
+        el => createdLocations[el]
+      )
+    ), // waterfall
+    createdLabels[31].setLocations(
+      [1, 2, 3, 5, 6, 10, 21, 22, 23, 24, 25, 26, 27, 28, 33, 34, 53, 54].map(
+        el => createdLocations[el]
+      )
+    ), // lighthouse
+    createdLabels[32].setLocations(
+      [0, 1, 2, 6, 7, 13, 14, 15, 19, 20, 21, 51].map(
+        el => createdLocations[el]
+      )
+    ), // statue
+    createdLabels[33].setLocations(
+      [0, 1, 2, 3, 4, 6, 7, 12, 13, 14, 15, 20, 21, 26, 35, 42, 48, 49, 51].map(
+        el => createdLocations[el]
+      )
+    ), // memorial
+    createdLabels[34].setLocations(
+      [1, 4, 9, 11, 27, 30, 31, 42, 53, 54].map(el => createdLocations[el])
+    ), // road
+    createdLabels[35].setLocations(
+      [
+        1,
+        4,
+        5,
+        16,
+        18,
+        23,
+        24,
+        25,
+        26,
+        27,
+        29,
+        33,
+        36,
+        42,
+        44,
+        45,
+        52,
+        53,
+        54
+      ].map(el => createdLocations[el])
+    ), // island
+    createdLabels[36].setLocations(
+      [
+        1,
+        4,
+        5,
+        11,
+        16,
+        23,
+        24,
+        25,
+        26,
+        30,
+        31,
+        32,
+        33,
+        36,
+        37,
+        42,
+        43,
+        44,
+        45,
+        53,
+        54
+      ].map(el => createdLocations[el])
+    ), // animals
+    createdLabels[37].setLocations(
+      [
+        0,
+        3,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        33,
+        34,
+        53,
+        54
+      ].map(el => createdLocations[el])
+    ), // flowers
+    createdLabels[38].setLocations(
+      [0, 2, 4, 6, 7, 8, 35, 38, 21].map(el => createdLocations[el])
+    ), // aquarium
+    createdLabels[39].setLocations(
+      [
+        0,
+        2,
+        6,
+        8,
+        9,
+        13,
+        14,
+        17,
+        18,
+        19,
+        20,
+        21,
+        24,
+        27,
+        34,
+        32,
+        30,
+        31,
+        28,
+        40,
+        48
+      ].map(el => createdLocations[el])
+    ) // casino
   ]);
 
   console.log(`seeded successfully`);
