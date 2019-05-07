@@ -52,7 +52,7 @@ async function seed() {
   ];
 
   const locations = [
-    { name: 'paris', longitude: 2.3522, latitude: 48.8566 }, // 0
+    { name: 'paris', longitude: 2.3522, latitude: 48.8566, currency: 'euro' }, // 0
     { name: 'reykjavik', longitude: -21.9426, latitude: 64.1466 },
     { name: 'oslo', longitude: 10.7522, latitude: 59.9139 },
     { name: 'havana', longitude: -82.3666, latitude: 23.1136 },
