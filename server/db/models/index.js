@@ -19,16 +19,6 @@ const Label = require('./label');
 Location.belongsToMany(Label, { through: 'LocationLabel' });
 Label.belongsToMany(Location, { through: 'LocationLabel' });
 
-Location.prototype.getLabels = async () => {
-  let labels = [];
-  await Label.findAll({
-    include: [{ model: Location }],
-    where: {
-      locationId: this.id
-    }
-  }).then(foundLabels => foundLabels.forEach(label => labels.push(label.name)));
-};
-
 module.exports = {
   User,
   Location,
