@@ -1,6 +1,3 @@
-// const path = require('path');
-// const multer = require('multer');
-const vision = require('@google-cloud/vision');
 const router = require('express').Router();
 const { Label } = require("../db/models/");
 const { Locations } = require("../db/models/");
@@ -31,7 +28,7 @@ async function quickstart(aFile) {
       redisClient.set("idAndLabels", JSON.stringify(labels));
     }
   });
-  
+
   // Performs label detection on the image file
 
   const uniqueLabelOutput = new Set([]);
@@ -47,7 +44,7 @@ async function quickstart(aFile) {
   });
 
   let setArray = Array.from(uniqueLabelOutput);
-  
+
   let locationNames = await Promise.all(setArray.map(async currLabel => {
     let labelSearchResult = await Label.findOne({
       where: {
@@ -75,7 +72,7 @@ async function quickstart(aFile) {
         }
       })
     })
-  
+
   let bestCities = []
   let cityMatches = setArray.length;
 
