@@ -22,9 +22,8 @@ class GoogleCVAPI {
     labels.forEach(label => {
       this.labels.push(label.description);
     });
-    //console.log(this.labels);
   }
-  
+
   async getMostFrequentCities() {
     let labels;
     await redisClient.get('idAndLabels', async function(reply) {
