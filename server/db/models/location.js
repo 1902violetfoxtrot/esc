@@ -16,4 +16,15 @@ const Location = db.define('location', {
   }
 });
 
+Location.prototype.getLabelNames = async () => {
+  let labels = [];
+  await this.getLabels()
+  .then(foundLabels =>
+    foundLabels.forEach(
+      label => labels.push(label.name)
+    )
+  );
+  return labels;
+};
+
 module.exports = Location;
