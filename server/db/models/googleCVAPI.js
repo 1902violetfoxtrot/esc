@@ -1,11 +1,4 @@
 const vision = require('@google-cloud/vision');
-const { Label } = require('./label');
-const redis = require('redis');
-const redisClient = redis.createClient();
-
-redisClient.on('error', function(err) {
-  console.log('Error ' + err);
-});
 
 class GoogleCVAPI {
   constructor() {
@@ -24,16 +17,7 @@ class GoogleCVAPI {
     });
   }
 
-  async getMostFrequentCities() {
-    let labels;
-    await redisClient.get('idAndLabels', async function(reply) {
-      if (reply) {
-        labels = JSON.parse(reply);
-      } else {
-        labels = await Label.findAll({ attributes: ['id', 'name'] });
-        redisClient.set('idAndLabels', JSON.stringify(labels));
-      }
-    });
+  async getMostFrequentCities(labels, Label) {
 
     const uniqueLabelOutput = new Set([]);
 
