@@ -18,7 +18,7 @@ if (!process.env.INSTAGRAM_CLIENT_ID || !process.env.INSTAGRAM_CLIENT_SECRET) {
     (token, refreshToken, profile, done) => {
       const instagramId = profile.id;
       const name = profile.displayName;
-      console.log(profile);
+      console.log();
 
       User.findOrCreate({
         where: { instagramId },
@@ -31,7 +31,7 @@ if (!process.env.INSTAGRAM_CLIENT_ID || !process.env.INSTAGRAM_CLIENT_SECRET) {
 
   passport.use(strategy);
 
-  router.get('/', passport.authenticate('instagram'));
+  router.get('/', passport.authenticate('instagram', { scope: 'basic' }));
 
   router.get(
     '/callback',
