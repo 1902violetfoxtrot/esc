@@ -42,7 +42,7 @@ class TripInfoForm extends React.Component {
       [e.target.id]: e.target.value
     });
 
-    if (this.state.return < this.state.departure) {
+    if (this.state.return <= this.state.departure) {
       const dep = parseDate(this.state.departure);
       const ret = new Date(dep.getTime() + 24 * 60 * 60 * 1000);
       this.setState({
