@@ -23,7 +23,7 @@ class TripInfoForm extends React.Component {
   constructor() {
     super();
 
-    const now = Date.now()
+    const now = Date.now();
     this.today = getReadableDate(new Date(now));
     this.returnLimit = getReadableDate(new Date(now + 330 * DAY));
     this.departLimit = getReadableDate(new Date(now + 329 * DAY));
@@ -56,7 +56,10 @@ class TripInfoForm extends React.Component {
       await this.setState({
         dayAfterDeparture: dayAfter
       });
-      if (this.state.returnDate && this.state.returnDate <= this.state.departure) {
+      if (
+        this.state.returnDate &&
+        this.state.returnDate <= this.state.departure
+      ) {
         this.setState({
           returnDate: dayAfter
         });
@@ -78,108 +81,134 @@ class TripInfoForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { budget, departure, returnDate, adults, children, infants } = this.state;
-    const dataToSend = { budget, departure, returnDate, adults, children, infants };
+    const {
+      budget,
+      departure,
+      returnDate,
+      adults,
+      children,
+      infants
+    } = this.state;
+    const dataToSend = {
+      budget,
+      departure,
+      returnDate,
+      adults,
+      children,
+      infants
+    };
     console.log(dataToSend);
   }
 
   render() {
     return (
-      <form id="tripInfo" onSubmit={this.onSubmit}>
-        <div id="dates">
+      <form id='tripInfo' onSubmit={this.onSubmit}>
+        <div id='dates'>
           <div>
-            <label><i className="fas fa-plane-departure" /> Departure Date</label>
+            <label>
+              <i className='fas fa-plane-departure' /> Departure Date
+            </label>
             <input
-              id="departure"
-              type="date"
+              id='departure'
+              type='date'
               min={this.today}
               max={this.departLimit}
               value={this.state.departure}
               onChange={this.onDateChange}
-              required="required"
+              required='required'
             />
           </div>
           <div>
-            <label><i className="fas fa-plane-arrival" /> Return Date</label>
+            <label>
+              <i className='fas fa-plane-arrival' /> Return Date
+            </label>
             <input
-              id="returnDate"
-              type="date"
+              id='returnDate'
+              type='date'
               min={this.state.dayAfterDeparture}
               max={this.returnLimit}
               value={this.state.returnDate}
               onChange={this.onDateChange}
-              required="required"
+              required='required'
             />
           </div>
         </div>
 
-        <div id="travelers">
+        <div id='travelers'>
           <div>
-            <label><i className="fas fa-users" /> Adults:</label>
+            <label>
+              <i className='fas fa-users' /> Adults:
+            </label>
             <input
-              id="adults"
-              type="number"
-              min="1" // children and infants should not be traveling unsupervised
-              max="20"
+              id='adults'
+              type='number'
+              min='1' // children and infants should not be traveling unsupervised
+              max='20'
               value={this.state.adults}
               onChange={this.onTravelersChange}
-              required="required"
+              required='required'
             />
           </div>
           <div>
-            <label><i className="fas fa-child" /> Children:</label>
+            <label>
+              <i className='fas fa-child' /> Children:
+            </label>
             <input
-              id="children"
-              type="number"
-              min="0"
-              max="20"
+              id='children'
+              type='number'
+              min='0'
+              max='20'
               value={this.state.children}
               onChange={this.onTravelersChange}
-              required="required"
+              required='required'
             />
           </div>
           <div>
-            <label><i className="fas fa-baby" /> Infants:</label>
+            <label>
+              <i className='fas fa-baby' /> Infants:
+            </label>
             <input
-              id="infants"
-              type="number"
-              min="0"
-              max="10"
+              id='infants'
+              type='number'
+              min='0'
+              max='10'
               value={this.state.infants}
               onChange={this.onTravelersChange}
-              required="required"
+              required='required'
             />
           </div>
         </div>
 
-        <div id="budget">
+        <div id='budget'>
           <div>
-            <label><i className="fas fa-money-check" /> Budget (USD)</label>
+            <label>
+              <i className='fas fa-money-check' /> Budget (USD)
+            </label>
             <input
-              type="number"
-              min="500"
-              max="100000"
-              id="budgetInput"
+              type='number'
+              min='500'
+              max='100000'
+              id='budgetInput'
               value={this.state.budget}
               onChange={this.onBudgetChange}
-              required="required"
+              required='required'
             />
           </div>
           <input
-            type="range"
-            min="500"
-            max="100000"
-            step="100"
-            className="slider"
-            id="budgetSlider"
+            type='range'
+            min='500'
+            max='100000'
+            step='100'
+            className='slider'
+            id='budgetSlider'
             value={this.state.budget}
             onChange={this.onBudgetChange}
-            required="required"
+            required='required'
           />
         </div>
 
         <div>
-          <button type="submit">Submit</button>
+          <button type='submit'>Submit</button>
         </div>
       </form>
     );
