@@ -22,13 +22,12 @@ class TripInfoForm extends React.Component {
   constructor() {
     super();
 
-    this.today = new Date();
-    this.tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    this.today = getReadableDate(new Date());
 
     this.state = {
       budget: 5000,
-      departure: getReadableDate(this.today),
-      return: getReadableDate(this.tomorrow),
+      departure: this.today,
+      return: getReadableDate(new Date(Date.now() + 24 * 60 * 60 * 1000)),
       adults: 1,
       children: 0,
       infants: 0
