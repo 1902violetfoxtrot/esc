@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Amadeus = require('amadeus');
+const iataConvert = require('../../utils/utils');
 module.exports = router;
 
 router.get('/testCall', async (req, res, next) => {
@@ -10,14 +11,16 @@ router.get('/testCall', async (req, res, next) => {
     });
     const response = await amadeus.shopping.flightOffers.get({
       origin: 'NYC',
-      destination: 'MAD',
+      destination: 'KEF',
       departureDate: '2019-08-01'
     });
     const { data } = await response;
     const flights = data.map(el => {
+      let carrierName = iataConvert(
+        el.offerItems[0].services[0].segments[0].flightSegment.carrierCode
+      );
       return {
-        carrier:
-          el.offerItems[0].services[0].segments[0].flightSegment.carrierCode,
+        carrier: carrierName,
         class:
           el.offerItems[0].services[0].segments[0].pricingDetailPerAdult
             .travelClass,
@@ -26,7 +29,7 @@ router.get('/testCall', async (req, res, next) => {
     });
     let iter = 0;
     let flightz = [];
-    while (flightz.length < 3) {
+    while (flightz.length < 7) {
       flightz.push(flights[iter]);
       iter++;
     }

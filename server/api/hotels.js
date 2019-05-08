@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Amadeus = require('amadeus');
+const fetch = require('node-fetch');
 module.exports = router;
 
 router.get('/testCall', async (req, res, next) => {
@@ -13,12 +14,26 @@ router.get('/testCall', async (req, res, next) => {
       latitude: 48.8566
     });
     const { data } = await response;
+    let currency;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].offers[0].price.currency) {
+        currency = data[i].offers[0].price.currency;
+        break;
+      }
+    }
+    const currencyData = await fetch(
+      `http://api.openrates.io/latest?base=${currency}`
+    );
+    const fetchRes = await currencyData.json();
     const hotels = data.map(el => {
       if (el.offers[0].price.base) {
+        let oldPrice = el.offers[0].price.base;
+        let newPrice = oldPrice * fetchRes.rates.USD;
+        let finalPrice = newPrice.toFixed(2);
         return {
           name: el.hotel.name,
-          price: el.offers[0].price.base,
-          currency: el.offers[0].price.currency
+          price: finalPrice,
+          currency: 'USD'
         };
       }
     });
