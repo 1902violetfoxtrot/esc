@@ -27,9 +27,9 @@ class TripInfoForm extends React.Component {
 
     this.state = {
       budget: 5000,
-      departure: this.today,
+      departure: '',
       dayAfterDeparture: tomorrow,
-      return: tomorrow,
+      return: '',
       adults: 1,
       children: 0,
       infants: 0
@@ -52,7 +52,7 @@ class TripInfoForm extends React.Component {
       await this.setState({
         dayAfterDeparture: dayAfter
       });
-      if (this.state.return <= this.state.departure) {
+      if (this.state.return && this.state.return <= this.state.departure) {
         this.setState({
           return: dayAfter
         });
