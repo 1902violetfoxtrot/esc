@@ -33,7 +33,7 @@ class TripInfoForm extends React.Component {
       budget: 5000,
       departure: '',
       dayAfterDeparture: tomorrow,
-      return: '',
+      returnDate: '',
       adults: 1,
       children: 0,
       infants: 0
@@ -56,9 +56,9 @@ class TripInfoForm extends React.Component {
       await this.setState({
         dayAfterDeparture: dayAfter
       });
-      if (this.state.return && this.state.return <= this.state.departure) {
+      if (this.state.returnDate && this.state.returnDate <= this.state.departure) {
         this.setState({
-          return: dayAfter
+          returnDate: dayAfter
         });
       }
     }
@@ -78,7 +78,9 @@ class TripInfoForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    const { budget, departure, returnDate, adults, children, infants } = this.state;
+    const dataToSend = { budget, departure, returnDate, adults, children, infants };
+    console.log(dataToSend);
   }
 
   render() {
@@ -100,11 +102,11 @@ class TripInfoForm extends React.Component {
           <div>
             <label><i className="fas fa-plane-arrival" /> Return Date</label>
             <input
-              id="return"
+              id="returnDate"
               type="date"
               min={this.state.dayAfterDeparture}
               max={this.returnLimit}
-              value={this.state.return}
+              value={this.state.returnDate}
               onChange={this.onDateChange}
               required="required"
             />
