@@ -3,6 +3,8 @@ module.exports = router;
 
 router.use('/users', require('./users'));
 router.use('/uploads', require('./uploads'));
+router.use('/hotels', require('./hotels'));
+router.use('/flights', require('./flights'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');
