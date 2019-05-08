@@ -1,5 +1,6 @@
 import React from 'react';
 
+const DAY = 24 * 60 * 60 * 1000;
 function getReadableDate(date) {
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -22,8 +23,11 @@ class TripInfoForm extends React.Component {
   constructor() {
     super();
 
-    this.today = getReadableDate(new Date());
-    const tomorrow = getReadableDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
+    const now = Date.now()
+    this.today = getReadableDate(new Date(now));
+    this.returnLimit = getReadableDate(new Date(now + 330 * DAY));
+    this.departLimit = getReadableDate(new Date(now + 329 * DAY));
+    const tomorrow = getReadableDate(new Date(now + DAY));
 
     this.state = {
       budget: 5000,
@@ -48,7 +52,7 @@ class TripInfoForm extends React.Component {
 
     if (target.id === 'departure') {
       const dep = parseDate(this.state.departure);
-      const dayAfter = getReadableDate(new Date(dep.getTime() + 24 * 60 * 60 * 1000));
+      const dayAfter = getReadableDate(new Date(dep.getTime() + DAY));
       await this.setState({
         dayAfterDeparture: dayAfter
       });
@@ -87,6 +91,7 @@ class TripInfoForm extends React.Component {
               id="departure"
               type="date"
               min={this.today}
+              max={this.departLimit}
               value={this.state.departure}
               onChange={this.onDateChange}
               required="required"
@@ -98,6 +103,7 @@ class TripInfoForm extends React.Component {
               id="return"
               type="date"
               min={this.state.dayAfterDeparture}
+              max={this.returnLimit}
               value={this.state.return}
               onChange={this.onDateChange}
               required="required"
