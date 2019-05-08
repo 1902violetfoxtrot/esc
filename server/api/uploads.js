@@ -25,9 +25,10 @@ router.post('/', async (req, res, next) => {
     });
 
     await googleCV.setLabels(filePath);
-    await googleCV.getMostFrequentCities(labels, Label);
+    let locations = await googleCV.getMostFrequentCities(labels, Label);
 
-    res.sendStatus(200);
+    console.log('asjduahfuqioqw',locations)
+    res.json(locations);
   } catch (error) {
     next(error);
   }
