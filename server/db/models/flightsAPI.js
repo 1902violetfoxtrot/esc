@@ -12,11 +12,6 @@ class FlightsAPI {
       destination: `${destination}`,
       departureDate: `${departureDate}`
     });
-    // const response = await amadeus.shopping.flightOffers.get({
-    //   origin: 'NYC',
-    //   destination: 'KEF',
-    //   departureDate: '2019-08-01'
-    // });
     const { data } = response;
     return data;
   }
