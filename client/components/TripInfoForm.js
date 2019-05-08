@@ -23,11 +23,13 @@ class TripInfoForm extends React.Component {
     super();
 
     this.today = getReadableDate(new Date());
+    const tomorrow = getReadableDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
 
     this.state = {
       budget: 5000,
       departure: this.today,
-      return: getReadableDate(new Date(Date.now() + 24 * 60 * 60 * 1000)),
+      dayAfterDeparture: tomorrow,
+      return: tomorrow,
       adults: 1,
       children: 0,
       infants: 0
@@ -39,16 +41,22 @@ class TripInfoForm extends React.Component {
   }
 
   async onDateChange(e) {
+    const { target } = e;
     await this.setState({
-      [e.target.id]: e.target.value
+      [target.id]: target.value
     });
 
-    if (this.state.return <= this.state.departure) {
+    if (target.id === 'departure') {
       const dep = parseDate(this.state.departure);
-      const ret = new Date(dep.getTime() + 24 * 60 * 60 * 1000);
-      this.setState({
-        return: getReadableDate(ret)
+      const dayAfter = getReadableDate(new Date(dep.getTime() + 24 * 60 * 60 * 1000));
+      await this.setState({
+        dayAfterDeparture: dayAfter
       });
+      if (this.state.return <= this.state.departure) {
+        this.setState({
+          return: dayAfter
+        });
+      }
     }
   }
 
@@ -71,7 +79,7 @@ class TripInfoForm extends React.Component {
 
   render() {
     return (
-      <form id='tripInfo' onSubmit={this.onSubmit}>
+      <form id="tripInfo" onSubmit={this.onSubmit}>
         <div id="dates">
           <div>
             <label>Departing Day</label>
@@ -88,7 +96,7 @@ class TripInfoForm extends React.Component {
             <input
               id="return"
               type="date"
-              min={this.state.departure}
+              min={this.state.dayAfterDeparture}
               value={this.state.return}
               onChange={this.onDateChange}
             />
@@ -154,7 +162,7 @@ class TripInfoForm extends React.Component {
         </div>
 
         <div>
-          <button type='submit'>Submit</button>
+          <button type="submit">Submit</button>
         </div>
       </form>
     );
