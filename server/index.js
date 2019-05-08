@@ -11,7 +11,13 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 const socketio = require('socket.io');
 const formData = require('express-form-data');
+const redis = require('redis');
+const redisClient = redis.createClient();
 module.exports = app;
+
+redisClient.on('error', function(err) {
+  console.log('Error ' + err);
+});
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.

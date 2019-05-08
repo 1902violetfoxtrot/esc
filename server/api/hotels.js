@@ -1,7 +1,16 @@
 const router = require('express').Router();
 const Amadeus = require('amadeus');
 const fetch = require('node-fetch');
+const redis = require('redis');
+const bluebird = require('bluebird');
+const redisClient = redis.createClient();
 module.exports = router;
+
+bluebird.promisifyAll(redisClient);
+
+redisClient.on('error', function(err) {
+  console.log('Error ' + err);
+});
 
 router.get('/testCall', async (req, res, next) => {
   try {
@@ -9,15 +18,24 @@ router.get('/testCall', async (req, res, next) => {
       clientId: process.env.AMADEUS_CLIENT_ID,
       clientSecret: process.env.AMADEUS_CLIENT_SECRET
     });
-    const response = await amadeus.shopping.hotelOffers.get({
-      longitude: 2.3522,
-      latitude: 48.8566
-    });
-    const { data } = await response;
+    let hotelReply = await redisClient.getAsync('hotels');
+    if (hotelReply !== null) {
+      hotelReply = JSON.parse(hotelReply);
+    } else {
+      const response = await amadeus.shopping.hotelOffers.get({
+        longitude: 2.3522,
+        latitude: 48.8566
+      });
+      const { data } = response;
+      hotelReply = data;
+      console.log(data);
+      await redisClient.setAsync('hotels', JSON.stringify(data));
+    }
+    console.log('undefined', hotelReply);
     let currency;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].offers[0].price.currency) {
-        currency = data[i].offers[0].price.currency;
+    for (let i = 0; i < hotelReply.length; i++) {
+      if (hotelReply[i].offers[0].price.currency) {
+        currency = hotelReply[i].offers[0].price.currency;
         break;
       }
     }
@@ -25,7 +43,7 @@ router.get('/testCall', async (req, res, next) => {
       `http://api.openrates.io/latest?base=${currency}`
     );
     const fetchRes = await currencyData.json();
-    const hotels = data.map(el => {
+    const hotels = hotelReply.map(el => {
       if (el.offers[0].price.base) {
         let oldPrice = el.offers[0].price.base;
         let newPrice = oldPrice * fetchRes.rates.USD;

@@ -39,6 +39,7 @@
     "@google-cloud/vision": "^0.25.0",
     "amadeus": "^3.1.0",
     "axios": "^0.18.0",
+    "bluebird": "^3.5.4",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
     "dotenv": "^7.0.0",
