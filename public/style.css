@@ -89,3 +89,20 @@ input[type="date"]::-webkit-clear-button {
   display: flex;
   justify-content: space-around;
 }
+#budget {
+  display: flex;
+  flex-direction: column;
+}
+#budget > div {
+  align-self: center;
+}
+
+#tripInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#tripInfo > div {
+  display: flex;
+  justify-content: center;
+}

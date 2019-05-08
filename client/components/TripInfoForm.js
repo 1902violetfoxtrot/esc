@@ -35,6 +35,7 @@ class TripInfoForm extends React.Component {
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onTravelersChange = this.onTravelersChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   async onDateChange(e) {
@@ -63,9 +64,14 @@ class TripInfoForm extends React.Component {
     });
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+    console.log(this.state);
+  }
+
   render() {
     return (
-      <div>
+      <form id='tripInfo' onSubmit={this.onSubmit}>
         <div id="dates">
           <div>
             <label>Departing Day</label>
@@ -146,7 +152,11 @@ class TripInfoForm extends React.Component {
             onChange={this.onBudgetChange}
           />
         </div>
-      </div>
+
+        <div>
+          <button type='submit'>Submit</button>
+        </div>
+      </form>
     );
   }
 }
