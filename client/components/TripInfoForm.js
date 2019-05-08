@@ -82,41 +82,44 @@ class TripInfoForm extends React.Component {
       <form id="tripInfo" onSubmit={this.onSubmit}>
         <div id="dates">
           <div>
-            <label>Departing Day</label>
+            <label><i className="fas fa-plane-departure" /> Departure Date</label>
             <input
               id="departure"
               type="date"
               min={this.today}
               value={this.state.departure}
               onChange={this.onDateChange}
+              required="required"
             />
           </div>
           <div>
-            <label>Returning Day</label>
+            <label><i className="fas fa-plane-arrival" /> Return Date</label>
             <input
               id="return"
               type="date"
               min={this.state.dayAfterDeparture}
               value={this.state.return}
               onChange={this.onDateChange}
+              required="required"
             />
           </div>
         </div>
 
         <div id="travelers">
           <div>
-            <label>Adults traveling:</label>
+            <label><i className="fas fa-users" /> Adults:</label>
             <input
               id="adults"
               type="number"
-              min="0"
+              min="1" // children and infants should not be traveling unsupervised
               max="20"
               value={this.state.adults}
               onChange={this.onTravelersChange}
+              required="required"
             />
           </div>
           <div>
-            <label>Children traveling:</label>
+            <label><i className="fas fa-child" /> Children:</label>
             <input
               id="children"
               type="number"
@@ -124,10 +127,11 @@ class TripInfoForm extends React.Component {
               max="20"
               value={this.state.children}
               onChange={this.onTravelersChange}
+              required="required"
             />
           </div>
           <div>
-            <label>Infants traveling:</label>
+            <label><i className="fas fa-baby" /> Infants:</label>
             <input
               id="infants"
               type="number"
@@ -135,18 +139,22 @@ class TripInfoForm extends React.Component {
               max="10"
               value={this.state.infants}
               onChange={this.onTravelersChange}
+              required="required"
             />
           </div>
         </div>
 
         <div id="budget">
           <div>
-            <label>Budget</label>
+            <label><i className="fas fa-money-check" /> Budget (USD)</label>
             <input
               type="number"
+              min="500"
+              max="100000"
               id="budgetInput"
               value={this.state.budget}
               onChange={this.onBudgetChange}
+              required="required"
             />
           </div>
           <input
@@ -158,6 +166,7 @@ class TripInfoForm extends React.Component {
             id="budgetSlider"
             value={this.state.budget}
             onChange={this.onBudgetChange}
+            required="required"
           />
         </div>
 
