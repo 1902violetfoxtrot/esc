@@ -14,8 +14,11 @@ class InstagramAPI {
 
     const { data } = await instagram.get('users/self/media/recent');
     data.map(image => {
-      console.log(image.images.standard_resolution.url);
+      this.images.push(image.images.standard_resolution.url);
     });
+  }
+  getImages() {
+    // console.log(this.labels);
   }
 }
 

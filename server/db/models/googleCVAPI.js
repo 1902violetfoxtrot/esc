@@ -18,7 +18,6 @@ class GoogleCVAPI {
   }
 
   async getMostFrequentCities(labels, Label) {
-
     const uniqueLabelOutput = new Set([]);
 
     this.labels.forEach(label =>
