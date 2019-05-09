@@ -6,4 +6,5 @@
 export { default as Navbar } from './Navbar';
 export { default as UserHome } from './UserHome';
 export { default as FilesUploader } from './FilesUploader';
+export { default as Instagram } from './Instagram';
 export { Login, Signup } from './AuthForm';

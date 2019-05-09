@@ -13,12 +13,17 @@ class InstagramAPI {
     });
 
     const { data } = await instagram.get('users/self/media/recent');
+    const imagesSet = new Set([]);
+    const imagesArr = [];
     data.map(image => {
-      this.images.push(image.images.standard_resolution.url);
+      imagesArr.push(image.images.standard_resolution.url);
     });
+    imagesArr.forEach(image => imagesSet.add(image));
+
+    this.images = [...imagesSet];
   }
   getImages() {
-    // console.log(this.labels);
+    return this.images;
   }
 }
 
