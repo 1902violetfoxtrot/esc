@@ -12,7 +12,7 @@ class InstagramAPI {
       accessToken: token
     });
 
-    const data = await instagram.get('users/self/media/recent');
+    const { data } = await instagram.get('users/self/media/recent');
     console.log(data);
   }
 }
