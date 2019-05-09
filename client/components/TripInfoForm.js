@@ -101,7 +101,7 @@ class TripInfoForm extends React.Component {
     };
     this.props.getFlightsThunk('NYC', 'MAD', departure, false);
     this.props.getFlightsThunk('MAD', 'NYC', returnDate, true);
-    console.log(dataToSend);
+    console.log('data to send: ',dataToSend);
   }
 
   render() {
@@ -225,8 +225,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getFlightsThunk: (origin, destination, departureDate) =>
-    dispatch(getFlightsThunk(origin, destination, departureDate))
+  getFlightsThunk: (origin, destination, departureDate, isReturn) =>
+    dispatch(getFlightsThunk(origin, destination, departureDate, isReturn))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripInfoForm);
