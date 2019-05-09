@@ -8,7 +8,7 @@ const getFlights = flights => ({
 });
 
 export const getFlightsThunk = (origin, destination, departureDate) => async dispatch => {
-  const { data } = await axios.get('/api/flights', {origin, destination, departureDate});
+  const { data } = await axios.get(`/api/flights?origin=${origin}&destination=${destination}&departureDate=${departureDate}`);
   dispatch(getFlights(data));
 };
 

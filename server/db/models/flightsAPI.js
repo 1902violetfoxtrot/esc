@@ -3,6 +3,8 @@ const iataConvert = require('../../../utils/utils');
 
 class FlightsAPI {
   async getFlights(origin, destination, departureDate) {
+    console.log('get flights called')
+
     let amadeus = await new Amadeus({
       clientId: process.env.AMADEUS_CLIENT_ID,
       clientSecret: process.env.AMADEUS_CLIENT_SECRET
@@ -16,11 +18,13 @@ class FlightsAPI {
     return data;
   }
 
-  getIATA(flightReply, price) {
+  getIATA(flightReply) {
+    console.log('get IATA called')
     const flights = flightReply.map(el => {
       let carrierName = iataConvert(
         el.offerItems[0].services[0].segments[0].flightSegment.carrierCode
       );
+    
       return {
         carrier: carrierName,
         class:
@@ -32,8 +36,8 @@ class FlightsAPI {
 
     let ourBestFlights = [];
 
-    for (let i = 0; i < 7; i++) {
-        if (flights[i].price < price)
+    for (let i = 0; ourBestFlights.length < 7; i++) {
+        if (flights[i].carrier)
         ourBestFlights.push(flights[i]);
     }
 
