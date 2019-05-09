@@ -2,7 +2,7 @@ const router = require('express').Router();
 const redis = require('redis');
 const redisClient = redis.createClient();
 const bluebird = require('bluebird');
-const flightsAPI = require('../db/models/flightsAPI')
+const flightsAPI = require('../db/models/flightsAPI');
 
 module.exports = router;
 
@@ -13,21 +13,34 @@ redisClient.on('error', function(err) {
 });
 
 router.get('/', async (req, res, next) => {
-  redisClient.FLUSHALL();
   try {
-    const {origin, destination, departureDate} = req.query;
+    const { origin, destination, departureDate } = req.query;
     let flightReply = await redisClient.getAsync('flights');
     if (flightReply !== null) {
       flightReply = JSON.parse(flightReply);
     } else {
-      flightReply = await flightsAPI.getFlights(origin, destination, departureDate);
+      flightReply = await flightsAPI.getFlights(
+        origin,
+        destination,
+        departureDate
+      );
       await redisClient.setAsync('flights', JSON.stringify(flightReply));
     }
 
-    let ourBestFlights = flightsAPI.getIATA(flightReply)
+    let ourBestFlights = flightsAPI.getIATA(flightReply);
 
-    res.json({ourBestFlights, destination});
+    res.json({ ourBestFlights, destination });
   } catch (err) {
     next(err);
+  }
+});
+
+router.get('/closestAirport', async (req, res, next) => {
+  try {
+    const { longitude, latitude } = req.query;
+    const data = await flightsAPI.getClosestAirport(longitude, latitude);
+    res.json(data);
+  } catch (error) {
+    console.error(error);
   }
 });

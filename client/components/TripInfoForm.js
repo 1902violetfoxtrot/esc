@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getFlightsThunk } from '../store';
+import Axios from 'axios';
 
 const DAY = 24 * 60 * 60 * 1000;
 function getReadableDate(date) {
@@ -44,6 +45,10 @@ class TripInfoForm extends React.Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.onTravelersChange = this.onTravelersChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    window.navigator.geolocation.getCurrentPosition(res => console.log(res));
   }
 
   async onDateChange(e) {
@@ -99,9 +104,15 @@ class TripInfoForm extends React.Component {
       children,
       infants
     };
-    this.props.getFlightsThunk('NYC', 'MAD', departure, false);
-    this.props.getFlightsThunk('MAD', 'NYC', returnDate, true);
-    console.log('data to send: ',dataToSend);
+    window.navigator.geolocation.getCurrentPosition(async response => {
+      const { longitude, latitude } = response.coords;
+      const { data } = await Axios.get(
+        `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
+      );
+      const origin = data.data[0].iataCode;
+      this.props.getFlightsThunk(origin, 'MAD', departure, false);
+      this.props.getFlightsThunk('MAD', origin, returnDate, true);
+    });
   }
 
   render() {
