@@ -30,7 +30,7 @@ class TripInfoForm extends React.Component {
     const tomorrow = getReadableDate(new Date(now + DAY));
 
     this.state = {
-      budget: 5000,
+      budget: 1000,
       departure: '',
       dayAfterDeparture: tomorrow,
       returnDate: '',
@@ -143,7 +143,7 @@ class TripInfoForm extends React.Component {
               id='adults'
               type='number'
               min='1' // children and infants should not be traveling unsupervised
-              max='20'
+              max='10'
               value={this.state.adults}
               onChange={this.onTravelersChange}
               required='required'
@@ -157,7 +157,7 @@ class TripInfoForm extends React.Component {
               id='children'
               type='number'
               min='0'
-              max='20'
+              max='10'
               value={this.state.children}
               onChange={this.onTravelersChange}
               required='required'
@@ -171,7 +171,7 @@ class TripInfoForm extends React.Component {
               id='infants'
               type='number'
               min='0'
-              max='10'
+              max='5'
               value={this.state.infants}
               onChange={this.onTravelersChange}
               required='required'
@@ -186,8 +186,8 @@ class TripInfoForm extends React.Component {
             </label>
             <input
               type='number'
-              min='500'
-              max='100000'
+              min='100'
+              max='5000'
               id='budgetInput'
               value={this.state.budget}
               onChange={this.onBudgetChange}
@@ -196,9 +196,9 @@ class TripInfoForm extends React.Component {
           </div>
           <input
             type='range'
-            min='500'
-            max='100000'
-            step='100'
+            min='100'
+            max='5000'
+            step='50'
             className='slider'
             id='budgetSlider'
             value={this.state.budget}
