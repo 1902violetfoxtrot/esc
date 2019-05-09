@@ -14,14 +14,15 @@ redisClient.on('error', function(err) {
 
 router.get('/', async (req, res, next) => {
   try {
+    const {origin, destination, departureDate} = req.body;
     let flightReply = await redisClient.getAsync('flights');
     if (flightReply !== null) {
       flightReply = JSON.parse(flightReply);
     } else {
-      flightReply = await flightsAPI.getFlights();
+      flightReply = await flightsAPI.getFlights(origin, destination, departureDate);
       await redisClient.setAsync('flights', JSON.stringify(flightReply));
     }
-    
+
     let ourBestFlights = flightsAPI.getIATA(flightReply)
 
     res.json(ourBestFlights);
