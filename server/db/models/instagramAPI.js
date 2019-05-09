@@ -13,7 +13,9 @@ class InstagramAPI {
     });
 
     const { data } = await instagram.get('users/self/media/recent');
-    console.log(data);
+    data.map(image => {
+      console.log(image.images.standard_resolution.url);
+    });
   }
 }
 
