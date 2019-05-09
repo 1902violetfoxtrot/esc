@@ -48,7 +48,7 @@ class TripInfoForm extends React.Component {
   }
 
   componentDidMount() {
-    window.navigator.geolocation.getCurrentPosition(res => console.log(res));
+    window.navigator.geolocation.getCurrentPosition(() => {});
   }
 
   async onDateChange(e) {
@@ -116,7 +116,6 @@ class TripInfoForm extends React.Component {
   }
 
   render() {
-    console.log(this.props.testing);
     return (
       <form id="tripInfo" onSubmit={this.onSubmit}>
         <div id="dates">
