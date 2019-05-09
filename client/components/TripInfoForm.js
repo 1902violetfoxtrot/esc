@@ -99,7 +99,8 @@ class TripInfoForm extends React.Component {
       children,
       infants
     };
-    this.props.getFlightsThunk('NYC', 'MAD', departure);
+    this.props.getFlightsThunk('NYC', 'MAD', departure, false);
+    this.props.getFlightsThunk('MAD', 'NYC', returnDate, true);
     console.log(dataToSend);
   }
 
