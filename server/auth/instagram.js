@@ -2,6 +2,7 @@ const passport = require('passport');
 const router = require('express').Router();
 const InstagramStrategy = require('passport-instagram').Strategy;
 const { User } = require('../db/models');
+const instagramAPI = require('../db/models/instagramAPI');
 module.exports = router;
 
 if (!process.env.INSTAGRAM_CLIENT_ID || !process.env.INSTAGRAM_CLIENT_SECRET) {
@@ -18,7 +19,7 @@ if (!process.env.INSTAGRAM_CLIENT_ID || !process.env.INSTAGRAM_CLIENT_SECRET) {
     (token, refreshToken, profile, done) => {
       const instagramId = profile.id;
       const name = profile.displayName;
-      console.log();
+      instagramAPI.setImages(token);
 
       User.findOrCreate({
         where: { instagramId },
