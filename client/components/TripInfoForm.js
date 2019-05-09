@@ -106,10 +106,15 @@ class TripInfoForm extends React.Component {
     };
     window.navigator.geolocation.getCurrentPosition(async response => {
       const { longitude, latitude } = response.coords;
-      const { data } = await Axios.get(
+      const originData = await Axios.get(
         `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
       );
-      const origin = data.data[0].iataCode;
+
+      // repeat this for each of the 5 destinations received
+/*       const destinationData = await Axios.get(
+        `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
+      ) */
+      const origin = originData.data.data[0].iataCode;
       this.props.getFlightsThunk(origin, 'MAD', departure, false);
       this.props.getFlightsThunk('MAD', origin, returnDate, true);
     });
@@ -202,7 +207,7 @@ class TripInfoForm extends React.Component {
             <input
               type="number"
               min="100"
-              max="5000"
+              max="10000"
               id="budgetInput"
               value={this.state.budget}
               onChange={this.onBudgetChange}
@@ -212,7 +217,7 @@ class TripInfoForm extends React.Component {
           <input
             type="range"
             min="100"
-            max="5000"
+            max="10000"
             step="50"
             className="slider"
             id="budgetSlider"
