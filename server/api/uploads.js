@@ -12,7 +12,7 @@ module.exports = router;
 router.post('/', async (req, res, next) => {
   try {
     const filePath = req.files.file.path;
-  
+
     let labels;
 
     await redisClient.get('idAndLabels', async function(reply) {
@@ -24,10 +24,11 @@ router.post('/', async (req, res, next) => {
       }
     });
 
-    await googleCV.setLabels(filePath)
-    await googleCV.getMostFrequentCities(labels, Label)
+    await googleCV.setLabels(filePath);
+    let locations = await googleCV.getMostFrequentCities(labels, Label);
 
-    res.sendStatus(200);
+    console.log('asjduahfuqioqw',locations)
+    res.json(locations);
   } catch (error) {
     next(error);
   }
