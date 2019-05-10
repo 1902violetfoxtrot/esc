@@ -31,17 +31,16 @@ export const filesThunk = filesToSend => {
   };
 };
 
-const getSingleFlightUnqueued = async (from, to, date, direction) => {
+const getSingleFlightUnqueued = async (from, to, date, direction, arr) => {
   const { data } = await axios.get(
     `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}`
   );
-  console.log('returning:', data);
-  return data;
+  arr.push(data);
 };
 
 const getSingleFlight = queue(
-  async (...params) => getSingleFlightUnqueued(...params),
-  120
+  (...params) => getSingleFlightUnqueued(...params),
+  500
 );
 
 export const getFlightsThunk = (
@@ -51,20 +50,16 @@ export const getFlightsThunk = (
   returnDate
 ) => async dispatch => {
 
-  const toFlights = await Promise.all(
-    destinations.map(destination =>
-      getSingleFlight(origin, destination, departureDate, 'to')
-    )
-  );
-  const fromFlights = await Promise.all(
-    destinations.map(destination =>
-      getSingleFlight(destination, origin, returnDate, 'from')
-    )
-  );
+  let toFlights = [];
+  let fromFlights = [];
+  destinations.map(destination => {
+    getSingleFlight(origin, destination, departureDate, 'to', toFlights);
+    getSingleFlight(destination, origin, returnDate, 'from', fromFlights);
+  });
 
-  console.log(toFlights, fromFlights)
-
-  dispatch(getFlights(toFlights, fromFlights));
+  setTimeout(
+  () => dispatch(getFlights(toFlights, fromFlights))
+  , 10000);
 };
 
 export default function(state = initialState, action) {
@@ -100,20 +95,20 @@ function queue(func, waitTime) {
     isWaiting = true;
     const toReturn = func(...params);
     setTimeout(play, waitTime);
-    return toReturn;
+    toReturn;
   };
   var play = function() {
     isWaiting = false;
     if (funcQueue.length) {
       var params = funcQueue.shift();
-      return executeFunc(...params);
+      executeFunc(...params);
     }
   };
   return function(...params) {
     if (isWaiting) {
       funcQueue.push(params);
     } else {
-      return executeFunc(...params);
+      executeFunc(...params);
     }
   };
 }

@@ -60,7 +60,7 @@ async function seed() {
     { name: 'copenhagen', longitude: 12.5683, latitude: 55.6761, code: 'CPH' },
     { name: 'new york', longitude: -74.006, latitude: 40.7128, code: 'NYC' },
     { name: 'miami', longitude: -80.1918, latitude: 25.7617, code: 'MIA' },
-    { name: 'new orleans', longitude: -90.0715, latitude: 29.9511, code: 'NEW' },
+    { name: 'new orleans', longitude: -90.0715, latitude: 29.9511, code: 'MSY' },
     { name: 'san francisco', longitude: -122.4194, latitude: 37.7749, code: 'SFO' }, // 10
     { name: 'sao paulo', longitude: -46.6333, latitude: -23.5505, code: 'SAO' },
     { name: 'venice', longitude: 12.3155, latitude: 45.4408, code: 'VCE' },
