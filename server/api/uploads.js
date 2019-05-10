@@ -27,7 +27,6 @@ router.post('/', async (req, res, next) => {
     await googleCV.setLabels(filePath);
     let locations = await googleCV.getMostFrequentCities(labels, Label);
 
-    console.log('asjduahfuqioqw',locations)
     res.json(locations);
   } catch (error) {
     next(error);
