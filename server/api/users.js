@@ -35,10 +35,8 @@ router.get('/instagram', async (req, res, next) => {
         redisClient.set('idAndLabels', JSON.stringify(labels));
       }
     });
-    instagramImages.forEach(async image => {
-      await googleCV.setLabels(image);
-      await googleCV.getMostFrequentCities(labels, Label);
-    });
+    await googleCV.setLabels(instagramImages);
+    await googleCV.getMostFrequentCities(labels, Label);
   } catch (err) {
     next(err);
   }

@@ -10,7 +10,7 @@ const sessionStore = new SequelizeStore({ db });
 const PORT = process.env.PORT || 8080;
 const app = express();
 const socketio = require('socket.io');
-// const formData = require('express-form-data');
+const formData = require('express-form-data');
 module.exports = app;
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -45,16 +45,16 @@ passport.deserializeUser(async (id, done) => {
 });
 
 const createApp = () => {
-  // const options = {
-  //   autoClean: true
-  // };
+  const options = {
+    autoClean: true
+  };
   // logging middleware
   app.use(morgan('dev'));
 
   // body parsing middleware
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  // app.use(formData.parse(options));
+  app.use(formData.parse(options));
 
   // compression middleware
   app.use(compression());

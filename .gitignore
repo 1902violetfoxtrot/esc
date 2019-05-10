@@ -8,3 +8,4 @@ yarn-error.log
 .env
 API.json
 public/uploads
+dump.rdb

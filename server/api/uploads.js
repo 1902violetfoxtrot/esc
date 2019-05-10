@@ -3,8 +3,8 @@ const googleCV = require('../db/models/googleCVAPI');
 const redis = require('redis');
 const redisClient = redis.createClient();
 const { Label } = require('../db/models');
-const multer = require('multer');
-const path = require('path');
+// const multer = require('multer');
+// const path = require('path');
 
 redisClient.on('error', function(err) {
   console.log('Error ' + err);
@@ -31,22 +31,23 @@ router.post('/', async (req, res, next) => {
     //   if (err) {
     //     console.error('Failed to upload file');
     //   } else {
-        const filePath = req.files;
-        console.log(filePath);
-        // let labels;
+    const files = req.files.files;
+    let arrOfFilePaths = [];
+    files.forEach(file => arrOfFilePaths.push(file.path));
+    let labels;
 
-        // await redisClient.get('idAndLabels', async function(reply) {
-        //   if (reply) {
-        //     labels = JSON.parse(reply);
-        //   } else {
-        //     labels = await Label.findAll({ attributes: ['id', 'name'] });
-        //     redisClient.set('idAndLabels', JSON.stringify(labels));
-        //   }
-        // });
-        // await googleCV.setLabels(filePath);
-        // await googleCV.getMostFrequentCities(labels, Label);
+    await redisClient.get('idAndLabels', async function(reply) {
+      if (reply) {
+        labels = JSON.parse(reply);
+      } else {
+        labels = await Label.findAll({ attributes: ['id', 'name'] });
+        redisClient.set('idAndLabels', JSON.stringify(labels));
+      }
+    });
+    await googleCV.setLabels(arrOfFilePaths);
+    await googleCV.getMostFrequentCities(labels, Label);
 
-        res.sendStatus(200);
+    res.sendStatus(200);
     //   }
     // });
   } catch (error) {
