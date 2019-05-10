@@ -51,13 +51,16 @@ passport.deserializeUser(async (id, done) => {
 });
 
 const createApp = () => {
+  const options = {
+    autoClean: true
+  };
   // logging middleware
   app.use(morgan('dev'));
 
   // body parsing middleware
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(formData.parse());
+  app.use(formData.parse(options));
 
   // compression middleware
   app.use(compression());

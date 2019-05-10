@@ -16,11 +16,11 @@ class FilesUploader extends Component {
         })
       )
     });
-    files.map(file => {
-      let filesToSend = new FormData();
-      filesToSend.append('file', file);
-      this.props.getFiles(filesToSend);
+    let filesToSend = new FormData();
+    files.forEach(file => {
+      filesToSend.append('files', file);
     });
+    this.props.getFiles(filesToSend);
   };
   handleOnDropRejected = () => {
     window.alert(
