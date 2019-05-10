@@ -27,10 +27,10 @@ redisClient.on('error', function(err) {
 module.exports = router;
 router.post('/', async (req, res, next) => {
   try {
-    upload(req, res, err => {
-      if (err) {
-        console.error('Failed to upload file');
-      } else {
+    // upload(req, res, err => {
+    //   if (err) {
+    //     console.error('Failed to upload file');
+    //   } else {
         const filePath = req.files;
         console.log(filePath);
         // let labels;
@@ -47,8 +47,8 @@ router.post('/', async (req, res, next) => {
         // await googleCV.getMostFrequentCities(labels, Label);
 
         res.sendStatus(200);
-      }
-    });
+    //   }
+    // });
   } catch (error) {
     next(error);
   }
