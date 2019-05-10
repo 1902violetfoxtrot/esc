@@ -15,16 +15,13 @@ class FlightsAPI {
     });
     const { data } = response;
     return data;
-  }
+  };
 
   getIATA(flightReply) {
-    console.log('CARRIERS:');
     const flights = flightReply.map(el => {
       let carrierName = iataConvert(
         el.offerItems[0].services[0].segments[0].flightSegment.carrierCode
       );
-
-      console.log(carrierName);
 
       return {
         carrier: carrierName,
@@ -37,7 +34,7 @@ class FlightsAPI {
 
     let ourBestFlights = [];
 
-    for (let i = 0; ourBestFlights.length < 3; i++) {
+    for (let i = 0; ourBestFlights.length < 3 && i < flights.length; i++) {
       if (flights[i].carrier) ourBestFlights.push(flights[i]);
     }
 

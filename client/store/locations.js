@@ -31,11 +31,13 @@ export const filesThunk = filesToSend => {
   };
 };
 
-const getSingleFlight = (from, to, date, direction) => {
+const getSingleFlightUnqueued = (from, to, date, direction) => {
   return axios.get(
     `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}`
   );
 };
+
+const getSingleFlight = queue(getSingleFlightUnqueued, 500);
 
 export const getFlightsThunk = (
   origin,
@@ -43,17 +45,15 @@ export const getFlightsThunk = (
   departureDate,
   returnDate
 ) => async dispatch => {
-  const toFlightPromises = destinations.map(destination =>
-    getSingleFlight(origin, destination, departureDate, 'to')
-  );
-  const toFlights = (await Promise.all(toFlightPromises)).map(res => res.data);
+  const toFlights = await Promise.all(
+    destinations.map(destination =>
+      getSingleFlight(origin, destination, departureDate, 'to')
+    )
+  ).map(res => res.data);
 
-  const fromFlightPromises = destinations.map(destination =>
+  const fromFlights = await Promise.all(destinations.map(destination =>
     getSingleFlight(destination, origin, returnDate, 'from')
-  );
-  const fromFlights = (await Promise.all(fromFlightPromises)).map(
-    res => res.data
-  );
+  )).map(res => res.data);
 
   dispatch(getFlights(toFlights, fromFlights));
 };
@@ -82,4 +82,28 @@ export default function(state = initialState, action) {
     default:
       return state;
   }
+}
+
+function queue(func, waitTime) {
+  var funcQueue = [];
+  var isWaiting;
+  var executeFunc = function(params) {
+    isWaiting = true;
+    func(params);
+    setTimeout(play, waitTime);
+  };
+  var play = function() {
+    isWaiting = false;
+    if (funcQueue.length) {
+      var params = funcQueue.shift();
+      executeFunc(params);
+    }
+  };
+  return function(params) {
+    if (isWaiting) {
+      funcQueue.push(params);
+    } else {
+      executeFunc(params);
+    }
+  };
 }
