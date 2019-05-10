@@ -34,7 +34,7 @@ class FlightsAPI {
 
     let ourBestFlights = [];
 
-    for (let i = 0; ourBestFlights.length < 7; i++) {
+    for (let i = 0; ourBestFlights.length < 3; i++) {
       if (flights[i].carrier) ourBestFlights.push(flights[i]);
     }
 
