@@ -14,16 +14,16 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "esc-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 script:
-  - npm test             # test the code
+  - npm test # test the code
   - npm run build-client # make the bundle
 
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy:
+  - rm -rf node_modules # omit from the tarball, since we skip cleanup
+deploy:
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: lets-esc # see README
+  api_key:
+    secure: 'NgMx1W3nDMd5Gcwhzp4E9zuri8JzClTvdvu4dpHSgDtpDJCZbAcwdTBhSJEXcHjW7fzVO4+3Ts8aefkDfhORWp6/zznnFfN7j5fstr+lBt1o/4lsIdg529fb90Nmgl64VpkrbW+TGpouwatgjyk3+3t92FO1BtQ94NiFLZ2NPvOITogwIL8r1R9/6w1P+zcIWv0et17cSPvBIUv14wkHSWIL+9EVWGw3oTT2hK5SQCG/uUSNv/IY+fG2PR28EC/TdVZDTQFH4aZbVV5BkSTq0pVReHj/IRC4BLgQRmoq3qwP5sq99bn6MOhwVH5U59SBu17bcHOqmWOZ6xCgdCbZaU6pJEUVJJR2TFW0fjSIO79DCrl1UFjF6jCc4n3Y0jxW93SBtbxKYoI8c9niA3XYKPJTiNLZUjULrY7gry1QloLY1QC0Pc5Q1Lp5kjFjqp/DDTO+XzNLsRwoRohPkJcv7XddqL+VJnLSybEJmm00/VL4PESzFrcURCYzNolZ7rxQGM6OqvBn4r600UDRygir1t8wOyGEwsKMiIXo3jM2zZLWZKU5bhcFMNxkSXcK8LwVOQiqySomCC05R6+7BJJcgl74nq22y6CkztYHI1DYZ5DoBxcZEnHEo0iu0A13BdAowotT/p7INpVOav0PM21U+muFIofibSo/MVVQldXKb3s='

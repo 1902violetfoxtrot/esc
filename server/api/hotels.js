@@ -1,8 +1,7 @@
 const router = require('express').Router();
-const redis = require('redis');
 const bluebird = require('bluebird');
-const hotelsAPI = require('../db/models/hotelsAPI')
-const redisClient = redis.createClient();
+const hotelsAPI = require('../db/models/hotelsAPI');
+const redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
 module.exports = router;
 
 bluebird.promisifyAll(redisClient);
@@ -21,8 +20,8 @@ router.get('/', async (req, res, next) => {
       hotelReply = data;
       await redisClient.setAsync('hotels', JSON.stringify(data));
     }
-    
-    let ourBestHotels = await hotelsAPI.conversion(hotelReply)
+
+    let ourBestHotels = await hotelsAPI.conversion(hotelReply);
 
     res.json(ourBestHotels);
   } catch (error) {

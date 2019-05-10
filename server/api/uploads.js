@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const googleCV = require('../db/models/googleCVAPI');
-const redis = require('redis');
-const redisClient = redis.createClient();
+const redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
 const { Location, Label } = require('../db/models');
 // const multer = require('multer');
 // const path = require('path');
