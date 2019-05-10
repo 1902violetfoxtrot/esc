@@ -1,7 +1,8 @@
 const router = require('express').Router();
-const redis = require('redis');
 const bluebird = require('bluebird');
 const hotelsAPI = require('../db/models/hotelsAPI')
+const Redis = require('ioredis');
+const redis = new Redis(process.env.REDIS_URL || 6379);
 const redisClient = redis.createClient();
 module.exports = router;
 
@@ -21,7 +22,7 @@ router.get('/', async (req, res, next) => {
       hotelReply = data;
       await redisClient.setAsync('hotels', JSON.stringify(data));
     }
-    
+
     let ourBestHotels = await hotelsAPI.conversion(hotelReply)
 
     res.json(ourBestHotels);
