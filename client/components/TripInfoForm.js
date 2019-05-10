@@ -111,12 +111,13 @@ class TripInfoForm extends React.Component {
       );
 
       // repeat this for each of the 5 destinations received
-/*       const destinationData = await Axios.get(
-        `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
-      ) */
+
+      // TEMPORARY, until we hook up the image recognition with the search
+      //const { destinations } = this.props;
+      const destinations = ['MAD', 'PLZ', 'BBQ'];
+
       const origin = originData.data.data[0].iataCode;
-      this.props.getFlightsThunk(origin, 'MAD', departure, false);
-      this.props.getFlightsThunk('MAD', origin, returnDate, true);
+      this.props.getFlightsThunk(origin, destinations, departure, returnDate);
     });
   }
 
@@ -236,7 +237,7 @@ class TripInfoForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  testing: state.location
+  destinations: state.location.destinationCodes
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
-import { filesThunk } from '../store/files';
+import { filesThunk } from '../store/locations';
 
 class FilesUploader extends Component {
   constructor(props) {
     super(props);
     this.state = { files: [] };
   }
-  handleOnDrop = async files => {
+  handleOnDrop = files => {
     this.setState({
       files: files.map(file =>
         Object.assign(file, {
@@ -20,7 +20,7 @@ class FilesUploader extends Component {
     files.forEach(file => {
       filesToSend.append('files', file);
     });
-    const locations = await this.props.getFiles(filesToSend).data;
+    this.props.getFiles(filesToSend);
   };
   handleOnDropRejected = () => {
     window.alert(

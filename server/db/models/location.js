@@ -13,6 +13,9 @@ const Location = db.define('location', {
   latitude: {
     type: Sequelize.FLOAT,
     allowNull: false
+  },
+  code: {
+    type: Sequelize.STRING
   }
 });
 
