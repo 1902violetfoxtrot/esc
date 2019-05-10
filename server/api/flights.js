@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Redis = require('ioredis');
-const redis = new Redis(process.env.REDIS_URL || 6379);
+const redis = new Redis(process.env.HEROKU_REDIS_RED_URL || 6379);
 const redisClient = redis.createClient();
 const bluebird = require('bluebird');
 const flightsAPI = require('../db/models/flightsAPI');
