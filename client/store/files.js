@@ -4,7 +4,7 @@ import axios from 'axios';
 export const filesThunk = filesToSend => {
   return async () => {
     try {
-      await axios.post('api/uploads/', filesToSend);
+      return await axios.post('api/uploads/', filesToSend);
     } catch (error) {
       console.error(error);
     }

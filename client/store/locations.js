@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-const GET_LOCATIONS_IATA = 'GET_LOCATIONS_IATA'
 const GET_FLIGHTS = 'GET_FLIGHTS';
 
 const initialState = {
@@ -8,21 +7,11 @@ const initialState = {
   departing: []
 };
 
-const getLocationsIATA = (codes) => ({
-  type: GET_LOCATIONS_IATA,
-  codes
-})
-
 const getFlights = (flights, isReturn) => ({
   type: GET_FLIGHTS,
   flights,
   isReturn
 });
-
-export const getLocationsThunk = imageData => async dispatch => {
-  const { data } = await axios.post('/api/uploads', imageData);
-  dispatch(getLocationsIATA(data))
-}
 
 export const getFlightsThunk = (
   origin,

@@ -6,5 +6,6 @@
 export { default as Navbar } from './navbar';
 export { default as UserHome } from './UserHome';
 export { default as FilesUploader } from './FilesUploader';
+export { default as Instagram } from './Instagram';
 export { default as TripInfoForm } from './TripInfoForm';
 export { Login, Signup } from './AuthForm';

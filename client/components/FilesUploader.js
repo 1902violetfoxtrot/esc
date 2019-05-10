@@ -8,7 +8,7 @@ class FilesUploader extends Component {
     super(props);
     this.state = { files: [] };
   }
-  handleOnDrop = files => {
+  handleOnDrop = async files => {
     this.setState({
       files: files.map(file =>
         Object.assign(file, {
@@ -16,11 +16,11 @@ class FilesUploader extends Component {
         })
       )
     });
-    files.map(file => {
-      let filesToSend = new FormData();
-      filesToSend.append('file', file);
-      this.props.getFiles(filesToSend);
+    let filesToSend = new FormData();
+    files.forEach(file => {
+      filesToSend.append('files', file);
     });
+    const locations = await this.props.getFiles(filesToSend).data;
   };
   handleOnDropRejected = () => {
     window.alert(

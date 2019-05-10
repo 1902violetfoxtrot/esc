@@ -4,21 +4,24 @@ class GoogleCVAPI {
   constructor() {
     this.labels = [];
   }
-  async setLabels(aFile) {
+  async setLabels(arrFiles) {
     const client = new vision.ImageAnnotatorClient({
       keyFilename: './API.json'
     });
+    let file = '';
+    while (arrFiles.length > 0) {
+      file = arrFiles.pop();
+      // Performs label detection on the image file
 
-    // Performs label detection on the image file
-    const [result] = await client.labelDetection(aFile);
-    const labels = result.labelAnnotations;
-    labels.forEach(label => {
-      this.labels.push(label.description);
-    });
+      const [result] = await client.labelDetection(file);
+      const labels = result.labelAnnotations;
+      labels.forEach(label => {
+        this.labels.push(label.description);
+      });
+    }
   }
 
   async getMostFrequentCities(labels, Label) {
-
     const uniqueLabelOutput = new Set([]);
 
     this.labels.forEach(label =>

@@ -4,8 +4,10 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user';
 import location from './locations';
+import instagramImages from './instagramImages'
 
-const reducer = combineReducers({ user, location });
+const reducer = combineReducers({ user, location, instagramImages });
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
