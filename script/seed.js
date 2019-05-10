@@ -80,33 +80,34 @@ async function seed() {
     { name: 'barbuda', longitude: -61.7713, latitude: 17.6266 }, // 25
     { name: 'barbados', longitude: -59.5432, latitude: 13.1939 },
     { name: 'cyprus', longitude: 33.4299, latitude: 35.1264 },
-    { name: 'auckland', longitude: 174.7633, latitude: 36.8485 },
-    { name: 'aruba', longitude: 69.9683, latitude: 12.5211 },
-    { name: 'adelaide', longitude: 138.6007, latitude: 34.9285 }, // 30
-    { name: 'acapulco', longitude: -99.8237, latitude: 16.8531 },
-    { name: 'cancun', longitude: -86.8515, latitude: 21.1619 },
-    { name: 'bora bora', longitude: -151.7415, latitude: -16.5004 },
-    { name: 'biarritz', longitude: -1.5586, latitude: 43.4832 },
-    { name: 'shanghai', longitude: 121.4737, latitude: 31.2304 }, // 35
-    { name: 'bermuda', longitude: -64.7505, latitude: 32.3078 },
-    { name: 'casablanca', longitude: -7.5898, latitude: 33.5731 },
-    { name: 'seattle', longitude: -122.3321, latitude: 47.6062 },
-    { name: 'nice', longitude: 7.262, latitude: 43.7102 },
-    { name: 'durres', longitude: 19.4565, latitude: 41.3246 }, // 40
-    { name: 'kathmandu', longitude: 85.324, latitude: 27.7172 },
-    { name: 'rapa nui', longitude: -109.3497, latitude: -27.1127 },
-    { name: 'tongariro', longitude: 175.5802, latitude: -39.2727 },
-    { name: 'galapagos', longitude: -91.1425, latitude: -0.7772 },
-    { name: 'guadeloupe', longitude: 61.551, latitude: 16.265 }, // 45
-    { name: 'sapporo', longitude: 141.3545, latitude: 43.0618 },
-    { name: 'hammamet', longitude: 10.6225, latitude: 36.4074 },
-    { name: 'warsaw', longitude: 21.0122, latitude: 52.2297 },
-    { name: 'london', longitude: -0.1278, latitude: 51.5074 },
-    { name: 'hvar', longitude: 16.4411, latitude: 43.1729 }, // 50
-    { name: 'vatican city', longitude: 12.4534, latitude: 41.9029 },
-    { name: 'jeffreys bay', longitude: 24.9102, latitude: 34.0507 },
-    { name: 'kauai', longitude: -159.5261, latitude: 22.0964 },
-    { name: 'honolulu', longitude: -157.8583, latitude: 21.3069 } // 54
+
+    { name: 'auckland', longitude: 174.7633, latitude: 36.8485, code: 'AKL' },
+    { name: 'aruba', longitude: 69.9683, latitude: 12.5211, code: 'AUA' },
+    { name: 'adelaide', longitude: 138.6007, latitude: 34.9285, code: 'ADL' }, // 30
+    { name: 'acapulco', longitude: -99.8237, latitude: 16.8531, code: 'ACA' },
+    { name: 'cancun', longitude: -86.8515, latitude: 21.1619, code: 'CUN' },
+    { name: 'bora bora', longitude: -151.7415, latitude: -16.5004, code: 'BOB' },
+    { name: 'biarritz', longitude: -1.5586, latitude: 43.4832, code: 'BIQ' },
+    { name: 'shanghai', longitude: 121.4737, latitude: 31.2304, code: 'SHA' }, // 35
+    { name: 'bermuda', longitude: -64.7505, latitude: 32.3078, code: 'BDA' },
+    { name: 'casablanca', longitude: -7.5898, latitude: 33.5731, code: 'CAS' },
+    { name: 'seattle', longitude: -122.3321, latitude: 47.6062, code: 'SEA' },
+    { name: 'nice', longitude: 7.262, latitude: 43.7102, code: 'NCE' },
+    { name: 'durres', longitude: 19.4565, latitude: 41.3246, code: 'TIA' }, // 40
+    { name: 'kathmandu', longitude: 85.324, latitude: 27.7172, code: 'KTM' },
+    { name: 'rapa nui', longitude: -109.3497, latitude: -27.1127, code: 'IPC' },
+    { name: 'tongariro', longitude: 175.5802, latitude: -39.2727, code: 'AKL' },
+    { name: 'galapagos', longitude: -91.1425, latitude: -0.7772, code: 'GPS' },
+    { name: 'guadeloupe', longitude: 61.551, latitude: 16.265, code: 'GBJ' }, // 45
+    { name: 'sapporo', longitude: 141.3545, latitude: 43.0618, code: 'SPK' },
+    { name: 'hammamet', longitude: 10.6225, latitude: 36.4074, code: 'NBE' },
+    { name: 'warsaw', longitude: 21.0122, latitude: 52.2297, code: 'WAW' },
+    { name: 'london', longitude: -0.1278, latitude: 51.5074, code: 'LCY' },
+    { name: 'hvar', longitude: 16.4411, latitude: 43.1729, code: 'SPU' }, // 50
+    { name: 'vatican city', longitude: 12.4534, latitude: 41.9029, code: 'CIA' },
+    { name: 'jeffreys bay', longitude: 24.9102, latitude: 34.0507, code: 'PLZ' },
+    { name: 'kauai', longitude: -159.5261, latitude: 22.0964, code: 'LIH' },
+    { name: 'honolulu', longitude: -157.8583, latitude: 21.3069, code: 'HIK' } // 54
   ];
 
   const [createdLabels, createdLocations] = await Promise.all([
