@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
-import { filesThunk } from '../store/files';
+import { filesThunk } from '../store/locations';
 
 class FilesUploader extends Component {
   constructor(props) {

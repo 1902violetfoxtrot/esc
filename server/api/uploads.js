@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const googleCV = require('../db/models/googleCVAPI');
 const redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
-const { Label } = require('../db/models');
+const { Location, Label } = require('../db/models');
 // const multer = require('multer');
 // const path = require('path');
 
@@ -32,7 +32,12 @@ router.post('/', async (req, res, next) => {
     //   } else {
     const files = req.files.files;
     let arrOfFilePaths = [];
-    files.forEach(file => arrOfFilePaths.push(file.path));
+    if (Array.isArray(files)) {
+      files.forEach(file => arrOfFilePaths.push(file.path));
+    } else {
+      arrOfFilePaths.push(files.path);
+    }
+
     let labels;
 
     await redisClient.get('idAndLabels', async function(reply) {
@@ -42,13 +47,19 @@ router.post('/', async (req, res, next) => {
         labels = await Label.findAll({ attributes: ['id', 'name'] });
         redisClient.set('idAndLabels', JSON.stringify(labels));
       }
-    });
-    await googleCV.setLabels(arrOfFilePaths);
-    await googleCV.getMostFrequentCities(labels, Label);
+      await googleCV.setLabels(arrOfFilePaths);
+      const locations = await googleCV.getMostFrequentCities(labels, Label);
 
-    res.sendStatus(200);
-    //   }
-    // });
+      const locationPromises = locations.map(async locName =>
+        await Location.findOne({
+          where: { name: locName },
+          attributes: ['code']
+        })
+      );
+      const locationCodes = (await Promise.all(locationPromises)).map( loc => loc.dataValues.code );
+
+      res.json(locationCodes);
+    });
   } catch (error) {
     next(error);
   }

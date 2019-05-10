@@ -45,6 +45,7 @@ class GoogleCVAPI {
         let location = await labelSearchResult.getLocations();
 
         const locationList = location.map(currLocation => {
+          //console.log(currLocation.dataValues)
           return currLocation.dataValues.name;
         });
 

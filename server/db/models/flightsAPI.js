@@ -1,26 +1,28 @@
 const Amadeus = require('amadeus');
 const iataConvert = require('../../../utils/utils');
 
+const amadeusClient = new Amadeus({
+  clientId: process.env.AMADEUS_CLIENT_ID,
+  clientSecret: process.env.AMADEUS_CLIENT_SECRET
+});
+
 class FlightsAPI {
   async getFlights(origin, destination, departureDate) {
-    let amadeus = await new Amadeus({
-      clientId: process.env.AMADEUS_CLIENT_ID,
-      clientSecret: process.env.AMADEUS_CLIENT_SECRET
-    });
-    const response = await amadeus.shopping.flightOffers.get({
+    const response = await amadeusClient.shopping.flightOffers.get({
       origin: `${origin}`,
       destination: `${destination}`,
       departureDate: `${departureDate}`
     });
     const { data } = response;
     return data;
-  }
+  };
 
-  getIATA(flightReply, price) {
+  getIATA(flightReply) {
     const flights = flightReply.map(el => {
       let carrierName = iataConvert(
         el.offerItems[0].services[0].segments[0].flightSegment.carrierCode
       );
+
       return {
         carrier: carrierName,
         class:
@@ -32,12 +34,19 @@ class FlightsAPI {
 
     let ourBestFlights = [];
 
-    for (let i = 0; i < 7; i++) {
-        if (flights[i].price < price)
-        ourBestFlights.push(flights[i]);
+    for (let i = 0; ourBestFlights.length < 3 && i < flights.length; i++) {
+      if (flights[i].carrier) ourBestFlights.push(flights[i]);
     }
 
     return ourBestFlights;
+  }
+
+  async getClosestAirport(longitude, latitude) {
+    let data = await amadeusClient.referenceData.locations.airports.get({
+      longitude,
+      latitude
+    });
+    return data;
   }
 }
 

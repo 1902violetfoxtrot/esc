@@ -30,7 +30,6 @@ async function seed() {
     { name: 'cathedral' },
     { name: 'amusement park' }, // 20
     { name: 'indoors' },
-
     { name: 'outdoors' },
     { name: 'resort' },
     { name: 'camp' },
@@ -52,61 +51,61 @@ async function seed() {
   ];
 
   const locations = [
-    { name: 'paris', longitude: 2.3522, latitude: 48.8566 }, // 0
-    { name: 'reykjavik', longitude: -21.9426, latitude: 64.1466 },
-    { name: 'oslo', longitude: 10.7522, latitude: 59.9139 },
-    { name: 'havana', longitude: -82.3666, latitude: 23.1136 },
-    { name: 'tokyo', longitude: 139.6503, latitude: 35.6762 },
-    { name: 'ibiza', longitude: 1.4821, latitude: 39.02 }, // 5
-    { name: 'copenhagen', longitude: 12.5683, latitude: 55.6761 },
-    { name: 'new york', longitude: -74.006, latitude: 40.7128 },
-    { name: 'miami', longitude: -80.1918, latitude: 25.7617 },
-    { name: 'new orleans', longitude: -90.0715, latitude: 29.9511 },
-    { name: 'san francisco', longitude: -122.4194, latitude: 37.7749 }, // 10
-    { name: 'sao paulo', longitude: -46.6333, latitude: -23.5505 },
-    { name: 'venice', longitude: 12.3155, latitude: 45.4408 },
-    { name: 'vienna', longitude: 16.3738, latitude: 48.2082 },
-    { name: 'prague', longitude: 14.4378, latitude: 50.0755 },
-    { name: 'milan', longitude: 9.19, latitude: 45.4642 }, // 15
-    { name: 'bali', longitude: 115.092, latitude: -8.3405 },
-    { name: 'macau', longitude: 113.5429, latitude: 22.1987 },
-    { name: 'monaco', longitude: 7.4246, latitude: 43.7384 },
-    { name: 'barcelona', longitude: 2.1734, latitude: 41.3851 },
-    { name: 'montreal', longitude: -73.5673, latitude: 45.5017 }, // 20
-    { name: 'seoul', longitude: 126.978, latitude: 37.5665 },
-    { name: 'sicily', longitude: 14.0154, latitude: 37.6 },
-    { name: 'amorgos', longitude: 25.8877, latitude: 36.84 },
-    { name: 'bahamas', longitude: -77.3963, latitude: -25.0343 },
-    { name: 'barbuda', longitude: -61.7713, latitude: 17.6266 }, // 25
-    { name: 'barbados', longitude: -59.5432, latitude: 13.1939 },
-    { name: 'cyprus', longitude: 33.4299, latitude: 35.1264 },
-    { name: 'auckland', longitude: 174.7633, latitude: 36.8485 },
-    { name: 'aruba', longitude: 69.9683, latitude: 12.5211 },
-    { name: 'adelaide', longitude: 138.6007, latitude: 34.9285 }, // 30
-    { name: 'acapulco', longitude: -99.8237, latitude: 16.8531 },
-    { name: 'cancun', longitude: -86.8515, latitude: 21.1619 },
-    { name: 'bora bora', longitude: -151.7415, latitude: -16.5004 },
-    { name: 'biarritz', longitude: -1.5586, latitude: 43.4832 },
-    { name: 'shanghai', longitude: 121.4737, latitude: 31.2304 }, // 35
-    { name: 'bermuda', longitude: -64.7505, latitude: 32.3078 },
-    { name: 'casablanca', longitude: -7.5898, latitude: 33.5731 },
-    { name: 'seattle', longitude: -122.3321, latitude: 47.6062 },
-    { name: 'nice', longitude: 7.262, latitude: 43.7102 },
-    { name: 'durres', longitude: 19.4565, latitude: 41.3246 }, // 40
-    { name: 'kathmandu', longitude: 85.324, latitude: 27.7172 },
-    { name: 'rapa nui', longitude: -109.3497, latitude: -27.1127 },
-    { name: 'tongariro', longitude: 175.5802, latitude: -39.2727 },
-    { name: 'galapagos', longitude: -91.1425, latitude: -0.7772 },
-    { name: 'guadeloupe', longitude: 61.551, latitude: 16.265 }, // 45
-    { name: 'sapporo', longitude: 141.3545, latitude: 43.0618 },
-    { name: 'hammamet', longitude: 10.6225, latitude: 36.4074 },
-    { name: 'warsaw', longitude: 21.0122, latitude: 52.2297 },
-    { name: 'london', longitude: -0.1278, latitude: 51.5074 },
-    { name: 'hvar', longitude: 16.4411, latitude: 43.1729 }, // 50
-    { name: 'vatican city', longitude: 12.4534, latitude: 41.9029 },
-    { name: 'jeffreys bay', longitude: 24.9102, latitude: 34.0507 },
-    { name: 'kauai', longitude: -159.5261, latitude: 22.0964 },
-    { name: 'honolulu', longitude: -157.8583, latitude: 21.3069 } // 54
+    { name: 'paris', longitude: 2.3522, latitude: 48.8566, code: 'PAR' }, // 0
+    { name: 'reykjavik', longitude: -21.9426, latitude: 64.1466, code: 'REK' },
+    { name: 'oslo', longitude: 10.7522, latitude: 59.9139, code: 'OSL' },
+    { name: 'havana', longitude: -82.3666, latitude: 23.1136, code: 'HAV' },
+    { name: 'tokyo', longitude: 139.6503, latitude: 35.6762, code: 'TYO' },
+    { name: 'ibiza', longitude: 1.4821, latitude: 39.02, code: 'IBZ' }, // 5
+    { name: 'copenhagen', longitude: 12.5683, latitude: 55.6761, code: 'CPH' },
+    { name: 'new york', longitude: -74.006, latitude: 40.7128, code: 'NYC' },
+    { name: 'miami', longitude: -80.1918, latitude: 25.7617, code: 'MIA' },
+    { name: 'new orleans', longitude: -90.0715, latitude: 29.9511, code: 'MSY' },
+    { name: 'san francisco', longitude: -122.4194, latitude: 37.7749, code: 'SFO' }, // 10
+    { name: 'sao paulo', longitude: -46.6333, latitude: -23.5505, code: 'SAO' },
+    { name: 'venice', longitude: 12.3155, latitude: 45.4408, code: 'VCE' },
+    { name: 'vienna', longitude: 16.3738, latitude: 48.2082, code: 'VDD' },
+    { name: 'prague', longitude: 14.4378, latitude: 50.0755, code: 'PRG' },
+    { name: 'milan', longitude: 9.19, latitude: 45.4642, code: 'MXP' }, // 15
+    { name: 'bali', longitude: 115.092, latitude: -8.3405, code: 'BAJ' },
+    { name: 'macau', longitude: 113.5429, latitude: 22.1987, code: 'MFM' },
+    { name: 'monaco', longitude: 7.4246, latitude: 43.7384, code: 'XMM' },
+    { name: 'barcelona', longitude: 2.1734, latitude: 41.3851, code: 'BCN' },
+    { name: 'montreal', longitude: -73.5673, latitude: 45.5017, code: 'YUL' }, // 20
+    { name: 'seoul', longitude: 126.978, latitude: 37.5665, code: 'SEL' },
+    { name: 'sicily', longitude: 14.0154, latitude: 37.6, code: 'PMO' },
+    { name: 'amorgos', longitude: 25.8877, latitude: 36.84, code: 'ATH' },
+    { name: 'bahamas', longitude: -77.3963, latitude: -25.0343, code: 'NAS' },
+    { name: 'barbuda', longitude: -61.7713, latitude: 17.6266, code: 'BBQ' }, // 25
+    { name: 'barbados', longitude: -59.5432, latitude: 13.1939, code: 'BGI' },
+    { name: 'cyprus', longitude: 33.4299, latitude: 35.1264, code: 'LCA' },
+    { name: 'auckland', longitude: 174.7633, latitude: 36.8485, code: 'AKL' },
+    { name: 'aruba', longitude: 69.9683, latitude: 12.5211, code: 'AUA' },
+    { name: 'adelaide', longitude: 138.6007, latitude: 34.9285, code: 'ADL' }, // 30
+    { name: 'acapulco', longitude: -99.8237, latitude: 16.8531, code: 'ACA' },
+    { name: 'cancun', longitude: -86.8515, latitude: 21.1619, code: 'CUN' },
+    { name: 'bora bora', longitude: -151.7415, latitude: -16.5004, code: 'BOB' },
+    { name: 'biarritz', longitude: -1.5586, latitude: 43.4832, code: 'BIQ' },
+    { name: 'shanghai', longitude: 121.4737, latitude: 31.2304, code: 'SHA' }, // 35
+    { name: 'bermuda', longitude: -64.7505, latitude: 32.3078, code: 'BDA' },
+    { name: 'casablanca', longitude: -7.5898, latitude: 33.5731, code: 'CAS' },
+    { name: 'seattle', longitude: -122.3321, latitude: 47.6062, code: 'SEA' },
+    { name: 'nice', longitude: 7.262, latitude: 43.7102, code: 'NCE' },
+    { name: 'durres', longitude: 19.4565, latitude: 41.3246, code: 'TIA' }, // 40
+    { name: 'kathmandu', longitude: 85.324, latitude: 27.7172, code: 'KTM' },
+    { name: 'rapa nui', longitude: -109.3497, latitude: -27.1127, code: 'IPC' },
+    { name: 'tongariro', longitude: 175.5802, latitude: -39.2727, code: 'AKL' },
+    { name: 'galapagos', longitude: -91.1425, latitude: -0.7772, code: 'GPS' },
+    { name: 'guadeloupe', longitude: 61.551, latitude: 16.265, code: 'GBJ' }, // 45
+    { name: 'sapporo', longitude: 141.3545, latitude: 43.0618, code: 'SPK' },
+    { name: 'hammamet', longitude: 10.6225, latitude: 36.4074, code: 'NBE' },
+    { name: 'warsaw', longitude: 21.0122, latitude: 52.2297, code: 'WAW' },
+    { name: 'london', longitude: -0.1278, latitude: 51.5074, code: 'LCY' },
+    { name: 'hvar', longitude: 16.4411, latitude: 43.1729, code: 'SPU' }, // 50
+    { name: 'vatican city', longitude: 12.4534, latitude: 41.9029, code: 'CIA' },
+    { name: 'jeffreys bay', longitude: 24.9102, latitude: 34.0507, code: 'PLZ' },
+    { name: 'kauai', longitude: -159.5261, latitude: 22.0964, code: 'LIH' },
+    { name: 'honolulu', longitude: -157.8583, latitude: 21.3069, code: 'HIK' } // 54
   ];
 
   const [createdLabels, createdLocations] = await Promise.all([
@@ -725,34 +724,8 @@ async function seed() {
     ), // indoors
     createdLabels[22].setLocations(
       [
-        1,
-        3,
-        5,
-        16,
-        22,
-        23,
-        25,
-        26,
-        27,
-        28,
-        30,
-        31,
-        32,
-        33,
-        34,
-        39,
-        40,
-        41,
-        42,
-        43,
-        44,
-        45,
-        46,
-        47,
-        50,
-        52,
-        53,
-        54
+        1, 3, 5, 16, 22, 23, 25, 26, 27, 28, 30, 31, 32, 33, 34, 39, 40,
+        41, 42, 43, 44, 45, 46, 47, 50, 52, 53, 54
       ].map(el => createdLocations[el])
     ), // outdoors
     createdLabels[23].setLocations(
@@ -805,76 +778,17 @@ async function seed() {
     ), // road
     createdLabels[35].setLocations(
       [
-        1,
-        4,
-        5,
-        16,
-        18,
-        23,
-        24,
-        25,
-        26,
-        27,
-        29,
-        33,
-        36,
-        42,
-        44,
-        45,
-        52,
-        53,
-        54
+        1, 4, 5, 16, 18, 23, 24, 25, 26, 27, 29, 33, 36, 42, 44, 45, 52, 53, 54
       ].map(el => createdLocations[el])
     ), // island
     createdLabels[36].setLocations(
       [
-        1,
-        4,
-        5,
-        11,
-        16,
-        23,
-        24,
-        25,
-        26,
-        30,
-        31,
-        32,
-        33,
-        36,
-        37,
-        42,
-        43,
-        44,
-        45,
-        53,
-        54
+        1, 4, 5, 11, 16, 23, 24, 25, 26, 30, 31, 32, 33, 36, 37, 42, 43, 44, 45, 53, 54
       ].map(el => createdLocations[el])
     ), // animals
     createdLabels[37].setLocations(
       [
-        0,
-        3,
-        5,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        33,
-        34,
-        53,
-        54
+        0, 3, 5, 9, 10, 11, 12, 13, 14, 15, 16, 24, 25, 26, 27, 28, 29, 30, 33, 34, 53, 54
       ].map(el => createdLocations[el])
     ), // flowers
     createdLabels[38].setLocations(
@@ -882,27 +796,7 @@ async function seed() {
     ), // aquarium
     createdLabels[39].setLocations(
       [
-        0,
-        2,
-        6,
-        8,
-        9,
-        13,
-        14,
-        17,
-        18,
-        19,
-        20,
-        21,
-        24,
-        27,
-        34,
-        32,
-        30,
-        31,
-        28,
-        40,
-        48
+        0, 2, 6, 8, 9, 13, 14, 17, 18, 19, 20, 21, 24, 27, 34, 32, 30, 31, 28, 40, 48
       ].map(el => createdLocations[el])
     ) // casino
   ]);
@@ -959,3 +853,31 @@ if (module === require.main) {
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
 module.exports = seed;
+
+// personal use: loop through our location names
+/*
+const LOCATIONS = [
+  'paris', 'reykjavik', 'oslo', 'havana', 'tokyo', 'ibiza', 'copenhagen', 'new york', 'miami',
+  'new orleans', 'san francisco', 'sao paulo', 'venice', 'vienna', 'prague', 'milan', 'bali',
+  'macau', 'monaco', 'barcelona', 'montreal', 'seoul', 'sicily', 'amorgos', 'bahamas', 'barbuda',
+  'barbados', 'cyprus', 'auckland', 'aruba', 'adelaide', 'acapulco', 'cancun', 'bora bora',
+  'biarritz', 'shanghai', 'bermuda', 'casablanca', 'seattle', 'nice', 'durres', 'kathmandu',
+  'rapa nui', 'tongariro', 'galapagos', 'guadeloupe', 'sapporo', 'hammamet', 'warsaw', 'london',
+  'hvar', 'vatican city', 'jeffreys bay', 'kauai', 'honolulu'
+];
+function* getLoc() {
+	let i = 0;
+	while (true) {
+		if (i === LOCATIONS.length) i = 0;
+    var textArea = document.createElement("textarea");
+    textArea.value = LOCATIONS[i];
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    textArea.remove()
+		yield( `${LOCATIONS[i]} ${i++}` );
+    }
+}
+const locMaker = getLoc();
+function nextLoc() { console.log(locMaker.next().value); }
+*/

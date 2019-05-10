@@ -11,7 +11,6 @@ class Instagram extends Component {
   }
   render() {
     const { images } = this.props;
-    console.log(images);
 
     return (
       <div>
