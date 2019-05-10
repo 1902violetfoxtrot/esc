@@ -96,14 +96,6 @@ class TripInfoForm extends React.Component {
       children,
       infants
     } = this.state;
-    const dataToSend = {
-      budget,
-      departure,
-      returnDate,
-      adults,
-      children,
-      infants
-    };
     window.navigator.geolocation.getCurrentPosition(async response => {
       const { longitude, latitude } = response.coords;
       const originData = await Axios.get(
@@ -114,7 +106,7 @@ class TripInfoForm extends React.Component {
 
       // TEMPORARY, until we hook up the image recognition with the search
       //const { destinations } = this.props;
-      const destinations = ['MAD', 'PLZ', 'BBQ'];
+      const destinations = ['MAD', 'CEL', 'MIA'];
 
       const origin = originData.data.data[0].iataCode;
       this.props.getFlightsThunk(origin, destinations, departure, returnDate);

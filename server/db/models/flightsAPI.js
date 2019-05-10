@@ -18,10 +18,13 @@ class FlightsAPI {
   }
 
   getIATA(flightReply) {
+    console.log('CARRIERS:');
     const flights = flightReply.map(el => {
       let carrierName = iataConvert(
         el.offerItems[0].services[0].segments[0].flightSegment.carrierCode
       );
+
+      console.log(carrierName);
 
       return {
         carrier: carrierName,
