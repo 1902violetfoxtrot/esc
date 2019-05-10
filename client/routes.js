@@ -7,7 +7,8 @@ import {
   Signup,
   UserHome,
   FilesUploader,
-  Instagram
+  Instagram,
+  TripInfoForm
 } from './components';
 import { me } from './store';
 
@@ -29,6 +30,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         {/* <Route component={FilesUploader} /> */}
         <Route component={Instagram} />
+        <Route path="/plan" component={TripInfoForm} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
