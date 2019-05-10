@@ -106,7 +106,7 @@ class TripInfoForm extends React.Component {
 
       // TEMPORARY, until we hook up the image recognition with the search
       //const { destinations } = this.props;
-      const destinations = ['SEL'];
+      const destinations = ['SEL', 'MAD'];
 
       const origin = originData.data.data[0].iataCode;
       this.props.getFlightsThunk(origin, destinations, departure, returnDate);

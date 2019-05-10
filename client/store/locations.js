@@ -31,13 +31,18 @@ export const filesThunk = filesToSend => {
   };
 };
 
-const getSingleFlightUnqueued = (from, to, date, direction) => {
-  return axios.get(
+const getSingleFlightUnqueued = async (from, to, date, direction) => {
+  const { data } = await axios.get(
     `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}`
   );
+  console.log('returning:', data);
+  return data;
 };
 
-const getSingleFlight = queue(getSingleFlightUnqueued, 500);
+const getSingleFlight = queue(
+  async (...params) => getSingleFlightUnqueued(...params),
+  120
+);
 
 export const getFlightsThunk = (
   origin,
@@ -45,15 +50,19 @@ export const getFlightsThunk = (
   departureDate,
   returnDate
 ) => async dispatch => {
+
   const toFlights = await Promise.all(
     destinations.map(destination =>
       getSingleFlight(origin, destination, departureDate, 'to')
     )
-  ).map(res => res.data);
+  );
+  const fromFlights = await Promise.all(
+    destinations.map(destination =>
+      getSingleFlight(destination, origin, returnDate, 'from')
+    )
+  );
 
-  const fromFlights = await Promise.all(destinations.map(destination =>
-    getSingleFlight(destination, origin, returnDate, 'from')
-  )).map(res => res.data);
+  console.log(toFlights, fromFlights)
 
   dispatch(getFlights(toFlights, fromFlights));
 };
@@ -87,23 +96,24 @@ export default function(state = initialState, action) {
 function queue(func, waitTime) {
   var funcQueue = [];
   var isWaiting;
-  var executeFunc = function(params) {
+  var executeFunc = function(...params) {
     isWaiting = true;
-    func(params);
+    const toReturn = func(...params);
     setTimeout(play, waitTime);
+    return toReturn;
   };
   var play = function() {
     isWaiting = false;
     if (funcQueue.length) {
       var params = funcQueue.shift();
-      executeFunc(params);
+      return executeFunc(...params);
     }
   };
-  return function(params) {
+  return function(...params) {
     if (isWaiting) {
       funcQueue.push(params);
     } else {
-      executeFunc(params);
+      return executeFunc(...params);
     }
   };
 }
