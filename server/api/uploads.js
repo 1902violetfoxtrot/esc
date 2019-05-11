@@ -1,9 +1,15 @@
 const router = require('express').Router();
 const googleCV = require('../db/models/googleCVAPI');
-const redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
 const { Location, Label } = require('../db/models');
 // const multer = require('multer');
 // const path = require('path');
+let redisClient;
+
+if (process.env.HEROKU_REDIS_RED_URL) {
+  redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
+} else {
+  redisClient = require('redis').createClient();
+}
 
 redisClient.on('error', function(err) {
   console.log('Error ' + err);
@@ -50,13 +56,16 @@ router.post('/', async (req, res, next) => {
       await googleCV.setLabels(arrOfFilePaths);
       const locations = await googleCV.getMostFrequentCities(labels, Label);
 
-      const locationPromises = locations.map(async locName =>
-        await Location.findOne({
-          where: { name: locName },
-          attributes: ['code']
-        })
+      const locationPromises = locations.map(
+        async locName =>
+          await Location.findOne({
+            where: { name: locName },
+            attributes: ['code']
+          })
       );
-      const locationCodes = (await Promise.all(locationPromises)).map( loc => loc.dataValues.code );
+      const locationCodes = (await Promise.all(locationPromises)).map(
+        loc => loc.dataValues.code
+      );
 
       res.json(locationCodes);
     });

@@ -1,7 +1,13 @@
 const router = require('express').Router();
-const redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
 const bluebird = require('bluebird');
 const flightsAPI = require('../db/models/flightsAPI');
+let redisClient;
+
+if (process.env.HEROKU_REDIS_RED_URL) {
+  redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
+} else {
+  redisClient = require('redis').createClient();
+}
 
 module.exports = router;
 
@@ -28,7 +34,7 @@ router.get('/', async (req, res, next) => {
     }
 
     let ourBestFlights = flightsAPI.getIATA(flightReply);
-    const vacationPlace = direction === 'from' ? origin : destination
+    const vacationPlace = direction === 'from' ? origin : destination;
 
     res.json({ ourBestFlights, vacationPlace });
   } catch (err) {

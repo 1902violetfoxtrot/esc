@@ -46,6 +46,7 @@
     "express": "^4.16.4",
     "express-form-data": "^2.0.8",
     "express-session": "^1.15.1",
+    "google-auth-library": "^4.0.0",
     "history": "^4.9.0",
     "ioredis": "^4.9.3",
     "morgan": "^1.9.1",

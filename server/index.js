@@ -11,8 +11,13 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 const socketio = require('socket.io');
 const formData = require('express-form-data');
-const redis = require('redis');
-const redisClient = redis.createClient();
+let redisClient;
+
+if (process.env.HEROKU_REDIS_RED_URL) {
+  redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
+} else {
+  redisClient = require('redis').createClient();
+}
 module.exports = app;
 
 redisClient.on('error', function(err) {

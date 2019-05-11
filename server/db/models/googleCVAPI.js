@@ -1,4 +1,5 @@
 const vision = require('@google-cloud/vision');
+require('dotenv').config();
 
 class GoogleCVAPI {
   constructor() {
@@ -6,7 +7,11 @@ class GoogleCVAPI {
   }
   async setLabels(arrFiles) {
     const client = new vision.ImageAnnotatorClient({
-      keyFilename: './API.json'
+      projectId: process.env.GOOGLE_PROJECT_ID,
+      credentials: {
+        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        client_email: process.env.GOOGLE_CLIENT_EMAIL
+      }
     });
     let file = '';
     while (arrFiles.length > 0) {
@@ -73,7 +78,7 @@ class GoogleCVAPI {
         bestCities.push(key);
       }
     }
-
+    //console.log(bestCities);
     return bestCities;
   }
 }
