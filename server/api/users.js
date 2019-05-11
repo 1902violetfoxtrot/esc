@@ -2,10 +2,14 @@ const router = require('express').Router();
 const { User } = require('../db/models');
 const instagramAPI = require('../db/models/instagramAPI');
 const googleCV = require('../db/models/googleCVAPI');
-const redisClient = require('redis').createClient(
-  process.env.HEROKU_REDIS_RED_URL
-);
 const { Label } = require('../db/models');
+let redisClient;
+
+if (process.env.HEROKU_REDIS_RED_URL) {
+  redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
+} else {
+  redisClient = require('redis').createClient();
+}
 module.exports = router;
 
 router.get('/', async (req, res, next) => {

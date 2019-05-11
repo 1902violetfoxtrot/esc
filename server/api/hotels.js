@@ -1,7 +1,13 @@
 const router = require('express').Router();
 const bluebird = require('bluebird');
 const hotelsAPI = require('../db/models/hotelsAPI');
-const redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
+let redisClient;
+
+if (process.env.HEROKU_REDIS_RED_URL) {
+  redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
+} else {
+  redisClient = require('redis').createClient();
+}
 module.exports = router;
 
 bluebird.promisifyAll(redisClient);

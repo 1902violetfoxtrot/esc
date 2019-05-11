@@ -14,7 +14,7 @@ class HotelsAPI {
     const { data } = response;
     return data;
   }
-  
+
   async conversion(hotelReply) {
     let currency;
     for (let i = 0; i < hotelReply.length; i++) {
