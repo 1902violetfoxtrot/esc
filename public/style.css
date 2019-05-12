@@ -10,15 +10,16 @@ label {
   display: block;
 }
 
-nav a {
-  display: inline-block;
-  margin: 1em;
+.dropzone {
+  border: dashed 1px rgb(74, 74, 75);
+  padding: 20% 0 20% 0;
+  margin: 5%;
 }
-
+/* 
 form div {
   margin: 1em;
   display: inline-block;
-}
+} */
 
 .slider {
   -webkit-appearance: none;

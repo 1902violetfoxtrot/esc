@@ -39,16 +39,24 @@ class TripInfoForm extends React.Component {
       returnDate: '',
       adults: 1,
       children: 0,
-      infants: 0
+      infants: 0,
+      clicked: false
     };
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onTravelersChange = this.onTravelersChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(() => {});
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.destinations !== prevProps.destinations) {
+      this.setState({clicked: false})
+    }
   }
 
   async onDateChange(e) {
@@ -86,6 +94,36 @@ class TripInfoForm extends React.Component {
     });
   }
 
+  handleKeyPress(e) {
+    if (e.charCode === 13) {
+      e.preventDefault()
+      const {
+        budget,
+        departure,
+        returnDate,
+        adults,
+        children,
+        infants
+      } = this.state;
+      this.setState({clicked: true})
+      window.navigator.geolocation.getCurrentPosition(async response => {
+        const { longitude, latitude } = response.coords;
+        const originData = await Axios.get(
+          `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
+        );
+  
+        // repeat this for each of the 5 destinations received
+  
+        // TEMPORARY, until we hook up the image recognition with the search
+        //const { destinations } = this.props;
+        const destinations = ['SEL', 'MAD', 'LCA', 'ADL', 'MSY'];
+  
+        const origin = originData.data.data[0].iataCode;
+        this.props.getFlightsThunk(origin, destinations, departure, returnDate);
+      });
+    }
+  }
+
   onSubmit(e) {
     e.preventDefault();
     const {
@@ -96,6 +134,7 @@ class TripInfoForm extends React.Component {
       children,
       infants
     } = this.state;
+    this.setState({clicked: true})
     window.navigator.geolocation.getCurrentPosition(async response => {
       const { longitude, latitude } = response.coords;
       const originData = await Axios.get(
@@ -221,7 +260,7 @@ class TripInfoForm extends React.Component {
         </div>
 
         <div>
-          <button type="submit">Submit</button>
+          {this.state.clicked === false ? <button className="ui primary button" onKeyPress={this.handleKeyPress} type="submit">Submit</button> : <button className="ui loading primary button" type="submit" disabled>Loading</button>}
         </div>
       </form>
     );
