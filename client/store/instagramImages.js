@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const instagramImagesState = [];
+const instagramState = {};
 
-const SET_IMAGES = 'SET_IMAGES';
+const SET_DATA_INSTAGRAM = 'SET_DATA_INSTAGRAM';
 
-export const getImages = images => ({
-  type: SET_IMAGES,
-  images
+const getDataInstagram = data => ({
+  type: SET_DATA_INSTAGRAM,
+  data
 });
 
 //instagram Thunk handler
@@ -14,7 +14,7 @@ export const instagramThunk = () => {
   return async dispatch => {
     try {
       const { data } = await axios.get('/api/users/instagram');
-      dispatch(getImages(data));
+      dispatch(getDataInstagram(data));
     } catch (error) {
       console.error(error);
     }
@@ -22,10 +22,10 @@ export const instagramThunk = () => {
 };
 
 //Reducer
-export default function(state = instagramImagesState, action) {
+export default function(state = instagramState, action) {
   switch (action.type) {
-    case SET_IMAGES:
-      return action.images;
+    case SET_DATA_INSTAGRAM:
+      return action.data;
     default:
       return state;
   }
