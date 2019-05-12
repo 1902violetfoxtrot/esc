@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { User } = require('../db/models');
 const instagramAPI = require('../db/models/instagramAPI');
 const googleCV = require('../db/models/googleCVAPI');
-const { Label } = require('../db/models');
+const { Location, Label } = require('../db/models');
 let redisClient;
 
 if (process.env.HEROKU_REDIS_RED_URL) {
@@ -28,10 +28,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/instagram', async (req, res, next) => {
   try {
-    const instagramImages = instagramAPI.getImages();
-    res.json(instagramImages).status(200);
     let labels;
-
     await redisClient.get('idAndLabels', async function(reply) {
       if (reply) {
         labels = JSON.parse(reply);
@@ -40,8 +37,24 @@ router.get('/instagram', async (req, res, next) => {
         redisClient.set('idAndLabels', JSON.stringify(labels));
       }
     });
+    const instagramImages = await instagramAPI.getImages();
+    const images = [...instagramImages];
+
     await googleCV.setLabels(instagramImages);
-    await googleCV.getMostFrequentCities(labels, Label);
+    const locations = await googleCV.getMostFrequentCities(labels, Label);
+
+    const locationPromises = locations.map(
+      async locName =>
+        await Location.findOne({
+          where: { name: locName },
+          attributes: ['code']
+        })
+    );
+    const locationCodes = (await Promise.all(locationPromises)).map(
+      loc => loc.dataValues.code
+    );
+
+    res.json({ images, locationCodes }).status(200);
   } catch (err) {
     next(err);
   }

@@ -10,24 +10,32 @@ class Instagram extends Component {
     this.props.getImages();
   }
   render() {
-    const { images } = this.props;
+    const { images } = this.props.data;
 
-    return (
-      <div>
-        {images.map(image => {
-          return (
-            <ul key={image}>
-              <img src={image} height="200" width="200" />
-            </ul>
-          );
-        })}
-      </div>
-    );
+    if (images === undefined) {
+      return (
+        <div>
+          <h2>Loading...</h2>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          {images.map(image => {
+            return (
+              <ul key={image}>
+                <img src={image} height="200" width="200" />
+              </ul>
+            );
+          })}
+        </div>
+      );
+    }
   }
 }
 
 const mapState = state => ({
-  images: state.instagramImages
+  data: state.instagramImages
 });
 
 const mapDispatch = dispatch => ({

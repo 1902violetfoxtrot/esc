@@ -78,7 +78,7 @@ class GoogleCVAPI {
         bestCities.push(key);
       }
     }
-    //console.log(bestCities);
+    
     return bestCities;
   }
 }
