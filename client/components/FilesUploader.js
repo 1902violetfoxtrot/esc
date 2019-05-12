@@ -38,23 +38,27 @@ class FilesUploader extends Component {
     const { files } = this.state;
     return (
       <div className="ui center aligned container">
-      <Dropzone
-        onDrop={this.handleOnDrop}
-        accept={ACCEPTED_FILE_TYPES}
-        maxSize={MAX_SIZE}
-        multiple={true}
-        onDropRejected={this.handleOnDropRejected}
-      >
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div className="filesClass" {...getRootProps()}>
-              <input {...getInputProps()} />
-                <div className="dropzone">
-                <i className="images outline huge icon"/>
-                  <div className="ui header">
-                    Drag 'n' drop some files here, or click to select files
+        <div className="ui huge header">Escape</div>
+        <Dropzone
+          onDrop={this.handleOnDrop}
+          accept={ACCEPTED_FILE_TYPES}
+          maxSize={MAX_SIZE}
+          multiple={true}
+          onDropRejected={this.handleOnDropRejected}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <section>
+                <div className="filesClass" {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <div className="dropborder">
+                  <div className="dropzone">
+                    <i className="images outline huge icon" />
+                    <div className="ui header">
+                      Drag 'n' drop some files here, or click to select files
+                    </div>
                   </div>
                 </div>
+              </div>
               <div className="filesListClass">
                 {files.map(file => {
                   return (
@@ -64,10 +68,9 @@ class FilesUploader extends Component {
                   );
                 })}
               </div>
-            </div>
-          </section>
-        )}
-      </Dropzone>
+            </section>
+          )}
+        </Dropzone>
       </div>
     );
   }

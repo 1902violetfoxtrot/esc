@@ -10,29 +10,32 @@ const AuthForm = props => {
   const { name, displayName, handleSubmit, error } = props;
 
   return (
-    <div className="ui placeholder segment container">
-        <div className="column">
-          <form className="ui form" onSubmit={handleSubmit} name={name}>
-            <div className="field">
-              <label htmlFor="email">Email</label>
-              <div className="ui left icon input">
-                <input type="text" placeholder="Email Address" name="email" />
-                <i aria-hidden="true" className="user icon" />
-              </div>
+    <div className="ui segment center aligned middle aligned container">
+      <form className="ui large form" onSubmit={handleSubmit} name={name}>
+      <h1>{displayName === 'Login' ? `${displayName} to your account`: `${displayName}`}</h1>
+          <div className="field">
+            <div className="ui left icon input">
+              <input type="text" placeholder="Email Address" name="email" />
+              <i aria-hidden="true" className="user icon" />
             </div>
-            <div className="field">
-              <label htmlFor="password">Password</label>
-              <div className="ui left icon input">
-                <input name="password" type="password"  />
-                <i aria-hidden="true" className="lock icon" />
-              </div>
+          </div>
+          <div className="field">
+            <div className="ui left icon input">
+              <input type="password" placeholder="Password" name="password"/>
+              <i aria-hidden="true" className="lock icon" />
             </div>
-            <button className="ui primary button" type='submit'>{displayName}</button>
-            {error && error.response && <div> {error.response.data} </div>}
-          </form>
-          {displayName === 'Login' && <a href="/auth/instagram" className="ui center aligned button segment">{displayName} with Instagram</a>}
-        </div>
-      </div>
+          </div>
+          <button className="ui primary fluid button segment" type="submit">
+            <h3>{displayName}</h3>
+          </button>
+          {error && error.response && <div> {error.response.data} </div>}
+      </form>
+      {displayName === 'Login' && (
+        <a href="/auth/instagram" className="ui center aligned fluid button segment">
+          <h3>{displayName} with Instagram</h3>
+        </a>
+      )}
+    </div>
   );
 };
 
