@@ -7,7 +7,7 @@ import { logout } from '../store';
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <Fragment>
     <nav className="ui large menu">
-      <div className="item">
+      <div className="ui medium header item">
         <Link to="/home">Home</Link>
       </div>
       {isLoggedIn ? (

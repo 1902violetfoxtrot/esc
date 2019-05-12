@@ -48,26 +48,32 @@ class FilesUploader extends Component {
         >
           {({ getRootProps, getInputProps }) => (
             <section>
+              {!this.state.files.length ? (
                 <div className="filesClass" {...getRootProps()}>
                   <input {...getInputProps()} />
                   <div className="dropborder">
-                  <div className="dropzone">
-                    <i className="images outline huge icon" />
-                    <div className="ui header">
-                      Drag 'n' drop some files here, or click to select files
+                    <div className="dropzone">
+                      <i className="images outline huge icon" />
+                      <div className="ui header">
+                        Drag 'n' drop some files here, or click to select files
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="filesListClass">
-                {files.map(file => {
-                  return (
-                    <ul className="filePreviews" key={file.name}>
-                      <img src={file.preview} width="200" height="200" />
-                    </ul>
-                  );
-                })}
-              </div>
+              ) : (
+                <div className="ui center aligned big image">
+                  <div className="filesClass" {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    {files.map(file => {
+                      return (
+                        <div key={file.name}>
+                          <img src={file.preview}/>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </section>
           )}
         </Dropzone>

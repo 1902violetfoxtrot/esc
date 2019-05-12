@@ -17,9 +17,13 @@ a {
 }
 
 .dropzone {
-  padding: 20% 0 20% 0;
+  padding: 15% 0 15% 0;
   margin: 5%;
   border: dashed 2px rgb(74, 74, 75);
+}
+
+.imageDropped {
+  margin: 5% 0 5% 0;
 }
 
 .slider {
