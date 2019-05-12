@@ -8,7 +8,8 @@ import {
   UserHome,
   FilesUploader,
   Instagram,
-  TripInfoForm
+  TripInfoForm,
+  ResultsMap
 } from './components';
 import { me } from './store';
 
@@ -29,7 +30,12 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/plan" component={TripInfoForm} />
-        {isInstagram ? <Route component={Instagram} /> : <Route component={FilesUploader} />}
+        <Route path="/resultsMap" component={ResultsMap} />
+        {isInstagram ? (
+          <Route component={Instagram} />
+        ) : (
+          <Route component={FilesUploader} />
+        )}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

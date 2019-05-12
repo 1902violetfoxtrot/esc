@@ -12,10 +12,10 @@ class Instagram extends Component {
   render() {
     const { images } = this.props.data;
 
-    if (images === undefined) {
+    if (!images) {
       return (
         <div>
-          <h2>Loading...</h2>
+          <h3>Loading...</h3>
         </div>
       );
     } else {
