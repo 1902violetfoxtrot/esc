@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
-import { geoAzimuthalEquidistant, geoPath } from 'd3-geo';
-import { feature } from 'topojson-client';
+import {
+  geoAzimuthalEquidistant,
+  geoInterpolate,
+} from 'd3-geo';
+import {
+  ComposableMap,
+  ZoomableGroup,
+  Geographies,
+  Geography
+} from 'react-simple-maps';
 
 class ResultsMap extends Component {
   constructor(props) {
@@ -27,26 +35,35 @@ class ResultsMap extends Component {
         </div>
       );
     } else {
-      const mapInfo = feature(
-        mapData,
-        mapData.objects.ne_110m_admin_0_countries
-      ).features;
 
+      const londonLonLat = [0.1278, 51.5074];
+      const newYorkLonLat = [-74.0059, 40.7128];
+      const geoInterpolator = geoInterpolate(londonLonLat, newYorkLonLat);
+      let increment = 0;
+
+      increment += 0.01;
+      if (increment > 1) {
+        increment = 0;
+      }
       return (
-        <svg width={800} height={450} viewBox="0 0 800 450">
-          <g className="countries">
-            {mapInfo.map((d, i) => (
-              <path
-                key={`path-${i}`}
-                d={geoPath().projection(this.projection())(d)}
-                className="country"
-                fill={`rgba(128,128,0,0.5)`}
-                stroke="#FFFFFF"
-                strokeWidth={0.5}
-              />
-            ))}
-          </g>
-        </svg>
+        <div>
+          <ComposableMap>
+            <ZoomableGroup>
+              <Geographies geography={mapData}>
+                {geographies =>
+                  geographies.map((geography, i) => (
+                    <Geography
+                      key={i}
+                      geography={geography}
+                      projection={this.projection()}
+                      fill={`rgba(128,128,0,0.5)`}
+                    />
+                  ))
+                }
+              </Geographies>
+            </ZoomableGroup>
+          </ComposableMap>
+        </div>
       );
     }
   }
