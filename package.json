@@ -38,10 +38,13 @@
   "dependencies": {
     "@google-cloud/vision": "^0.25.0",
     "amadeus": "^3.1.0",
+    "aws-sdk": "^2.453.0",
     "axios": "^0.18.0",
     "bluebird": "^3.5.4",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
+    "d3": "^5.9.2",
+    "d3-geo": "^1.11.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-form-data": "^2.0.8",
@@ -64,13 +67,14 @@
     "react-dropzone": "^10.1.4",
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.0",
-    "react-slick": "^0.24.0",
+    "react-simple-maps": "^0.12.1",
     "redis": "^2.8.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "sequelize": "^5.8.2",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "topojson-client": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

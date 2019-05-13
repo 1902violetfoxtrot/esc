@@ -60,8 +60,18 @@ async function seed() {
     { name: 'copenhagen', longitude: 12.5683, latitude: 55.6761, code: 'CPH' },
     { name: 'new york', longitude: -74.006, latitude: 40.7128, code: 'NYC' },
     { name: 'miami', longitude: -80.1918, latitude: 25.7617, code: 'MIA' },
-    { name: 'new orleans', longitude: -90.0715, latitude: 29.9511, code: 'MSY' },
-    { name: 'san francisco', longitude: -122.4194, latitude: 37.7749, code: 'SFO' }, // 10
+    {
+      name: 'new orleans',
+      longitude: -90.0715,
+      latitude: 29.9511,
+      code: 'MSY'
+    },
+    {
+      name: 'san francisco',
+      longitude: -122.4194,
+      latitude: 37.7749,
+      code: 'SFO'
+    }, // 10
     { name: 'sao paulo', longitude: -46.6333, latitude: -23.5505, code: 'SAO' },
     { name: 'venice', longitude: 12.3155, latitude: 45.4408, code: 'VCE' },
     { name: 'vienna', longitude: 16.3738, latitude: 48.2082, code: 'VDD' },
@@ -79,12 +89,17 @@ async function seed() {
     { name: 'barbuda', longitude: -61.7713, latitude: 17.6266, code: 'BBQ' }, // 25
     { name: 'barbados', longitude: -59.5432, latitude: 13.1939, code: 'BGI' },
     { name: 'cyprus', longitude: 33.4299, latitude: 35.1264, code: 'LCA' },
-    { name: 'auckland', longitude: 174.7633, latitude: 36.8485, code: 'AKL' },
+    { name: 'auckland', longitude: 174.7633, latitude: -36.8485, code: 'AKL' },
     { name: 'aruba', longitude: 69.9683, latitude: 12.5211, code: 'AUA' },
     { name: 'adelaide', longitude: 138.6007, latitude: 34.9285, code: 'ADL' }, // 30
     { name: 'acapulco', longitude: -99.8237, latitude: 16.8531, code: 'ACA' },
     { name: 'cancun', longitude: -86.8515, latitude: 21.1619, code: 'CUN' },
-    { name: 'bora bora', longitude: -151.7415, latitude: -16.5004, code: 'BOB' },
+    {
+      name: 'bora bora',
+      longitude: -151.7415,
+      latitude: -16.5004,
+      code: 'BOB'
+    },
     { name: 'biarritz', longitude: -1.5586, latitude: 43.4832, code: 'BIQ' },
     { name: 'shanghai', longitude: 121.4737, latitude: 31.2304, code: 'SHA' }, // 35
     { name: 'bermuda', longitude: -64.7505, latitude: 32.3078, code: 'BDA' },
@@ -102,8 +117,18 @@ async function seed() {
     { name: 'warsaw', longitude: 21.0122, latitude: 52.2297, code: 'WAW' },
     { name: 'london', longitude: -0.1278, latitude: 51.5074, code: 'LCY' },
     { name: 'hvar', longitude: 16.4411, latitude: 43.1729, code: 'SPU' }, // 50
-    { name: 'vatican city', longitude: 12.4534, latitude: 41.9029, code: 'CIA' },
-    { name: 'jeffreys bay', longitude: 24.9102, latitude: 34.0507, code: 'PLZ' },
+    {
+      name: 'vatican city',
+      longitude: 12.4534,
+      latitude: 41.9029,
+      code: 'CIA'
+    },
+    {
+      name: 'jeffreys bay',
+      longitude: 24.9102,
+      latitude: 34.0507,
+      code: 'PLZ'
+    },
     { name: 'kauai', longitude: -159.5261, latitude: 22.0964, code: 'LIH' },
     { name: 'honolulu', longitude: -157.8583, latitude: 21.3069, code: 'HIK' } // 54
   ];
@@ -724,8 +749,34 @@ async function seed() {
     ), // indoors
     createdLabels[22].setLocations(
       [
-        1, 3, 5, 16, 22, 23, 25, 26, 27, 28, 30, 31, 32, 33, 34, 39, 40,
-        41, 42, 43, 44, 45, 46, 47, 50, 52, 53, 54
+        1,
+        3,
+        5,
+        16,
+        22,
+        23,
+        25,
+        26,
+        27,
+        28,
+        30,
+        31,
+        32,
+        33,
+        34,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        50,
+        52,
+        53,
+        54
       ].map(el => createdLocations[el])
     ), // outdoors
     createdLabels[23].setLocations(
@@ -778,17 +829,76 @@ async function seed() {
     ), // road
     createdLabels[35].setLocations(
       [
-        1, 4, 5, 16, 18, 23, 24, 25, 26, 27, 29, 33, 36, 42, 44, 45, 52, 53, 54
+        1,
+        4,
+        5,
+        16,
+        18,
+        23,
+        24,
+        25,
+        26,
+        27,
+        29,
+        33,
+        36,
+        42,
+        44,
+        45,
+        52,
+        53,
+        54
       ].map(el => createdLocations[el])
     ), // island
     createdLabels[36].setLocations(
       [
-        1, 4, 5, 11, 16, 23, 24, 25, 26, 30, 31, 32, 33, 36, 37, 42, 43, 44, 45, 53, 54
+        1,
+        4,
+        5,
+        11,
+        16,
+        23,
+        24,
+        25,
+        26,
+        30,
+        31,
+        32,
+        33,
+        36,
+        37,
+        42,
+        43,
+        44,
+        45,
+        53,
+        54
       ].map(el => createdLocations[el])
     ), // animals
     createdLabels[37].setLocations(
       [
-        0, 3, 5, 9, 10, 11, 12, 13, 14, 15, 16, 24, 25, 26, 27, 28, 29, 30, 33, 34, 53, 54
+        0,
+        3,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        33,
+        34,
+        53,
+        54
       ].map(el => createdLocations[el])
     ), // flowers
     createdLabels[38].setLocations(
@@ -796,7 +906,27 @@ async function seed() {
     ), // aquarium
     createdLabels[39].setLocations(
       [
-        0, 2, 6, 8, 9, 13, 14, 17, 18, 19, 20, 21, 24, 27, 34, 32, 30, 31, 28, 40, 48
+        0,
+        2,
+        6,
+        8,
+        9,
+        13,
+        14,
+        17,
+        18,
+        19,
+        20,
+        21,
+        24,
+        27,
+        34,
+        32,
+        30,
+        31,
+        28,
+        40,
+        48
       ].map(el => createdLocations[el])
     ) // casino
   ]);
