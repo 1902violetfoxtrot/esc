@@ -37,31 +37,44 @@ class FilesUploader extends Component {
       'image/jpeg, image/jpg image/png, image/tiff,image/gif';
     const { files } = this.state;
     return (
-      <Dropzone
-        onDrop={this.handleOnDrop}
-        accept={ACCEPTED_FILE_TYPES}
-        maxSize={MAX_SIZE}
-        multiple={true}
-        onDropRejected={this.handleOnDropRejected}
-      >
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div className="filesClass" {...getRootProps()}>
-              <input {...getInputProps()} />
-              <p>Drag 'n' drop some files here, or click to select files</p>
-              <div className="filesListClass">
-                {files.map(file => {
-                  return (
-                    <ul className="filePreviews" key={file.name}>
-                      <img src={file.preview} width="200" height="200" />
-                    </ul>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        )}
-      </Dropzone>
+      <div className="ui center aligned container">
+        <div className="ui huge header">Escape</div>
+        <Dropzone
+          onDrop={this.handleOnDrop}
+          accept={ACCEPTED_FILE_TYPES}
+          maxSize={MAX_SIZE}
+          multiple={true}
+          onDropRejected={this.handleOnDropRejected}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              {!this.state.files.length ? (
+                <div className="filesClass" {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <div className="dropborder">
+                    <div className="dropzone">
+                      <i className="images outline huge icon" />
+                      <div className="ui header">
+                        Drag 'n' drop some files here, or click to select files
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="ui center aligned big image">
+                    {files.map(file => {
+                      return (
+                        <div key={file.name}>
+                          <img src={file.preview}/>
+                        </div>
+                      );
+                    })}
+                  </div>
+              )}
+            </section>
+          )}
+        </Dropzone>
+      </div>
     );
   }
 }
