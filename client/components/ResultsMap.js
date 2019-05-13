@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
 import { instagramThunk } from '../store/instagramImages';
-import { geoAzimuthalEquidistant, geoInterpolate } from 'd3-geo';
+import { geoAzimuthalEquidistant } from 'd3-geo';
 import {
   ComposableMap,
   ZoomableGroup,
@@ -28,7 +28,7 @@ class ResultsMap extends Component {
   projection() {
     return geoAzimuthalEquidistant()
       .scale(100)
-      .translate([800 / 2, 450 / 2]);
+      .translate([700 / 2, 450 / 2]);
   }
   buildCurves(start, end) {
     const x0 = start[0];
@@ -88,7 +88,7 @@ class ResultsMap extends Component {
       );
     } else {
       return (
-        <div>
+        <div className="map">
           <ComposableMap projection={this.projection}>
             <ZoomableGroup>
               <Geographies geography={mapData}>
@@ -98,7 +98,14 @@ class ResultsMap extends Component {
                       key={i}
                       geography={geography}
                       projection={projection}
-                      fill={`rgba(11,128,0,0.4)`}
+                      style={{
+                        default: {
+                          fill: `rgba(0,128,0,0.7)`,
+                          stroke: '#607D8B',
+                          strokeWidth: 0.75,
+                          outline: 'none'
+                        }
+                      }}
                     />
                   ))
                 }
@@ -115,7 +122,7 @@ class ResultsMap extends Component {
                     }}
                     style={{
                       default: {
-                        stroke: 'blue',
+                        stroke: 'yellow',
                         fill: 'transparent'
                       }
                     }}
@@ -127,7 +134,7 @@ class ResultsMap extends Component {
                 <Marker
                   marker={{ coordinates: yourLocation }}
                   style={{
-                    default: { fill: 'blue' }
+                    default: { fill: 'yellow' }
                   }}
                 >
                   <circle cx={0} cy={0} r={2} />
