@@ -31,46 +31,79 @@ export const filesThunk = filesToSend => {
   };
 };
 
-const getSingleFlightUnqueued = async (from, to, date, direction, arr) => {
+const getSingleFlightUnqueued = async (
+  from,
+  to,
+  date,
+  direction,
+  budget,
+  arr
+) => {
   const { data } = await axios.get(
-    `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}`
+    `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}&budget=${budget}`
   );
-  arr.push(data);
+  if (data !== 'no') arr.push(data);
 };
 
 const getSingleFlight = queue(
   (...params) => getSingleFlightUnqueued(...params),
-  500
+  700
 );
 
 export const getFlightsThunk = (
   origin,
   destinations,
   departureDate,
-  returnDate
+  returnDate,
+  budget
 ) => async dispatch => {
-
   let toFlights = [];
   let fromFlights = [];
   destinations.map(destination => {
-    getSingleFlight(origin, destination, departureDate, 'to', toFlights);
-    getSingleFlight(destination, origin, returnDate, 'from', fromFlights);
+    getSingleFlight(
+      origin,
+      destination,
+      departureDate,
+      'to',
+      budget,
+      toFlights
+    );
+    getSingleFlight(
+      destination,
+      origin,
+      returnDate,
+      'from',
+      budget,
+      fromFlights
+    );
   });
 
-  setTimeout(
-  () => dispatch(getFlights(toFlights, fromFlights))
-  , 10000);
+  setTimeout(() => dispatch(getFlights(toFlights, fromFlights)), 15000);
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_FLIGHTS:
       const flightReducer = (total, flight) => {
-        total[flight.vacationPlace] = flight.ourBestFlights;
+        const flights = flight.ourBestFlights;
+        if (flights.length) total[flight.vacationPlace] = flights;
         return total;
       };
       const newDepartingFlights = action.departing.reduce(flightReducer, {});
       const newReturningFlights = action.returning.reduce(flightReducer, {});
+
+      const departingKeys =  Object.keys(newDepartingFlights);
+      const returningKeys = Object.keys(newReturningFlights);
+      const validDestinations = departingKeys.filter(code =>
+        returningKeys.includes(code)
+      );
+      departingKeys.map(key => {
+        if (!validDestinations.includes(key)) delete newDepartingFlights[key]
+      });
+      returningKeys.map(key => {
+        if (!validDestinations.includes(key)) delete newReturningFlights[key]
+      });
+
       return {
         ...state,
         departing: newDepartingFlights,
