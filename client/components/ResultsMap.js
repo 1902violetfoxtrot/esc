@@ -18,6 +18,11 @@ class ResultsMap extends Component {
     super(props);
     this.projection = this.projection.bind(this);
     this.buildCurves = this.buildCurves.bind(this);
+    this.getYourLocation = this.getYourLocation.bind(this);
+    //Default to NYC long and lat, to ensure rendering without errors
+    this.state = {
+      yourLocation: [-74.0059, 40.7128]
+    };
   }
   projection() {
     return geoAzimuthalEquidistant()
@@ -47,11 +52,30 @@ class ResultsMap extends Component {
       'M' + x0 + ' ' + y0 + ' Q ' + c1x + ' ' + c1y + ' ' + x1 + ' ' + y1;
     return curve;
   }
+  getYourLocation() {
+    const location = window.navigator && window.navigator.geolocation;
+
+    if (location) {
+      location.getCurrentPosition(
+        position => {
+          this.setState({
+            yourLocation: [position.coords.longitude, position.coords.latitude]
+          });
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
+  }
+
   async componentDidMount() {
     await this.props.getMap();
+    this.getYourLocation();
   }
   render() {
     const { mapData } = this.props;
+    const { yourLocation } = this.state;
 
     if (!mapData.objects) {
       return (
@@ -60,9 +84,7 @@ class ResultsMap extends Component {
         </div>
       );
     } else {
-      const newYorkLonLat = [-74.0059, 40.7128];
-      const londonLonLat = [0.1278, 51.5074];
-
+      console.log(this.state.yourLocation);
       return (
         <div>
           <ComposableMap projection={this.projection}>
@@ -84,7 +106,7 @@ class ResultsMap extends Component {
                   line={{
                     coordinates: {
                       start: londonLonLat,
-                      end: newYorkLonLat
+                      end: yourLocation
                     }
                   }}
                   style={{
