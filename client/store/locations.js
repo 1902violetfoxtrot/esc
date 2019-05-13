@@ -65,17 +65,12 @@ export const getFlightsThunk = (
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_FLIGHTS:
-      const newDepartingFlights = {};
-      action.departing.forEach(
-        flight =>
-          (newDepartingFlights[flight.vacationPlace] = flight.ourBestFlights)
-      );
-
-      const newReturningFlights = {};
-      action.returning.forEach(
-        flight =>
-          (newReturningFlights[flight.vacationPlace] = flight.ourBestFlights)
-      );
+      const flightReducer = (total, flight) => {
+        total[flight.vacationPlace] = flight.ourBestFlights;
+        return total;
+      };
+      const newDepartingFlights = action.departing.reduce(flightReducer, {});
+      const newReturningFlights = action.returning.reduce(flightReducer, {});
       return {
         ...state,
         departing: newDepartingFlights,
@@ -89,18 +84,17 @@ export default function(state = initialState, action) {
 }
 
 function queue(func, waitTime) {
-  var funcQueue = [];
-  var isWaiting;
-  var executeFunc = function(...params) {
+  const funcQueue = [];
+  let isWaiting;
+  const executeFunc = function(...params) {
     isWaiting = true;
-    const toReturn = func(...params);
+    func(...params);
     setTimeout(play, waitTime);
-    toReturn;
   };
-  var play = function() {
+  const play = function() {
     isWaiting = false;
     if (funcQueue.length) {
-      var params = funcQueue.shift();
+      const params = funcQueue.shift();
       executeFunc(...params);
     }
   };

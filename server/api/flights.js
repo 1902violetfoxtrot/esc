@@ -51,3 +51,27 @@ router.get('/closestAirport', async (req, res, next) => {
     console.error(error);
   }
 });
+
+function queue(func, waitTime) {
+  const funcQueue = [];
+  let isWaiting;
+  const executeFunc = function(...params) {
+    isWaiting = true;
+    func(...params);
+    setTimeout(play, waitTime);
+  };
+  const play = function() {
+    isWaiting = false;
+    if (funcQueue.length) {
+      const params = funcQueue.shift();
+      executeFunc(...params);
+    }
+  };
+  return function(...params) {
+    if (isWaiting) {
+      funcQueue.push(params);
+    } else {
+      executeFunc(...params);
+    }
+  };
+}
