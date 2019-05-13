@@ -72,7 +72,9 @@ class ResultsMap extends Component {
 
   async componentDidMount() {
     await this.props.getMap();
-    this.props.getImages();
+    if (this.props.isInstagram) {
+      this.props.getImages();
+    }
     this.getYourLocation();
   }
   render() {
@@ -150,7 +152,15 @@ class ResultsMap extends Component {
 
 const mapState = state => ({
   mapData: state.awsFile,
-  coords: state.instagramImages.coordinates
+  coords:
+    state.instagramImages.coordinates ||
+    Object.keys(state.destinations.destinationInfo).map(destination => {
+      const { longitude, latitude } = state.destinations.destinationInfo[
+        destination
+      ];
+      return [longitude, latitude];
+    }),
+  isInstagram: !!state.user.instagramId
 });
 
 const mapDispatch = dispatch => ({

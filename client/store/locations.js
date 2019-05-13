@@ -1,12 +1,10 @@
 import axios from 'axios';
 
 const GET_FLIGHTS = 'GET_FLIGHTS';
-const GET_LOCATIONS = 'GET_LOCATIONS';
 
 const initialState = {
   returning: {},
-  departing: {},
-  destinationCodes: []
+  departing: {}
 };
 
 const getFlights = (departing, returning) => ({
@@ -14,22 +12,6 @@ const getFlights = (departing, returning) => ({
   departing,
   returning
 });
-
-const getLocations = locations => ({
-  type: GET_LOCATIONS,
-  locations
-});
-
-export const filesThunk = filesToSend => {
-  return async dispatch => {
-    try {
-      const { data } = await axios.post('/api/uploads', filesToSend);
-      dispatch(getLocations(data));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
 
 const getSingleFlightUnqueued = async (
   from,
@@ -105,8 +87,6 @@ export default function(state = initialState, action) {
         departing: newDepartingFlights,
         returning: newReturningFlights
       };
-    case GET_LOCATIONS:
-      return { ...state, destinationCodes: action.locations };
     default:
       return state;
   }
