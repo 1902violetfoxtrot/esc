@@ -8,13 +8,18 @@ const amadeusClient = new Amadeus({
 
 class FlightsAPI {
   async getFlights(origin, destination, departureDate) {
-    const response = await amadeusClient.shopping.flightOffers.get({
-      origin: `${origin}`,
-      destination: `${destination}`,
-      departureDate: `${departureDate}`
-    });
-    const { data } = response;
-    return data;
+    try {
+      const response = await amadeusClient.shopping.flightOffers.get({
+        origin: `${origin}`,
+        destination: `${destination}`,
+        departureDate: `${departureDate}`
+      });
+      const { data } = response;
+      return data;
+    }
+    catch (err) {
+      return 'no flights found!';
+    }
   };
 
   getIATA(flightReply) {
@@ -34,7 +39,7 @@ class FlightsAPI {
 
     let ourBestFlights = [];
 
-    for (let i = 0; ourBestFlights.length < 3 && i < flights.length; i++) {
+    for (let i = 0; ourBestFlights.length < 20 && i < flights.length; i++) {
       if (flights[i].carrier) ourBestFlights.push(flights[i]);
     }
 

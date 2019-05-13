@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -29,13 +29,8 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/plan" component={TripInfoForm} />
-        <Route path="/resultsMap" component={ResultsMap} />
-        {isInstagram ? (
-          <Route component={Instagram} />
-        ) : (
-          <Route component={FilesUploader} />
-        )}
+        <Route path = "/resultsMap" component={ResultsMap}/>
+        {isInstagram ? <Instagram /> : <Fragment><FilesUploader/><TripInfoForm/></Fragment>}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

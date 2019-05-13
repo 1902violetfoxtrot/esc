@@ -33,10 +33,14 @@ router.get('/', async (req, res, next) => {
       await redisClient.setAsync(key, JSON.stringify(flightReply));
     }
 
-    let ourBestFlights = flightsAPI.getIATA(flightReply);
-    const vacationPlace = direction === 'from' ? origin : destination;
-
-    res.json({ ourBestFlights, vacationPlace });
+    if (flightReply === 'no flights found!') {
+      res.json('no');
+    }
+    else {
+      let ourBestFlights = flightsAPI.getIATA(flightReply);
+      const vacationPlace = direction === 'from' ? origin : destination;
+      res.json({ ourBestFlights, vacationPlace });
+    }
   } catch (err) {
     next(err);
   }
@@ -51,3 +55,27 @@ router.get('/closestAirport', async (req, res, next) => {
     console.error(error);
   }
 });
+
+function queue(func, waitTime) {
+  const funcQueue = [];
+  let isWaiting;
+  const executeFunc = function(...params) {
+    isWaiting = true;
+    func(...params);
+    setTimeout(play, waitTime);
+  };
+  const play = function() {
+    isWaiting = false;
+    if (funcQueue.length) {
+      const params = funcQueue.shift();
+      executeFunc(...params);
+    }
+  };
+  return function(...params) {
+    if (isWaiting) {
+      funcQueue.push(params);
+    } else {
+      executeFunc(...params);
+    }
+  };
+}

@@ -31,51 +31,75 @@ export const filesThunk = filesToSend => {
   };
 };
 
-const getSingleFlightUnqueued = async (from, to, date, direction, arr) => {
+const getSingleFlightUnqueued = async (
+  from,
+  to,
+  date,
+  direction,
+  arr
+) => {
   const { data } = await axios.get(
     `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}`
   );
-  arr.push(data);
+  if (data !== 'no') arr.push(data);
 };
 
 const getSingleFlight = queue(
   (...params) => getSingleFlightUnqueued(...params),
-  500
+  700
 );
 
 export const getFlightsThunk = (
   origin,
   destinations,
   departureDate,
-  returnDate
+  returnDate,
 ) => async dispatch => {
-
   let toFlights = [];
   let fromFlights = [];
   destinations.map(destination => {
-    getSingleFlight(origin, destination, departureDate, 'to', toFlights);
-    getSingleFlight(destination, origin, returnDate, 'from', fromFlights);
+    getSingleFlight(
+      origin,
+      destination,
+      departureDate,
+      'to',
+      toFlights
+    );
+    getSingleFlight(
+      destination,
+      origin,
+      returnDate,
+      'from',
+      fromFlights
+    );
   });
 
-  setTimeout(
-  () => dispatch(getFlights(toFlights, fromFlights))
-  , 10000);
+  setTimeout(() => dispatch(getFlights(toFlights, fromFlights)), 15000);
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_FLIGHTS:
-      const newDepartingFlights = {};
-      action.departing.forEach(
-        flight =>
-          (newDepartingFlights[flight.vacationPlace] = flight.ourBestFlights)
-      );
+      const flightReducer = (total, flight) => {
+        const flights = flight.ourBestFlights;
+        if (flights.length) total[flight.vacationPlace] = flights;
+        return total;
+      };
+      const newDepartingFlights = action.departing.reduce(flightReducer, {});
+      const newReturningFlights = action.returning.reduce(flightReducer, {});
 
-      const newReturningFlights = {};
-      action.returning.forEach(
-        flight =>
-          (newReturningFlights[flight.vacationPlace] = flight.ourBestFlights)
+      const departingKeys =  Object.keys(newDepartingFlights);
+      const returningKeys = Object.keys(newReturningFlights);
+      const validDestinations = departingKeys.filter(code =>
+        returningKeys.includes(code)
       );
+      departingKeys.map(key => {
+        if (!validDestinations.includes(key)) delete newDepartingFlights[key]
+      });
+      returningKeys.map(key => {
+        if (!validDestinations.includes(key)) delete newReturningFlights[key]
+      });
+
       return {
         ...state,
         departing: newDepartingFlights,
@@ -89,18 +113,17 @@ export default function(state = initialState, action) {
 }
 
 function queue(func, waitTime) {
-  var funcQueue = [];
-  var isWaiting;
-  var executeFunc = function(...params) {
+  const funcQueue = [];
+  let isWaiting;
+  const executeFunc = function(...params) {
     isWaiting = true;
-    const toReturn = func(...params);
+    func(...params);
     setTimeout(play, waitTime);
-    toReturn;
   };
-  var play = function() {
+  const play = function() {
     isWaiting = false;
     if (funcQueue.length) {
-      var params = funcQueue.shift();
+      const params = funcQueue.shift();
       executeFunc(...params);
     }
   };

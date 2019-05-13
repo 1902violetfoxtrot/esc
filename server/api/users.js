@@ -29,7 +29,7 @@ router.get('/', async (req, res, next) => {
 router.get('/instagram', async (req, res, next) => {
   try {
     let labels;
-    await redisClient.get('idAndLabels', async function(reply) {
+    redisClient.get('idAndLabels', async function(reply) {
       if (reply) {
         labels = JSON.parse(reply);
       } else {
