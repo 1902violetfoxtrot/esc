@@ -45,18 +45,11 @@ class TripInfoForm extends React.Component {
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onTravelersChange = this.onTravelersChange.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(() => {});
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.destinations !== prevProps.destinations) {
-      this.setState({ clicked: false });
-    }
   }
 
   async onDateChange(e) {
@@ -94,37 +87,8 @@ class TripInfoForm extends React.Component {
     });
   }
 
-  handleKeyPress(e) {
-    if (e.charCode === 13) {
-      e.preventDefault();
-      const {
-        budget,
-        departure,
-        returnDate,
-        adults,
-        children,
-        infants
-      } = this.state;
-      this.setState({ clicked: true });
-      window.navigator.geolocation.getCurrentPosition(async response => {
-        const { longitude, latitude } = response.coords;
-        const originData = await Axios.get(
-          `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
-        );
-
-        // repeat this for each of the 5 destinations received
-
-        // TEMPORARY, until we hook up the image recognition with the search
-        //const { destinations } = this.props;
-        const destinations = ['SEL', 'MAD', 'LCA', 'ADL', 'MSY'];
-
-        const origin = originData.data.data[0].iataCode;
-        this.props.getFlightsThunk(origin, destinations, departure, returnDate);
-      });
-    }
-  }
-
   onSubmit(e) {
+    this.setState({ clicked: true });
     e.preventDefault();
     const {
       budget,
@@ -134,7 +98,6 @@ class TripInfoForm extends React.Component {
       children,
       infants
     } = this.state;
-    this.setState({ clicked: true });
     window.navigator.geolocation.getCurrentPosition(async response => {
       const { longitude, latitude } = response.coords;
       const originData = await Axios.get(
@@ -157,9 +120,9 @@ class TripInfoForm extends React.Component {
       <div className="ui center container segment">
         <form id="tripInfo" onSubmit={this.onSubmit} className="ui form">
           <div className="ui centered column grid">
-            <div id="dates" className="centered four column row">
+            <div id="dates" className="centered two column row">
               <div className="column">
-                <label className="ui medium header">
+                <label className="ui header">
                   <div className="icon">
                     <i className="fas fa-plane-departure" />
                   </div>
@@ -176,7 +139,7 @@ class TripInfoForm extends React.Component {
                 />
               </div>
               <div className="column">
-                <label className="ui medium header">
+                <label className="ui header">
                   <div className="icon">
                     <i className="fas fa-plane-arrival" />
                   </div>
@@ -194,12 +157,13 @@ class TripInfoForm extends React.Component {
               </div>
             </div>
 
-            <div id="travelers" className="centered six column row">
+            <div id="travelers" className="centered three column row">
               <div className="column">
-                <label className="ui medium header">
+                <label className="ui header">
                   <div className="icon">
-                    <i className="fas fa-users" />{' '}
-                  </div>Adults:
+                    <i className="fas fa-users" />
+                  </div>
+                  Adults:
                 </label>
                 <input
                   id="adults"
@@ -212,7 +176,7 @@ class TripInfoForm extends React.Component {
                 />
               </div>
               <div className="column">
-                <label className="ui medium header">
+                <label className="ui header">
                   <div className="icon">
                     <i className="fas fa-child" />
                   </div>
@@ -229,7 +193,7 @@ class TripInfoForm extends React.Component {
                 />
               </div>
               <div className="column">
-                <label className="ui medium header">
+                <label className="ui header">
                   <div className="icon">
                     <i className="fas fa-baby" />
                   </div>
@@ -247,56 +211,64 @@ class TripInfoForm extends React.Component {
               </div>
             </div>
 
-            <div id="budget">
-                <div className="column">
-                  <label className="ui medium header">
+            <div className="centered two column row">
+              <div id="budget" className="column">
+                <div>
+                  <label className="ui header">
                     <div className="icon">
                       <i className="fas fa-money-check" />
-                    </div>Budget (USD)
+                    </div>
+                    Budget (USD)
                   </label>
                 </div>
-              <div className="column">
-                <input
-                  type="number"
-                  min="100"
-                  max="10000"
-                  id="budgetInput"
-                  value={this.state.budget}
-                  onChange={this.onBudgetChange}
-                  required="required"
-                />
-                <input
-                  type="range"
-                  min="100"
-                  max="10000"
-                  step="50"
-                  className="slider"
-                  id="budgetSlider"
-                  value={this.state.budget}
-                  onChange={this.onBudgetChange}
-                  required="required"
-                />
+              </div>
+              <div className="centered three column row">
+                <div className="column">
+                  <input
+                    type="number"
+                    min="100"
+                    max="10000"
+                    id="budgetInput"
+                    value={this.state.budget}
+                    onChange={this.onBudgetChange}
+                    required="required"
+                  />
+                </div>
+                <div className="column center aligned">
+                  <input
+                    type="range"
+                    min="100"
+                    max="10000"
+                    step="50"
+                    className="slider column"
+                    id="budgetSlider"
+                    value={this.state.budget}
+                    onChange={this.onBudgetChange}
+                    required="required"
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="centered three column row">
-              {this.state.clicked === false ? (
-                <button
-                  className="ui primary large fluid button column"
-                  onKeyPress={this.handleKeyPress}
-                  type="submit"
-                >
-                  Submit
-                </button>
-              ) : (
-                <button
-                  className="ui loading primary button segment"
-                  type="submit"
-                  disabled
-                >
-                  Loading
-                </button>
-              )}
+            <div className="centered two column row">
+              <div className="column">
+                {this.state.clicked === false ? (
+                  <button
+                    className="ui primary centered button fluid segment"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                ) : (
+                  <button
+                    className="ui primary centered button fluid segment"
+                    type="submit"
+                    disabled
+                  >
+                    Loading
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </form>

@@ -62,8 +62,6 @@ class FilesUploader extends Component {
                 </div>
               ) : (
                 <div className="ui center aligned big image">
-                  <div className="filesClass" {...getRootProps()}>
-                    <input {...getInputProps()} />
                     {files.map(file => {
                       return (
                         <div key={file.name}>
@@ -72,7 +70,6 @@ class FilesUploader extends Component {
                       );
                     })}
                   </div>
-                </div>
               )}
             </section>
           )}

@@ -84,26 +84,3 @@ input[type='date']::-webkit-inner-spin-button {
   display: none;
   -webkit-appearance: none;
 }
-/* 
-#dates,
-#travelers {
-  display: flex;
-  justify-content: space-around;
-}
-#budget {
-  display: flex;
-  flex-direction: column;
-}
-#budget > div {
-  align-self: center;
-}
-
-#tripInfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-#tripInfo > div {
-  display: flex;
-  justify-content: center;
-} */
