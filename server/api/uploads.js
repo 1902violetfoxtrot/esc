@@ -66,6 +66,7 @@ router.post('/', async (req, res, next) => {
       const locationCodes = (await Promise.all(locationPromises)).map(
         loc => loc.dataValues.code
       );
+      
 
       res.json(locationCodes);
     });

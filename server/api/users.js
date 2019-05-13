@@ -40,9 +40,8 @@ router.get('/instagram', async (req, res, next) => {
     const instagramImages = await instagramAPI.getImages();
     const images = [...instagramImages];
 
-    await googleCV.setLabels(instagramImages);
+    await googleCV.setLabels(images);
     const locations = await googleCV.getMostFrequentCities(labels, Label);
-
     const locationPromises = locations.map(
       async locName =>
         await Location.findOne({
@@ -53,8 +52,22 @@ router.get('/instagram', async (req, res, next) => {
     const locationCodes = (await Promise.all(locationPromises)).map(
       loc => loc.dataValues.code
     );
+    const coordinatePromises = locations.map(
+      async locName =>
+        await Location.findOne({
+          where: { name: locName },
+          attributes: ['longitude', 'latitude']
+        })
+    );
 
-    res.json({ images, locationCodes }).status(200);
+    const coordinates = (await Promise.all(coordinatePromises)).map(coord => {
+      let coordinatesLoc = [];
+      coordinatesLoc.push(coord.dataValues.longitude);
+      coordinatesLoc.push(coord.dataValues.latitude);
+      return coordinatesLoc;
+    });
+
+    res.json({ instagramImages, locationCodes, coordinates }).status(200);
   } catch (err) {
     next(err);
   }

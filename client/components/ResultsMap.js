@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
+import { instagramThunk } from '../store/instagramImages';
 import { geoAzimuthalEquidistant, geoInterpolate } from 'd3-geo';
 import {
   ComposableMap,
@@ -41,7 +42,7 @@ class ResultsMap extends Component {
     const theta = Math.atan2(y1 - y0, x1 - x0) - Math.PI / 2;
 
     // distance of control point from mid-point of line:
-    const offset = -30;
+    const offset = 30;
 
     // location of control point:
     const c1x = mpx + offset * Math.cos(theta);
@@ -71,20 +72,21 @@ class ResultsMap extends Component {
 
   async componentDidMount() {
     await this.props.getMap();
+    this.props.getImages();
     this.getYourLocation();
   }
   render() {
     const { mapData } = this.props;
     const { yourLocation } = this.state;
+    const { coords } = this.props;
 
-    if (!mapData.objects) {
+    if (!mapData.objects || !coords) {
       return (
         <div>
           <h3>Loading...</h3>
         </div>
       );
     } else {
-      console.log(this.state.yourLocation);
       return (
         <div>
           <ComposableMap projection={this.projection}>
@@ -96,39 +98,34 @@ class ResultsMap extends Component {
                       key={i}
                       geography={geography}
                       projection={projection}
-                      fill={`rgba(128,128,0,0.5)`}
+                      fill={`rgba(11,128,0,0.4)`}
                     />
                   ))
                 }
               </Geographies>
               <Lines>
-                <Line
-                  line={{
-                    coordinates: {
-                      start: londonLonLat,
-                      end: yourLocation
-                    }
-                  }}
-                  style={{
-                    default: {
-                      stroke: 'blue',
-                      fill: 'transparent'
-                    }
-                  }}
-                  buildPath={this.buildCurves}
-                />
+                {coords.map((coord, i) => (
+                  <Line
+                    key={i}
+                    line={{
+                      coordinates: {
+                        start: coord,
+                        end: yourLocation
+                      }
+                    }}
+                    style={{
+                      default: {
+                        stroke: 'blue',
+                        fill: 'transparent'
+                      }
+                    }}
+                    buildPath={this.buildCurves}
+                  />
+                ))}
               </Lines>
               <Markers>
                 <Marker
-                  marker={{ coordinates: londonLonLat }}
-                  style={{
-                    default: { fill: 'blue' }
-                  }}
-                >
-                  <circle cx={0} cy={0} r={2} />
-                </Marker>
-                <Marker
-                  marker={{ coordinates: newYorkLonLat }}
+                  marker={{ coordinates: yourLocation }}
                   style={{
                     default: { fill: 'blue' }
                   }}
@@ -145,12 +142,16 @@ class ResultsMap extends Component {
 }
 
 const mapState = state => ({
-  mapData: state.awsFile
+  mapData: state.awsFile,
+  coords: state.instagramImages.coordinates
 });
 
 const mapDispatch = dispatch => ({
   getMap: () => {
     dispatch(awsMapThunk());
+  },
+  getImages: () => {
+    dispatch(instagramThunk());
   }
 });
 

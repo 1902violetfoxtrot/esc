@@ -10,9 +10,9 @@ class Instagram extends Component {
     this.props.getImages();
   }
   render() {
-    const { images } = this.props.data;
+    const { instagramImages } = this.props.data;
 
-    if (!images) {
+    if (!instagramImages) {
       return (
         <div>
           <h3>Loading...</h3>
@@ -21,7 +21,7 @@ class Instagram extends Component {
     } else {
       return (
         <div>
-          {images.map(image => {
+          {instagramImages.map(image => {
             return (
               <ul key={image}>
                 <img src={image} height="200" width="200" />
