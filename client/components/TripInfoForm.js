@@ -104,14 +104,9 @@ class TripInfoForm extends React.Component {
         `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
       );
 
-      // repeat this for each of the 5 destinations received
-
-      // TEMPORARY, until we hook up the image recognition with the search
-      //const { destinations } = this.props;
-      const destinations = ['SEL', 'MAD', 'LCA', 'ADL', 'MSY'];
-
+      const { destinations } = this.props;
       const origin = originData.data.data[0].iataCode;
-      this.props.getFlightsThunk(origin, destinations, departure, returnDate);
+      this.props.getFlightsThunk(origin, destinations, departure, returnDate, budget);
     });
   }
 
@@ -282,8 +277,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getFlightsThunk: (origin, destination, departureDate, isReturn) =>
-    dispatch(getFlightsThunk(origin, destination, departureDate, isReturn))
+  getFlightsThunk: (...params) =>
+    dispatch(getFlightsThunk(...params))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripInfoForm);

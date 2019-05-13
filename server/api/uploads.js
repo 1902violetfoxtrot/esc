@@ -46,7 +46,7 @@ router.post('/', async (req, res, next) => {
 
     let labels;
 
-    await redisClient.get('idAndLabels', async function(reply) {
+    redisClient.get('idAndLabels', async function(reply) {
       if (reply) {
         labels = JSON.parse(reply);
       } else {

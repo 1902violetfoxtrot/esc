@@ -7,14 +7,19 @@ const amadeusClient = new Amadeus({
 });
 
 class FlightsAPI {
-  async getFlights(origin, destination, departureDate) {
-    const response = await amadeusClient.shopping.flightOffers.get({
-      origin: `${origin}`,
-      destination: `${destination}`,
-      departureDate: `${departureDate}`
-    });
-    const { data } = response;
-    return data;
+  async getFlights(origin, destination, departureDate, budget) {
+    try {
+      const response = await amadeusClient.shopping.flightOffers.get({
+        origin: `${origin}`,
+        destination: `${destination}`,
+        departureDate: `${departureDate}`
+      });
+      const { data } = response;
+      return data.filter( flight => flight.offerItems[0].price.total < budget / 2 );
+    }
+    catch (err) {
+      return 'no flights found!';
+    }
   };
 
   getIATA(flightReply) {
