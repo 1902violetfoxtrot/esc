@@ -19,7 +19,7 @@ redisClient.on('error', function(err) {
 
 router.get('/', async (req, res, next) => {
   try {
-    const { origin, destination, departureDate, direction, budget } = req.query;
+    const { origin, destination, departureDate, direction } = req.query;
     const key = `${origin}-${destination} ${departureDate}`;
     let flightReply = await redisClient.getAsync(key);
     if (flightReply !== null) {
@@ -28,8 +28,7 @@ router.get('/', async (req, res, next) => {
       flightReply = await flightsAPI.getFlights(
         origin,
         destination,
-        departureDate,
-        budget
+        departureDate
       );
       await redisClient.setAsync(key, JSON.stringify(flightReply));
     }

@@ -7,7 +7,7 @@ const amadeusClient = new Amadeus({
 });
 
 class FlightsAPI {
-  async getFlights(origin, destination, departureDate, budget) {
+  async getFlights(origin, destination, departureDate) {
     try {
       const response = await amadeusClient.shopping.flightOffers.get({
         origin: `${origin}`,
@@ -15,7 +15,7 @@ class FlightsAPI {
         departureDate: `${departureDate}`
       });
       const { data } = response;
-      return data.filter( flight => flight.offerItems[0].price.total < budget / 2 );
+      return data;
     }
     catch (err) {
       return 'no flights found!';
@@ -39,7 +39,7 @@ class FlightsAPI {
 
     let ourBestFlights = [];
 
-    for (let i = 0; ourBestFlights.length < 3 && i < flights.length; i++) {
+    for (let i = 0; ourBestFlights.length < 20 && i < flights.length; i++) {
       if (flights[i].carrier) ourBestFlights.push(flights[i]);
     }
 

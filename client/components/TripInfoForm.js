@@ -52,6 +52,12 @@ class TripInfoForm extends React.Component {
     window.navigator.geolocation.getCurrentPosition(() => {});
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.flightsGot && !prevProps.flightsGot) {
+      console.log('time to redirect to the results page!');
+    }
+  }
+
   async onDateChange(e) {
     const { target } = e;
     await this.setState({
@@ -90,14 +96,7 @@ class TripInfoForm extends React.Component {
   onSubmit(e) {
     this.setState({ clicked: true });
     e.preventDefault();
-    const {
-      budget,
-      departure,
-      returnDate,
-      adults,
-      children,
-      infants
-    } = this.state;
+    const { departure, returnDate, adults, children, infants } = this.state;
     window.navigator.geolocation.getCurrentPosition(async response => {
       const { longitude, latitude } = response.coords;
       const originData = await Axios.get(
@@ -106,7 +105,7 @@ class TripInfoForm extends React.Component {
 
       const { destinations } = this.props;
       const origin = originData.data.data[0].iataCode;
-      this.props.getFlightsThunk(origin, destinations, departure, returnDate, budget);
+      this.props.getFlightsThunk(origin, destinations, departure, returnDate);
     });
   }
 
@@ -198,7 +197,7 @@ class TripInfoForm extends React.Component {
                   id="infants"
                   type="number"
                   min="0"
-                  max="5"
+                  max={Math.min(2 * this.state.adults, 5)}
                   value={this.state.infants}
                   onChange={this.onTravelersChange}
                   required="required"
@@ -247,7 +246,7 @@ class TripInfoForm extends React.Component {
 
             <div className="centered two column row">
               <div className="column">
-                {this.state.clicked === false ? (
+                {(!this.state.clicked && this.props.destinations.length) ? (
                   <button
                     className="ui primary centered button fluid segment"
                     type="submit"
@@ -260,7 +259,7 @@ class TripInfoForm extends React.Component {
                     type="submit"
                     disabled
                   >
-                    Loading
+                    Submit
                   </button>
                 )}
               </div>
@@ -273,12 +272,12 @@ class TripInfoForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  destinations: state.location.destinationCodes
+  destinations: state.location.destinationCodes,
+  flightsGot: Object.keys(state.location.departing).length
 });
 
 const mapDispatchToProps = dispatch => ({
-  getFlightsThunk: (...params) =>
-    dispatch(getFlightsThunk(...params))
+  getFlightsThunk: (...params) => dispatch(getFlightsThunk(...params))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripInfoForm);
