@@ -39,7 +39,8 @@ class TripInfoForm extends React.Component {
       returnDate: '',
       adults: 1,
       children: 0,
-      infants: 0
+      infants: 0,
+      clicked: false
     };
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
@@ -87,6 +88,7 @@ class TripInfoForm extends React.Component {
   }
 
   onSubmit(e) {
+    this.setState({ clicked: true });
     e.preventDefault();
     const {
       budget,
@@ -115,115 +117,162 @@ class TripInfoForm extends React.Component {
 
   render() {
     return (
-      <form id="tripInfo" onSubmit={this.onSubmit}>
-        <div id="dates">
-          <div>
-            <label>
-              <i className="fas fa-plane-departure" /> Departure Date
-            </label>
-            <input
-              id="departure"
-              type="date"
-              min={this.today}
-              max={this.departLimit}
-              value={this.state.departure}
-              onChange={this.onDateChange}
-              required="required"
-            />
-          </div>
-          <div>
-            <label>
-              <i className="fas fa-plane-arrival" /> Return Date
-            </label>
-            <input
-              id="returnDate"
-              type="date"
-              min={this.state.dayAfterDeparture}
-              max={this.returnLimit}
-              value={this.state.returnDate}
-              onChange={this.onDateChange}
-              required="required"
-            />
-          </div>
-        </div>
+      <div className="ui center container segment">
+        <form id="tripInfo" onSubmit={this.onSubmit} className="ui form">
+          <div className="ui centered column grid">
+            <div id="dates" className="centered two column row">
+              <div className="column">
+                <label className="ui header">
+                  <div className="icon">
+                    <i className="fas fa-plane-departure" />
+                  </div>
+                  Departure Date
+                </label>
+                <input
+                  id="departure"
+                  type="date"
+                  min={this.today}
+                  max={this.departLimit}
+                  value={this.state.departure}
+                  onChange={this.onDateChange}
+                  required="required"
+                />
+              </div>
+              <div className="column">
+                <label className="ui header">
+                  <div className="icon">
+                    <i className="fas fa-plane-arrival" />
+                  </div>
+                  Return Date
+                </label>
+                <input
+                  id="returnDate"
+                  type="date"
+                  min={this.state.dayAfterDeparture}
+                  max={this.returnLimit}
+                  value={this.state.returnDate}
+                  onChange={this.onDateChange}
+                  required="required"
+                />
+              </div>
+            </div>
 
-        <div id="travelers">
-          <div>
-            <label>
-              <i className="fas fa-users" /> Adults:
-            </label>
-            <input
-              id="adults"
-              type="number"
-              min="1" // children and infants should not be traveling unsupervised
-              max="10"
-              value={this.state.adults}
-              onChange={this.onTravelersChange}
-              required="required"
-            />
-          </div>
-          <div>
-            <label>
-              <i className="fas fa-child" /> Children:
-            </label>
-            <input
-              id="children"
-              type="number"
-              min="0"
-              max="10"
-              value={this.state.children}
-              onChange={this.onTravelersChange}
-              required="required"
-            />
-          </div>
-          <div>
-            <label>
-              <i className="fas fa-baby" /> Infants:
-            </label>
-            <input
-              id="infants"
-              type="number"
-              min="0"
-              max="5"
-              value={this.state.infants}
-              onChange={this.onTravelersChange}
-              required="required"
-            />
-          </div>
-        </div>
+            <div id="travelers" className="centered three column row">
+              <div className="column">
+                <label className="ui header">
+                  <div className="icon">
+                    <i className="fas fa-users" />
+                  </div>
+                  Adults:
+                </label>
+                <input
+                  id="adults"
+                  type="number"
+                  min="1" // children and infants should not be traveling unsupervised
+                  max="10"
+                  value={this.state.adults}
+                  onChange={this.onTravelersChange}
+                  required="required"
+                />
+              </div>
+              <div className="column">
+                <label className="ui header">
+                  <div className="icon">
+                    <i className="fas fa-child" />
+                  </div>
+                  Children:
+                </label>
+                <input
+                  id="children"
+                  type="number"
+                  min="0"
+                  max="10"
+                  value={this.state.children}
+                  onChange={this.onTravelersChange}
+                  required="required"
+                />
+              </div>
+              <div className="column">
+                <label className="ui header">
+                  <div className="icon">
+                    <i className="fas fa-baby" />
+                  </div>
+                  Infants:
+                </label>
+                <input
+                  id="infants"
+                  type="number"
+                  min="0"
+                  max="5"
+                  value={this.state.infants}
+                  onChange={this.onTravelersChange}
+                  required="required"
+                />
+              </div>
+            </div>
 
-        <div id="budget">
-          <div>
-            <label>
-              <i className="fas fa-money-check" /> Budget (USD)
-            </label>
-            <input
-              type="number"
-              min="100"
-              max="10000"
-              id="budgetInput"
-              value={this.state.budget}
-              onChange={this.onBudgetChange}
-              required="required"
-            />
-          </div>
-          <input
-            type="range"
-            min="100"
-            max="10000"
-            step="50"
-            className="slider"
-            id="budgetSlider"
-            value={this.state.budget}
-            onChange={this.onBudgetChange}
-            required="required"
-          />
-        </div>
+            <div className="centered two column row">
+              <div id="budget" className="column">
+                <div>
+                  <label className="ui header">
+                    <div className="icon">
+                      <i className="fas fa-money-check" />
+                    </div>
+                    Budget (USD)
+                  </label>
+                </div>
+              </div>
+              <div className="centered three column row">
+                <div className="column">
+                  <input
+                    type="number"
+                    min="100"
+                    max="10000"
+                    id="budgetInput"
+                    value={this.state.budget}
+                    onChange={this.onBudgetChange}
+                    required="required"
+                  />
+                </div>
+                <div className="column center aligned">
+                  <input
+                    type="range"
+                    min="100"
+                    max="10000"
+                    step="50"
+                    className="slider column"
+                    id="budgetSlider"
+                    value={this.state.budget}
+                    onChange={this.onBudgetChange}
+                    required="required"
+                  />
+                </div>
+              </div>
+            </div>
 
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+            <div className="centered two column row">
+              <div className="column">
+                {this.state.clicked === false ? (
+                  <button
+                    className="ui primary centered button fluid segment"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                ) : (
+                  <button
+                    className="ui primary centered button fluid segment"
+                    type="submit"
+                    disabled
+                  >
+                    Loading
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     );
   }
 }
