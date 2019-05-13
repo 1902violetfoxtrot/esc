@@ -36,11 +36,10 @@ const getSingleFlightUnqueued = async (
   to,
   date,
   direction,
-  budget,
   arr
 ) => {
   const { data } = await axios.get(
-    `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}&budget=${budget}`
+    `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}`
   );
   if (data !== 'no') arr.push(data);
 };
@@ -55,7 +54,6 @@ export const getFlightsThunk = (
   destinations,
   departureDate,
   returnDate,
-  budget
 ) => async dispatch => {
   let toFlights = [];
   let fromFlights = [];
@@ -65,7 +63,6 @@ export const getFlightsThunk = (
       destination,
       departureDate,
       'to',
-      budget,
       toFlights
     );
     getSingleFlight(
@@ -73,7 +70,6 @@ export const getFlightsThunk = (
       origin,
       returnDate,
       'from',
-      budget,
       fromFlights
     );
   });
