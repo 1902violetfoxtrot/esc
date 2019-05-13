@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getFlightsThunk } from '../store';
 import Axios from 'axios';
+import history from '../history';
 
 const DAY = 24 * 60 * 60 * 1000;
 function getReadableDate(date) {
@@ -54,7 +55,7 @@ class TripInfoForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.flightsGot && !prevProps.flightsGot) {
-      console.log('time to redirect to the results page!');
+      history.push('/resultsMap');
     }
   }
 
@@ -246,7 +247,7 @@ class TripInfoForm extends React.Component {
 
             <div className="centered two column row">
               <div className="column">
-                {(!this.state.clicked && this.props.destinations.length) ? (
+                {!this.state.clicked && this.props.destinations.length ? (
                   <button
                     className="ui primary centered button fluid segment"
                     type="submit"
@@ -272,7 +273,7 @@ class TripInfoForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  destinations: state.location.destinationCodes,
+  destinations: Object.keys(state.destinations.destinationInfo),
   flightsGot: Object.keys(state.location.departing).length
 });
 

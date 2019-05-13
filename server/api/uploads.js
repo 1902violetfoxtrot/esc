@@ -54,21 +54,17 @@ router.post('/', async (req, res, next) => {
         redisClient.set('idAndLabels', JSON.stringify(labels));
       }
       await googleCV.setLabels(arrOfFilePaths);
-      const locations = await googleCV.getMostFrequentCities(labels, Label);
+      const locationName = await googleCV.getMostFrequentCities(labels, Label);
 
-      const locationPromises = locations.map(
-        async locName =>
-          await Location.findOne({
-            where: { name: locName },
-            attributes: ['code']
+      const locations = await Promise.all(
+        locationName.map(locName =>
+          Location.findOne({
+            where: { name: locName }
           })
+        )
       );
-      const locationCodes = (await Promise.all(locationPromises)).map(
-        loc => loc.dataValues.code
-      );
-      
 
-      res.json(locationCodes);
+      res.json(locations);
     });
   } catch (error) {
     next(error);
