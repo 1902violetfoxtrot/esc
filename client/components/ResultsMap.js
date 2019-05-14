@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
-import { geoAzimuthalEquidistant } from 'd3-geo';
+import { geoNaturalEarth1, geoAzimuthalEquidistant } from 'd3-geo';
 import {
   ComposableMap,
   ZoomableGroup,
@@ -12,7 +12,13 @@ import {
   Marker,
   Markers
 } from 'react-simple-maps';
-import FlightInfo from './FlightInfo';
+
+const landStyle = {
+  fill: `#7FC6A4`,
+  stroke: '#7FC6A4',
+  strokeWidth: 0.75,
+  outline: 'none'
+};
 
 class ResultsMap extends Component {
   constructor(props) {
@@ -26,9 +32,9 @@ class ResultsMap extends Component {
     };
   }
   projection() {
-    return geoAzimuthalEquidistant()
-      .scale(100)
-      .translate([700 / 2, 450 / 2]);
+    return geoNaturalEarth1() //geoAzimuthalEquidistant()
+      .scale(200)
+      .translate([630, 300]);
   }
   buildCurves(start, end) {
     const x0 = start[0];
@@ -74,6 +80,7 @@ class ResultsMap extends Component {
     await this.props.getMap();
     this.getYourLocation();
   }
+
   render() {
     const { mapData } = this.props;
     const { yourLocation } = this.state;
@@ -81,69 +88,76 @@ class ResultsMap extends Component {
 
     if (!mapData.objects || !coords) {
       return (
-        <div>
-          <h3>Loading...</h3>
+        <div className="ui segment">
+          <div className="ui active transition visible inverted dimmer">
+            <div className="content">
+              <div className="ui large text loader">Loading</div>
+            </div>
+          </div>
         </div>
       );
     } else {
       return (
-        <div>
-          <div className="map">
-            <ComposableMap projection={this.projection}>
-              <ZoomableGroup>
-                <Geographies geography={mapData}>
-                  {(geographies, projection) =>
-                    geographies.map((geography, i) => (
-                      <Geography
-                        key={i}
-                        geography={geography}
-                        projection={projection}
-                        style={{
-                          default: {
-                            fill: `#7FC6A4`,
-                            stroke: '#7FC6A4',
-                            strokeWidth: 0.75,
-                            outline: 'none'
-                          }
-                        }}
-                      />
-                    ))
-                  }
-                </Geographies>
-                <Lines>
-                  {coords.map((coord, i) => (
-                    <Line
+        <div className="map">
+          <ComposableMap projection={this.projection} height={600} width={1300}>
+            <ZoomableGroup>
+              <Geographies geography={mapData}>
+                {(geographies, projection) =>
+                  geographies.map((geography, i) => (
+                    <Geography
                       key={i}
-                      line={{
-                        coordinates: {
-                          start: coord,
-                          end: yourLocation
-                        }
-                      }}
+                      geography={geography}
+                      projection={projection}
                       style={{
-                        default: {
-                          stroke: 'yellow',
-                          fill: 'transparent'
-                        }
+                        default: landStyle,
+                        hover: landStyle,
+                        pressed: landStyle
                       }}
-                      buildPath={this.buildCurves}
                     />
-                  ))}
-                </Lines>
-                <Markers>
-                  <Marker
-                    marker={{ coordinates: yourLocation }}
-                    style={{
-                      default: { fill: 'yellow' }
+                  ))
+                }
+              </Geographies>
+              <Lines>
+                {coords.map((coord, i) => (
+                  <Line
+                    key={i}
+                    line={{
+                      coordinates: {
+                        start: coord,
+                        end: yourLocation
+                      }
                     }}
-                  >
-                    <circle cx={0} cy={0} r={2} />
-                  </Marker>
-                </Markers>
-              </ZoomableGroup>
-            </ComposableMap>
-          </div>
-          <FlightInfo />
+                    style={{
+                      default: {
+                        stroke: 'yellow',
+                        fill: 'transparent'
+                      },
+                      hover: {
+                        stroke: 'red',
+                        fill: 'transparent'
+                      },
+                      pressed: {
+                        fill: 'transparent'
+                      }
+                    }}
+                    buildPath={this.buildCurves}
+                  />
+                ))}
+              </Lines>
+              <Markers>
+                <Marker
+                  marker={{ coordinates: yourLocation }}
+                  style={{
+                    default: { fill: 'white' },
+                    hover: { fill: 'white' },
+                    pressed: { fill: 'white' }
+                  }}
+                >
+                  <circle cx={0} cy={0} r={2} />
+                </Marker>
+              </Markers>
+            </ZoomableGroup>
+          </ComposableMap>
         </div>
       );
     }
@@ -152,7 +166,7 @@ class ResultsMap extends Component {
 
 const mapState = state => ({
   mapData: state.awsFile,
-  coords: !!state.user.instagramId
+  /*   coords: !!state.user.instagramId
     ? Object.keys(state.instagram.locations).map(location => {
         const { longitude, latitude } = state.instagram.locations[location];
         return [longitude, latitude];
@@ -162,7 +176,7 @@ const mapState = state => ({
           destination
         ];
         return [longitude, latitude];
-      }),
+      }), */
   isInstagram: !!state.user.instagramId
 });
 
