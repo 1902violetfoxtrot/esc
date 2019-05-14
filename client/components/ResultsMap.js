@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
-import { geoAzimuthalEquidistant } from 'd3-geo';
+import { geoNaturalEarth1, geoAzimuthalEquidistant } from 'd3-geo';
 import {
   ComposableMap,
   ZoomableGroup,
@@ -32,9 +32,9 @@ class ResultsMap extends Component {
     };
   }
   projection() {
-    return geoAzimuthalEquidistant()
-      .scale(100)
-      .translate([700 / 2, 450 / 2]);
+    return geoNaturalEarth1() //geoAzimuthalEquidistant()
+      .scale(200)
+      .translate([630, 300]);
   }
   buildCurves(start, end) {
     const x0 = start[0];
@@ -96,7 +96,7 @@ class ResultsMap extends Component {
     } else {
       return (
         <div className="map">
-          <ComposableMap projection={this.projection}>
+          <ComposableMap projection={this.projection} height={600} width={1300}>
             <ZoomableGroup>
               <Geographies geography={mapData}>
                 {(geographies, projection) =>

@@ -104,8 +104,7 @@ class TripInfoForm extends React.Component {
         `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
       );
       let destinationChoices = [];
-      const { destinations } = this.props;
-      const { instagramLocs } = this.props;
+      const { destinations, instagramLocs } = this.props;
       if (this.props.instagramUser) {
         destinationChoices = instagramLocs;
       } else {
@@ -113,11 +112,15 @@ class TripInfoForm extends React.Component {
       }
 
       const origin = originData.data.data[0].iataCode;
+      const backupOrigin = originData.data.data[1].iataCode;
+      const backupOrigin2 = originData.data.data[2].iataCode;
       this.props.getFlightsThunk(
         origin,
         destinationChoices,
         departure,
-        returnDate
+        returnDate,
+        backupOrigin,
+        backupOrigin2
       );
     });
   }

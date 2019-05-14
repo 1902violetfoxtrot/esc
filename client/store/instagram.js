@@ -35,7 +35,6 @@ export const instagramLocsThunk = () => {
   return async dispatch => {
     try {
       const { data } = await axios.get('/api/users/instagramLocs');
-      console.log(data);
       dispatch(getIGLocations(data));
     } catch (error) {
       console.error(error);
