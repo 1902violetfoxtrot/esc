@@ -19,10 +19,6 @@ const FlightInfo = props => {
   let flightsArr = [];
   let flightsForLocations = {};
   let totalFlightsArr = [];
-  let departingFlights = {};
-  let departingArr = [];
-  let returningFlights = {};
-  let returningArr = [];
 
   for (let airportCode in destinationChoices) {
     if (destinationChoices.hasOwnProperty(airportCode)) {
