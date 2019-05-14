@@ -124,7 +124,7 @@ async function seed() {
       code: 'CIA'
     },
     {
-      name: 'jeffreys bay',
+      name: "jeffrey's bay",
       longitude: 24.9102,
       latitude: 34.0507,
       code: 'PLZ'

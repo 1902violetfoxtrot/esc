@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
     case GET_LOCATIONS:
       let newInfo = action.locations.reduce((info, location) => {
         const { longitude, latitude, name } = location;
-        info[location.code] = { longitude, latitude, name };
+        info[location.code] = { longitude, latitude, name: capitalizeCity(name) };
         return info;
       }, {});
       return { ...state, destinationInfo: newInfo };
@@ -42,3 +42,15 @@ export default function(state = initialState, action) {
       return state;
   }
 }
+
+const capitalizeCity = name => {
+  let capName = name[0].toUpperCase() + name.slice(1);
+  if (name.includes(' ')) {
+    const spaceIndex = name.indexOf(' ');
+    capName =
+      capName.slice(0, spaceIndex + 1) +
+      capName[spaceIndex + 1].toUpperCase() +
+      capName.slice(spaceIndex + 2);
+    }
+  return capName;
+};
