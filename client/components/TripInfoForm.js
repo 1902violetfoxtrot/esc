@@ -260,8 +260,10 @@ class TripInfoForm extends React.Component {
 
             <div className="centered two column row">
               <div className="column">
-                {(!this.state.clicked && this.props.destinations.length) ||
-                (!this.state.clicked && this.props.instagramLocs.length) ? (
+                {!this.state.clicked &&
+                  (this.props.destinations.length || this.props.instagramLocs.length) &&
+                  this.state.departure && this.state.returnDate && this.state.adults
+                  ? (
                   <button
                     className="ui primary centered button fluid segment"
                     type="submit"
