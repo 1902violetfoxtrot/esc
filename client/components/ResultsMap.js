@@ -80,6 +80,7 @@ class ResultsMap extends Component {
     await this.props.getMap();
     this.getYourLocation();
   }
+
   render() {
     const { mapData } = this.props;
     const { yourLocation } = this.state;
