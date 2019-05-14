@@ -40,8 +40,7 @@ class TripInfoForm extends React.Component {
       returnDate: '',
       adults: 1,
       children: 0,
-      infants: 0,
-      clicked: false
+      infants: 0
     };
     this.onBudgetChange = this.onBudgetChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
@@ -96,8 +95,8 @@ class TripInfoForm extends React.Component {
   }
 
   onSubmit(e) {
-    this.setState({ clicked: true });
     e.preventDefault();
+    this.props.handleClicked();
     const { departure, returnDate, adults, children, infants } = this.state;
     window.navigator.geolocation.getCurrentPosition(async response => {
       const { longitude, latitude } = response.coords;
@@ -292,6 +291,7 @@ const mapStateToProps = state => ({
   destinations: Object.keys(state.destinations.destinationInfo),
   flightsGot: Object.keys(state.location.departing).length,
   instagramLocs: Object.keys(state.instagram.locations),
+  instagramImages: state.instagram.images,
   instagramUser: state.instagram.instagramId
 });
 
