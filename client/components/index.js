@@ -8,5 +8,5 @@ export { default as UserHome } from './UserHome';
 export { default as FilesUploader } from './FilesUploader';
 export { default as Instagram } from './Instagram';
 export { default as TripInfoForm } from './TripInfoForm';
-export { default as ResultsMap } from './ResultsMap';
+export { default as ResultScreen } from './resultscreen';
 export { Login, Signup } from './AuthForm';

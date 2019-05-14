@@ -8,7 +8,7 @@ import {
   UserHome,
   FilesUploader,
   Instagram,
-  ResultsMap
+  ResultScreen
 } from './components';
 import { me } from './store';
 
@@ -28,7 +28,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/resultsMap" component={ResultsMap} />
+        <Route path="/results" component={ResultScreen} />
         {isInstagram ? (
             <Instagram />
         ) : (

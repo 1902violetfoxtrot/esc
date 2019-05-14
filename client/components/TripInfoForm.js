@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getFlightsThunk, clearFlights } from '../store';
 import Axios from 'axios';
 import history from '../history';
+import BudgetBar from './portableBudgetBar';
 
 const DAY = 24 * 60 * 60 * 1000;
 function getReadableDate(date) {
@@ -55,7 +56,7 @@ class TripInfoForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.flightsGot && !prevProps.flightsGot) {
-      history.push('/resultsMap');
+      history.push('/results');
     }
   }
 
@@ -221,44 +222,7 @@ class TripInfoForm extends React.Component {
               </div>
             </div>
 
-            <div className="centered two column row">
-              <div id="budget" className="column">
-                <div>
-                  <label className="ui header">
-                    <div className="icon">
-                      <i className="fas fa-money-check" />
-                    </div>
-                    Budget (USD)
-                  </label>
-                </div>
-              </div>
-              <div className="centered three column row">
-                <div className="column">
-                  <input
-                    type="number"
-                    min="100"
-                    max="10000"
-                    id="budgetInput"
-                    value={this.state.budget}
-                    onChange={this.onBudgetChange}
-                    required="required"
-                  />
-                </div>
-                <div className="column center aligned">
-                  <input
-                    type="range"
-                    min="100"
-                    max="10000"
-                    step="50"
-                    className="slider column"
-                    id="budgetSlider"
-                    value={this.state.budget}
-                    onChange={this.onBudgetChange}
-                    required="required"
-                  />
-                </div>
-              </div>
-            </div>
+            <BudgetBar budget={this.state.budget} onChange={this.onBudgetChange} />
 
             <div className="centered two column row">
               <div className="column">
