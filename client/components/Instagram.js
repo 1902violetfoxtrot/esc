@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { instagramThunk } from '../store/instagramImages';
+import { instagramThunk } from '../store/instagram';
 import Slider from 'react-slick';
 
 class Instagram extends Component {
@@ -16,28 +16,30 @@ class Instagram extends Component {
       fade: true
     };
     const { images } = this.props;
-
-    if (!images) {
-      return (
-        <div>
-          <h3>Loading...</h3>
-        </div>
-      );
-    } else {
-      return (
-        <div className="ui center aligned big image">
-          <Slider {...settings}>
-            {images.map(image => {
-              return (
-                <ul key={image}>
-                  <img src={image} />
-                </ul>
-              );
-            })}
-          </Slider>
-        </div>
-      );
-    }
+    return (
+      <div className="ui center aligned container">
+        <div className="ui huge header">Escape</div>
+        {images.length === 0 ? (
+          <div className="ui active centered inline loader">
+            <div className="content">
+              <div className="ui massive text loader">Loading</div>
+            </div>
+          </div>
+        ) : (
+          <div className="ui center aligned big image">
+            <Slider {...settings}>
+              {images.map(image => {
+                return (
+                  <ul key={image}>
+                    <img src={image} />
+                  </ul>
+                );
+              })}
+            </Slider>
+          </div>
+        )}
+      </div>
+    );
   }
 }
 
