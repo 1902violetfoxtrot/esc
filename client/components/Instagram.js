@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { instagramThunk } from '../store/instagramImages';
+import { instagramThunk } from '../store/instagram';
 import Slider from 'react-slick';
 
 class Instagram extends Component {
