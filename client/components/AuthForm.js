@@ -15,13 +15,13 @@ const AuthForm = props => {
       <h1>{displayName === 'Login' ? `${displayName} to your account`: `${displayName}`}</h1>
           <div className="field">
             <div className="ui left icon input">
-              <input type="text" placeholder="Email Address" name="email" />
+              <input type="text" placeholder="Email Address" name="email" required/>
               <i aria-hidden="true" className="user icon" />
             </div>
           </div>
           <div className="field">
             <div className="ui left icon input">
-              <input type="password" placeholder="Password" name="password"/>
+              <input type="password" placeholder="Password" name="password" required/>
               <i aria-hidden="true" className="lock icon" />
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { instagramThunk } from '../store/instagramImages';
+import { instagramThunk } from '../store/instagram';
 
 class Instagram extends Component {
   constructor(props) {
@@ -10,9 +10,9 @@ class Instagram extends Component {
     this.props.getImages();
   }
   render() {
-    const { instagramImages } = this.props.data;
+    const { images } = this.props;
 
-    if (!instagramImages) {
+    if (!images) {
       return (
         <div>
           <h3>Loading...</h3>
@@ -21,7 +21,7 @@ class Instagram extends Component {
     } else {
       return (
         <div>
-          {instagramImages.map(image => {
+          {images.map(image => {
             return (
               <ul key={image}>
                 <img src={image} height="200" width="200" />
@@ -35,7 +35,7 @@ class Instagram extends Component {
 }
 
 const mapState = state => ({
-  data: state.instagramImages
+  images: state.instagram.images
 });
 
 const mapDispatch = dispatch => ({

@@ -5,13 +5,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user';
 import location from './locations';
 import destinations from './destinations';
-import instagramImages from './instagramImages';
+import instagram from './instagram';
 import awsFile from './awsFile';
 
 const reducer = combineReducers({
   user,
   location,
-  instagramImages,
+  instagram,
   awsFile,
   destinations
 });

@@ -33,7 +33,7 @@ class Routes extends Component {
         {isInstagram ? (
           <Fragment>
             <Instagram />
-            <TripInfoForm />
+            {/* <TripInfoForm /> */}
           </Fragment>
         ) : (
           <Fragment>

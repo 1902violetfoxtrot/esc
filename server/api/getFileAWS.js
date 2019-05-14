@@ -21,7 +21,6 @@ router.get('/', async (req, res, next) => {
         console.error('An error occurred', err);
       } else {
         const mapJSON = JSON.parse(data.Body.toString());
-        //console.log(mapJSON);
         res.json(mapJSON).status(200);
       }
     });

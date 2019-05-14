@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
-import { instagramThunk } from '../store/instagramImages';
+import { instagramLocsThunk } from '../store/instagram';
 import { geoAzimuthalEquidistant } from 'd3-geo';
 import {
   ComposableMap,
@@ -72,15 +72,16 @@ class ResultsMap extends Component {
 
   async componentDidMount() {
     await this.props.getMap();
-    if (this.props.isInstagram) {
-      this.props.getImages();
-    }
     this.getYourLocation();
+    if (this.props.isInstagram) {
+      this.props.getInstagram();
+    }
   }
   render() {
     const { mapData } = this.props;
     const { yourLocation } = this.state;
     const { coords } = this.props;
+    console.log(this.props);
 
     if (!mapData.objects || !coords) {
       return (
@@ -89,6 +90,7 @@ class ResultsMap extends Component {
         </div>
       );
     } else {
+      console.log(coords);
       return (
         <div className="map">
           <ComposableMap projection={this.projection}>
@@ -153,7 +155,10 @@ class ResultsMap extends Component {
 const mapState = state => ({
   mapData: state.awsFile,
   coords:
-    state.instagramImages.coordinates ||
+    Object.keys(state.instagram.locations).map(location => {
+      const { longitude, latitude } = state.instagram.locations[location];
+      return [longitude, latitude];
+    }) ||
     Object.keys(state.destinations.destinationInfo).map(destination => {
       const { longitude, latitude } = state.destinations.destinationInfo[
         destination
@@ -167,8 +172,8 @@ const mapDispatch = dispatch => ({
   getMap: () => {
     dispatch(awsMapThunk());
   },
-  getImages: () => {
-    dispatch(instagramThunk());
+  getInstagram: () => {
+    dispatch(instagramLocsThunk());
   }
 });
 
