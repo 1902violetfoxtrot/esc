@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getFlightsThunk } from '../store';
+import { getFlightsThunk, clearFlights } from '../store';
 import Axios from 'axios';
 import history from '../history';
 
@@ -51,6 +51,7 @@ class TripInfoForm extends React.Component {
 
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(() => {});
+    this.props.clearFlights();
   }
 
   componentDidUpdate(prevProps) {
@@ -293,7 +294,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getFlightsThunk: (...params) => dispatch(getFlightsThunk(...params))
+  getFlightsThunk: (...params) => dispatch(getFlightsThunk(...params)),
+  clearFlights: () => dispatch(clearFlights())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripInfoForm);

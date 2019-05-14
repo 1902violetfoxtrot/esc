@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const GET_LOCATIONS = 'GET_LOCATIONS';
+const CLEAR_LOCATIONS = 'CLEAR_LOCATIONS';
 
 const initialState = {
   destinationInfo: {}
@@ -9,6 +10,10 @@ const initialState = {
 const getLocations = locations => ({
   type: GET_LOCATIONS,
   locations
+});
+
+export const clearLocations = () => ({
+  type: CLEAR_LOCATIONS
 });
 
 export const filesThunk = filesToSend => {
@@ -24,6 +29,8 @@ export const filesThunk = filesToSend => {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case CLEAR_LOCATIONS:
+      return initialState;
     case GET_LOCATIONS:
       let newInfo = action.locations.reduce((info, location) => {
         const { longitude, latitude, name } = location;
