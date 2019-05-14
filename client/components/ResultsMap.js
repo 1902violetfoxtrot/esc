@@ -91,9 +91,9 @@ class ResultsMap extends Component {
 
     if (!mapData.objects || !coords) {
       return (
-        <div class="ui segment">
-          <div class="ui active transition visible inverted dimmer">
-            <div class="content"><div class="ui large text loader">Loading</div></div>
+        <div className="ui segment">
+          <div className="ui active transition visible inverted dimmer">
+            <div className="content"><div className="ui large text loader">Loading</div></div>
           </div>
         </div>
       );
