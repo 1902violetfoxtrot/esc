@@ -15,9 +15,9 @@ class Instagram extends Component {
       arrows: false,
       fade: true
     };
-    const { instagramImages } = this.props.data;
+    const { images } = this.props;
 
-    if (!instagramImages) {
+    if (!images) {
       return (
         <div>
           <h3>Loading...</h3>
@@ -27,7 +27,7 @@ class Instagram extends Component {
       return (
         <div className="ui center aligned big image">
           <Slider {...settings}>
-            {instagramImages.map(image => {
+            {images.map(image => {
               return (
                 <ul key={image}>
                   <img src={image} />
@@ -42,7 +42,7 @@ class Instagram extends Component {
 }
 
 const mapState = state => ({
-  data: state.instagramImages
+  images: state.instagram.images
 });
 
 const mapDispatch = dispatch => ({

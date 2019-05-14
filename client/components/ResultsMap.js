@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
-import { instagramThunk } from '../store/instagramImages';
-import { geoAzimuthalEquidistant, geoInterpolate } from 'd3-geo';
+import { instagramLocsThunk } from '../store/instagram';
+import { geoAzimuthalEquidistant } from 'd3-geo';
 import {
   ComposableMap,
   ZoomableGroup,
@@ -28,7 +28,7 @@ class ResultsMap extends Component {
   projection() {
     return geoAzimuthalEquidistant()
       .scale(100)
-      .translate([800 / 2, 450 / 2]);
+      .translate([700 / 2, 450 / 2]);
   }
   buildCurves(start, end) {
     const x0 = start[0];
@@ -72,10 +72,10 @@ class ResultsMap extends Component {
 
   async componentDidMount() {
     await this.props.getMap();
-    if (this.props.isInstagram) {
-      this.props.getImages();
-    }
     this.getYourLocation();
+    if (this.props.isInstagram) {
+      this.props.getInstagram();
+    }
   }
   render() {
     const { mapData } = this.props;
@@ -89,8 +89,9 @@ class ResultsMap extends Component {
         </div>
       );
     } else {
+      console.log(coords);
       return (
-        <div>
+        <div className="map">
           <ComposableMap projection={this.projection}>
             <ZoomableGroup>
               <Geographies geography={mapData}>
@@ -100,7 +101,14 @@ class ResultsMap extends Component {
                       key={i}
                       geography={geography}
                       projection={projection}
-                      fill={`rgba(11,128,0,0.4)`}
+                      style={{
+                        default: {
+                          fill: `rgba(0,128,0,0.7)`,
+                          stroke: '#607D8B',
+                          strokeWidth: 0.75,
+                          outline: 'none'
+                        }
+                      }}
                     />
                   ))
                 }
@@ -117,7 +125,7 @@ class ResultsMap extends Component {
                     }}
                     style={{
                       default: {
-                        stroke: 'blue',
+                        stroke: 'yellow',
                         fill: 'transparent'
                       }
                     }}
@@ -129,7 +137,7 @@ class ResultsMap extends Component {
                 <Marker
                   marker={{ coordinates: yourLocation }}
                   style={{
-                    default: { fill: 'blue' }
+                    default: { fill: 'yellow' }
                   }}
                 >
                   <circle cx={0} cy={0} r={2} />
@@ -146,7 +154,10 @@ class ResultsMap extends Component {
 const mapState = state => ({
   mapData: state.awsFile,
   coords:
-    state.instagramImages.coordinates ||
+    Object.keys(state.instagram.locations).map(location => {
+      const { longitude, latitude } = state.instagram.locations[location];
+      return [longitude, latitude];
+    }) ||
     Object.keys(state.destinations.destinationInfo).map(destination => {
       const { longitude, latitude } = state.destinations.destinationInfo[
         destination
@@ -160,8 +171,8 @@ const mapDispatch = dispatch => ({
   getMap: () => {
     dispatch(awsMapThunk());
   },
-  getImages: () => {
-    dispatch(instagramThunk());
+  getInstagram: () => {
+    dispatch(instagramLocsThunk());
   }
 });
 

@@ -28,47 +28,34 @@ router.get('/', async (req, res, next) => {
 
 router.get('/instagram', async (req, res, next) => {
   try {
-    let labels;
-    redisClient.get('idAndLabels', async function(reply) {
-      if (reply) {
-        labels = JSON.parse(reply);
-      } else {
-        labels = await Label.findAll({ attributes: ['id', 'name'] });
-        redisClient.set('idAndLabels', JSON.stringify(labels));
-      }
-    });
     const instagramImages = await instagramAPI.getImages();
     const images = [...instagramImages];
-
     await googleCV.setLabels(images);
-    const locations = await googleCV.getMostFrequentCities(labels, Label);
-    const locationPromises = locations.map(
-      async locName =>
-        await Location.findOne({
-          where: { name: locName },
-          attributes: ['code']
-        })
-    );
-    const locationCodes = (await Promise.all(locationPromises)).map(
-      loc => loc.dataValues.code
-    );
-    const coordinatePromises = locations.map(
-      async locName =>
-        await Location.findOne({
-          where: { name: locName },
-          attributes: ['longitude', 'latitude']
-        })
-    );
-
-    const coordinates = (await Promise.all(coordinatePromises)).map(coord => {
-      let coordinatesLoc = [];
-      coordinatesLoc.push(coord.dataValues.longitude);
-      coordinatesLoc.push(coord.dataValues.latitude);
-      return coordinatesLoc;
-    });
-
-    res.json({ instagramImages, locationCodes, coordinates }).status(200);
+    res.json(instagramImages).status(200);
   } catch (err) {
     next(err);
   }
+});
+
+router.get('/instagramLocs', async (req, res, next) => {
+  let labels;
+
+  redisClient.get('idAndLabels', async function(reply) {
+    if (reply) {
+      labels = JSON.parse(reply);
+    } else {
+      labels = await Label.findAll({ attributes: ['id', 'name'] });
+      redisClient.set('idAndLabels', JSON.stringify(labels));
+    }
+    const locationName = await googleCV.getMostFrequentCities(labels, Label);
+    const locations = await Promise.all(
+      locationName.map(locName =>
+        Location.findOne({
+          where: { name: locName }
+        })
+      )
+    );
+
+    res.json(locations);
+  });
 });

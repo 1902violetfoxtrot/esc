@@ -103,10 +103,22 @@ class TripInfoForm extends React.Component {
       const originData = await Axios.get(
         `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
       );
-
+      let destinationChoices = [];
       const { destinations } = this.props;
+      const { instagramLocs } = this.props;
+      if (this.props.instagramUser) {
+        destinationChoices = instagramLocs;
+      } else {
+        destinationChoices = destinations;
+      }
+
       const origin = originData.data.data[0].iataCode;
-      this.props.getFlightsThunk(origin, destinations, departure, returnDate);
+      this.props.getFlightsThunk(
+        origin,
+        destinationChoices,
+        departure,
+        returnDate
+      );
     });
   }
 
@@ -247,7 +259,8 @@ class TripInfoForm extends React.Component {
 
             <div className="centered two column row">
               <div className="column">
-                {!this.state.clicked && this.props.destinations.length ? (
+                {(!this.state.clicked && this.props.destinations.length) ||
+                (!this.state.clicked && this.props.instagramLocs.length) ? (
                   <button
                     className="ui primary centered button fluid segment"
                     type="submit"
@@ -274,7 +287,9 @@ class TripInfoForm extends React.Component {
 
 const mapStateToProps = state => ({
   destinations: Object.keys(state.destinations.destinationInfo),
-  flightsGot: Object.keys(state.location.departing).length
+  flightsGot: Object.keys(state.location.departing).length,
+  instagramLocs: Object.keys(state.instagram.locations),
+  instagramUser: state.instagram.instagramId
 });
 
 const mapDispatchToProps = dispatch => ({
