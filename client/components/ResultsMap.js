@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
-import { instagramLocsThunk } from '../store/instagram';
 import { geoAzimuthalEquidistant } from 'd3-geo';
 import {
   ComposableMap,
@@ -73,9 +72,6 @@ class ResultsMap extends Component {
   async componentDidMount() {
     await this.props.getMap();
     this.getYourLocation();
-    if (this.props.isInstagram) {
-      this.props.getInstagram();
-    }
   }
   render() {
     const { mapData } = this.props;
@@ -169,9 +165,6 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   getMap: () => {
     dispatch(awsMapThunk());
-  },
-  getInstagram: () => {
-    dispatch(instagramLocsThunk());
   }
 });
 

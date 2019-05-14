@@ -290,7 +290,7 @@ const mapStateToProps = state => ({
   flightsGot: Object.keys(state.location.departing).length,
   instagramLocs: Object.keys(state.instagram.locations),
   instagramImages: state.instagram.images,
-  instagramUser: state.instagram.instagramId
+  instagramUser: state.user.instagramId
 });
 
 const mapDispatchToProps = dispatch => ({

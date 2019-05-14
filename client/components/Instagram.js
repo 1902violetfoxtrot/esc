@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { instagramThunk } from '../store/instagram';
+import { instagramThunk, instagramLocsThunk } from '../store/instagram';
 import Slider from 'react-slick';
 import TripInfoForm from './TripInfoForm';
 
@@ -11,6 +11,7 @@ class Instagram extends Component {
   }
   componentDidMount() {
     this.props.getImages();
+    this.props.getLocs();
   }
   handleClicked = () => {
     this.setState({ clicked: true });
@@ -47,8 +48,10 @@ class Instagram extends Component {
                 </div>
               )}
             </div>
-            <TripInfoForm clicked={this.state.clicked}
-              handleClicked={this.handleClicked}/>
+            <TripInfoForm
+              clicked={this.state.clicked}
+              handleClicked={this.handleClicked}
+            />
           </div>
         ) : (
           <div className="ui segment">
@@ -79,8 +82,10 @@ class Instagram extends Component {
                 </div>
               )}
             </div>
-            <TripInfoForm clicked={this.state.clicked}
-              handleClicked={this.handleClicked}/>
+            <TripInfoForm
+              clicked={this.state.clicked}
+              handleClicked={this.handleClicked}
+            />
           </div>
         )}
       </div>
@@ -95,6 +100,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   getImages: () => {
     dispatch(instagramThunk());
+  },
+  getLocs: () => {
+    dispatch(instagramLocsThunk());
   }
 });
 
