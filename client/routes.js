@@ -8,7 +8,13 @@ import {
   UserHome,
   FilesUploader,
   Instagram,
+<<<<<<< HEAD
   ResultsMap,
+||||||| merged common ancestors
+  ResultsMap
+=======
+  ResultScreen
+>>>>>>> master
 } from './components';
 import { me } from './store';
 
@@ -28,8 +34,12 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/resultsMap" component={ResultsMap} />
-        {isInstagram ? <Instagram /> : <FilesUploader />}
+        <Route path="/results" component={ResultScreen} />
+        {isInstagram ? (
+            <Instagram />
+        ) : (
+            <FilesUploader />
+        )}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

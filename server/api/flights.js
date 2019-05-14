@@ -17,26 +17,37 @@ redisClient.on('error', function(err) {
   console.log('Error ' + err);
 });
 
+const checkFlightInRedis = async (key, origin, destination, departureDate) => {
+  const flightReply = await redisClient.getAsync(key);
+  if (flightReply !== null) return JSON.parse(flightReply);
+  const toReturn = await flightsAPI.getFlights(
+    origin,
+    destination,
+    departureDate
+  );
+  await redisClient.setAsync(key, JSON.stringify(toReturn));
+  return toReturn;
+}
+
 router.get('/', async (req, res, next) => {
   try {
-    const { origin, destination, departureDate, direction } = req.query;
+    const { origin, destination, departureDate, direction, backup, backup2 } = req.query;
     const key = `${origin}-${destination} ${departureDate}`;
-    let flightReply = await redisClient.getAsync(key);
-    if (flightReply !== null) {
-      flightReply = JSON.parse(flightReply);
-    } else {
-      flightReply = await flightsAPI.getFlights(
-        origin,
-        destination,
-        departureDate
-      );
-      await redisClient.setAsync(key, JSON.stringify(flightReply));
-    }
+    let flightReply = await checkFlightInRedis(key, origin, destination, departureDate);
+    let cont = true;
 
     if (flightReply === 'no flights found!') {
-      res.json('no');
+      flightReply = await checkFlightInRedis(key + 'backup', backup, destination, departureDate);
+      if (flightReply === 'no flights found!') {
+        flightReply = await checkFlightInRedis(key + 'backup2', backup2, destination, departureDate);
+        if (flightReply === 'no flights found!') {
+          cont = false;
+          res.json('no');
+          res.end();
+        }
+      }
     }
-    else {
+    if (cont) {
       let ourBestFlights = flightsAPI.getIATA(flightReply);
       const vacationPlace = direction === 'from' ? origin : destination;
       res.json({ ourBestFlights, vacationPlace });

@@ -90,9 +90,7 @@ class ResultsMap extends Component {
       return (
         <div className="ui segment">
           <div className="ui active transition visible inverted dimmer">
-            <div className="content">
-              <div className="ui large text loader">Loading</div>
-            </div>
+            <div className="content"><div className="ui large text loader">Loading</div></div>
           </div>
         </div>
       );
@@ -166,7 +164,7 @@ class ResultsMap extends Component {
 
 const mapState = state => ({
   mapData: state.awsFile,
-  /*   coords: !!state.user.instagramId
+/*   coords: !!state.user.instagramId
     ? Object.keys(state.instagram.locations).map(location => {
         const { longitude, latitude } = state.instagram.locations[location];
         return [longitude, latitude];
