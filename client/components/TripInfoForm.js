@@ -56,7 +56,23 @@ class TripInfoForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.flightsGot && !prevProps.flightsGot) {
-      history.push('/results');
+      //history.push('/results');
+      console.log('destinations:', this.props.destinations);
+      const coordsSource = this.props.instagramUser
+        ? Object.keys(this.props.instagramLocs).map(location => {
+            const { longitude, latitude } = this.props.instagramLocs[location];
+            return [longitude, latitude];
+          })
+        : Object.keys(this.props.destinations).map(destination => {
+            const { longitude, latitude } = this.props.destinations[
+              destination
+            ];
+            return [longitude, latitude];
+          });
+      const coords = coordsSource.reduce( (prev, pair) => {
+        return prev + pair[0] + ',' + pair[1] + ','
+      }, '' );
+      history.push(`/results?coords=${coords}`);
     }
   }
 
@@ -107,9 +123,9 @@ class TripInfoForm extends React.Component {
       let destinationChoices = [];
       const { destinations, instagramLocs } = this.props;
       if (this.props.instagramUser) {
-        destinationChoices = instagramLocs;
+        destinationChoices = Object.keys(instagramLocs);
       } else {
-        destinationChoices = destinations;
+        destinationChoices = Object.keys(destinations);
       }
 
       const origin = originData.data.data[0].iataCode;
@@ -222,14 +238,19 @@ class TripInfoForm extends React.Component {
               </div>
             </div>
 
-            <BudgetBar budget={this.state.budget} onChange={this.onBudgetChange} />
+            <BudgetBar
+              budget={this.state.budget}
+              onChange={this.onBudgetChange}
+            />
 
             <div className="centered two column row">
               <div className="column">
                 {!this.state.clicked &&
-                  (this.props.destinations.length || this.props.instagramLocs.length) &&
-                  this.state.departure && this.state.returnDate && this.state.adults
-                  ? (
+                (Object.keys(this.props.destinations).length ||
+                Object.keys(this.props.instagramLocs).length) &&
+                this.state.departure &&
+                this.state.returnDate &&
+                this.state.adults ? (
                   <button
                     className="ui primary centered button fluid segment"
                     type="submit"
@@ -255,9 +276,9 @@ class TripInfoForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  destinations: Object.keys(state.destinations.destinationInfo),
+  destinations: state.destinations.destinationInfo,
   flightsGot: Object.keys(state.location.departing).length,
-  instagramLocs: Object.keys(state.instagram.locations),
+  instagramLocs: state.instagram.locations,
   instagramImages: state.instagram.images,
   instagramUser: state.user.instagramId
 });
