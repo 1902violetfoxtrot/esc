@@ -81,7 +81,6 @@ class ResultsMap extends Component {
     const { mapData } = this.props;
     const { yourLocation } = this.state;
     const { coords } = this.props;
-    console.log(this.props);
 
     if (!mapData.objects || !coords) {
       return (

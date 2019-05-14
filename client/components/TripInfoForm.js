@@ -247,7 +247,9 @@ class TripInfoForm extends React.Component {
 
             <div className="centered two column row">
               <div className="column">
-                {!this.state.clicked && this.props.destinations.length ? (
+                {!this.state.clicked &&
+                (this.props.destinations.length ||
+                  this.props.instagramLocs.length) ? (
                   <button
                     className="ui primary centered button fluid segment"
                     type="submit"
@@ -274,7 +276,8 @@ class TripInfoForm extends React.Component {
 
 const mapStateToProps = state => ({
   destinations: Object.keys(state.destinations.destinationInfo),
-  flightsGot: Object.keys(state.location.departing).length
+  flightsGot: Object.keys(state.location.departing).length,
+  instagramLocs: Object.keys(state.instagram.locations)
 });
 
 const mapDispatchToProps = dispatch => ({
