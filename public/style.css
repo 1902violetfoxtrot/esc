@@ -6,10 +6,6 @@ a {
   text-decoration: none;
 }
 
-/* label {
-  display: block;
-} */
-
 .dropborder {
   border: solid 3px silver;
   border-radius: 5px;
