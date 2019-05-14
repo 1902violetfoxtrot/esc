@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { awsMapThunk } from '../store/awsFile';
-import { geoAzimuthalEquidistant } from 'd3-geo';
+import { geoNaturalEarth1, geoAzimuthalEquidistant } from 'd3-geo';
 import {
   ComposableMap,
   ZoomableGroup,
@@ -12,6 +12,13 @@ import {
   Marker,
   Markers
 } from 'react-simple-maps';
+
+const landStyle = {
+  fill: `#7FC6A4`,
+  stroke: '#7FC6A4',
+  strokeWidth: 0.75,
+  outline: 'none'
+};
 
 class ResultsMap extends Component {
   constructor(props) {
@@ -25,9 +32,9 @@ class ResultsMap extends Component {
     };
   }
   projection() {
-    return geoAzimuthalEquidistant()
-      .scale(100)
-      .translate([700 / 2, 450 / 2]);
+    return geoNaturalEarth1() //geoAzimuthalEquidistant()
+      .scale(200)
+      .translate([630, 300]);
   }
   buildCurves(start, end) {
     const x0 = start[0];
@@ -80,14 +87,16 @@ class ResultsMap extends Component {
 
     if (!mapData.objects || !coords) {
       return (
-        <div>
-          <h3>Loading...</h3>
+        <div className="ui segment">
+          <div className="ui active transition visible inverted dimmer">
+            <div className="content"><div className="ui large text loader">Loading</div></div>
+          </div>
         </div>
       );
     } else {
       return (
         <div className="map">
-          <ComposableMap projection={this.projection}>
+          <ComposableMap projection={this.projection} height={600} width={1300}>
             <ZoomableGroup>
               <Geographies geography={mapData}>
                 {(geographies, projection) =>
@@ -97,12 +106,9 @@ class ResultsMap extends Component {
                       geography={geography}
                       projection={projection}
                       style={{
-                        default: {
-                          fill: `#7FC6A4`,
-                          stroke: '#7FC6A4',
-                          strokeWidth: 0.75,
-                          outline: 'none'
-                        }
+                        default: landStyle,
+                        hover: landStyle,
+                        pressed: landStyle
                       }}
                     />
                   ))
@@ -122,6 +128,13 @@ class ResultsMap extends Component {
                       default: {
                         stroke: 'yellow',
                         fill: 'transparent'
+                      },
+                      hover: {
+                        stroke: 'red',
+                        fill: 'transparent'
+                      },
+                      pressed: {
+                        fill: 'transparent'
                       }
                     }}
                     buildPath={this.buildCurves}
@@ -132,7 +145,9 @@ class ResultsMap extends Component {
                 <Marker
                   marker={{ coordinates: yourLocation }}
                   style={{
-                    default: { fill: 'yellow' }
+                    default: { fill: 'white' },
+                    hover: { fill: 'white' },
+                    pressed: { fill: 'white' }
                   }}
                 >
                   <circle cx={0} cy={0} r={2} />
