@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { filesThunk } from '../store/destinations';
+import Slider from 'react-slick';
 
 class FilesUploader extends Component {
   constructor(props) {
@@ -32,6 +33,10 @@ class FilesUploader extends Component {
     this.state.files.forEach(file => URL.revokeObjectURL(file.preview));
   }
   render() {
+    var settings = {
+      arrows: false,
+      fade: true
+    };
     const MAX_SIZE = 10000000;
     const ACCEPTED_FILE_TYPES =
       'image/jpeg, image/jpg image/png, image/tiff,image/gif';
@@ -47,7 +52,7 @@ class FilesUploader extends Component {
           onDropRejected={this.handleOnDropRejected}
         >
           {({ getRootProps, getInputProps }) => (
-            <section>
+            <div>
               {!this.state.files.length ? (
                 <div className="filesClass" {...getRootProps()}>
                   <input {...getInputProps()} />
@@ -62,16 +67,18 @@ class FilesUploader extends Component {
                 </div>
               ) : (
                 <div className="ui center aligned big image">
+                  <Slider {...settings}>
                     {files.map(file => {
                       return (
                         <div key={file.name}>
-                          <img src={file.preview}/>
+                          <img src={file.preview} />
                         </div>
                       );
                     })}
-                  </div>
+                  </Slider>
+                </div>
               )}
-            </section>
+            </div>
           )}
         </Dropzone>
       </div>

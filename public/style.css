@@ -6,10 +6,6 @@ a {
   text-decoration: none;
 }
 
-/* label {
-  display: block;
-} */
-
 .dropborder {
   border: solid 3px silver;
   border-radius: 5px;
@@ -60,13 +56,11 @@ input[type='date'] {
   position: relative;
 }
 
-
 input[type='date']:after {
   content: '\25BC';
   color: #555;
   padding: 0 5px;
 }
-
 
 input[type='date']::-webkit-calendar-picker-indicator {
   position: absolute;
