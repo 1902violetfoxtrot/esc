@@ -14,6 +14,13 @@ import {
   Markers
 } from 'react-simple-maps';
 
+const landStyle = {
+  fill: `#7FC6A4`,
+  stroke: '#7FC6A4',
+  strokeWidth: 0.75,
+  outline: 'none'
+};
+
 class ResultsMap extends Component {
   constructor(props) {
     super(props);
@@ -101,12 +108,9 @@ class ResultsMap extends Component {
                       geography={geography}
                       projection={projection}
                       style={{
-                        default: {
-                          fill: `#7FC6A4`,
-                          stroke: '#7FC6A4',
-                          strokeWidth: 0.75,
-                          outline: 'none'
-                        }
+                        default: landStyle,
+                        hover: landStyle,
+                        pressed: landStyle
                       }}
                     />
                   ))
@@ -126,6 +130,13 @@ class ResultsMap extends Component {
                       default: {
                         stroke: 'yellow',
                         fill: 'transparent'
+                      },
+                      hover: {
+                        stroke: 'red',
+                        fill: 'transparent'
+                      },
+                      pressed: {
+                        fill: 'transparent'
                       }
                     }}
                     buildPath={this.buildCurves}
@@ -136,7 +147,9 @@ class ResultsMap extends Component {
                 <Marker
                   marker={{ coordinates: yourLocation }}
                   style={{
-                    default: { fill: 'yellow' }
+                    default: { fill: 'white' },
+                    hover: { fill: 'white' },
+                    pressed: { fill: 'white' }
                   }}
                 >
                   <circle cx={0} cy={0} r={2} />
