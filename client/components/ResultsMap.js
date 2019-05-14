@@ -12,6 +12,7 @@ import {
   Marker,
   Markers
 } from 'react-simple-maps';
+import FlightInfo from './FlightInfo';
 
 class ResultsMap extends Component {
   constructor(props) {
@@ -86,60 +87,63 @@ class ResultsMap extends Component {
       );
     } else {
       return (
-        <div className="map">
-          <ComposableMap projection={this.projection}>
-            <ZoomableGroup>
-              <Geographies geography={mapData}>
-                {(geographies, projection) =>
-                  geographies.map((geography, i) => (
-                    <Geography
+        <div>
+          <div className="map">
+            <ComposableMap projection={this.projection}>
+              <ZoomableGroup>
+                <Geographies geography={mapData}>
+                  {(geographies, projection) =>
+                    geographies.map((geography, i) => (
+                      <Geography
+                        key={i}
+                        geography={geography}
+                        projection={projection}
+                        style={{
+                          default: {
+                            fill: `#7FC6A4`,
+                            stroke: '#7FC6A4',
+                            strokeWidth: 0.75,
+                            outline: 'none'
+                          }
+                        }}
+                      />
+                    ))
+                  }
+                </Geographies>
+                <Lines>
+                  {coords.map((coord, i) => (
+                    <Line
                       key={i}
-                      geography={geography}
-                      projection={projection}
-                      style={{
-                        default: {
-                          fill: `#7FC6A4`,
-                          stroke: '#7FC6A4',
-                          strokeWidth: 0.75,
-                          outline: 'none'
+                      line={{
+                        coordinates: {
+                          start: coord,
+                          end: yourLocation
                         }
                       }}
+                      style={{
+                        default: {
+                          stroke: 'yellow',
+                          fill: 'transparent'
+                        }
+                      }}
+                      buildPath={this.buildCurves}
                     />
-                  ))
-                }
-              </Geographies>
-              <Lines>
-                {coords.map((coord, i) => (
-                  <Line
-                    key={i}
-                    line={{
-                      coordinates: {
-                        start: coord,
-                        end: yourLocation
-                      }
-                    }}
+                  ))}
+                </Lines>
+                <Markers>
+                  <Marker
+                    marker={{ coordinates: yourLocation }}
                     style={{
-                      default: {
-                        stroke: 'yellow',
-                        fill: 'transparent'
-                      }
+                      default: { fill: 'yellow' }
                     }}
-                    buildPath={this.buildCurves}
-                  />
-                ))}
-              </Lines>
-              <Markers>
-                <Marker
-                  marker={{ coordinates: yourLocation }}
-                  style={{
-                    default: { fill: 'yellow' }
-                  }}
-                >
-                  <circle cx={0} cy={0} r={2} />
-                </Marker>
-              </Markers>
-            </ZoomableGroup>
-          </ComposableMap>
+                  >
+                    <circle cx={0} cy={0} r={2} />
+                  </Marker>
+                </Markers>
+              </ZoomableGroup>
+            </ComposableMap>
+          </div>
+          <FlightInfo />
         </div>
       );
     }

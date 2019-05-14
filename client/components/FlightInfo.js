@@ -16,29 +16,51 @@ const FlightInfo = props => {
   } else {
     destinationChoices = destinations;
   }
+  let flightsArr = [];
+  let flightsForLocations = {};
+  let totalFlightsArr = [];
   let departingFlights = {};
+  let departingArr = [];
   let returningFlights = {};
+  let returningArr = [];
 
   for (let airportCode in destinationChoices) {
     if (destinationChoices.hasOwnProperty(airportCode)) {
-      const locationName = destinationChoices[airportCode].name;
-      const flights = departing[airportCode];
-      if (flights) {
-        departingFlights[locationName] = flights;
+      let locationName = destinationChoices[airportCode].name;
+      locationName = locationName[0].toUpperCase() + locationName.slice(1);
+      const flightsDeparting = departing[airportCode];
+      const flightsReturning = returning[airportCode];
+      if (flightsDeparting && flightsReturning) {
+        flightsArr.push({ Departing: flightsDeparting });
+        flightsArr.push({ Returning: flightsReturning });
+        flightsForLocations[locationName] = flightsArr;
       }
     }
   }
+  totalFlightsArr.push(flightsForLocations);
+  console.log(totalFlightsArr);
 
-  for (let airportCode in destinationChoices) {
-    if (destinationChoices.hasOwnProperty(airportCode)) {
-      const locationName = destinationChoices[airportCode].name;
-      const flights = returning[airportCode];
-      if (flights) {
-        returningFlights[locationName] = flights;
-      }
-    }
-  }
-  return <div className="trip" />;
+  return (
+    <div class="ui inverted segment">
+      <div class="ui inverted relaxed divided list">
+        <div class="item">
+          <div class="content">
+            <div class="header">{}</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="content">
+            <div class="header">Departing</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="content">
+            <div class="header">Returning</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 const mapState = state => ({
   returning: state.location.returning,
