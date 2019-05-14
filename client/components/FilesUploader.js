@@ -33,7 +33,7 @@ class FilesUploader extends Component {
     this.state.files.forEach(file => URL.revokeObjectURL(file.preview));
   }
   render() {
-    var settings = {
+    const settings = {
       arrows: false,
       fade: true
     };
