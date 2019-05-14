@@ -89,7 +89,6 @@ class ResultsMap extends Component {
         </div>
       );
     } else {
-      console.log(coords);
       return (
         <div className="map">
           <ComposableMap projection={this.projection}>
@@ -103,8 +102,8 @@ class ResultsMap extends Component {
                       projection={projection}
                       style={{
                         default: {
-                          fill: `rgba(0,128,0,0.7)`,
-                          stroke: '#607D8B',
+                          fill: `#7FC6A4`,
+                          stroke: '#7FC6A4',
                           strokeWidth: 0.75,
                           outline: 'none'
                         }
@@ -153,17 +152,17 @@ class ResultsMap extends Component {
 
 const mapState = state => ({
   mapData: state.awsFile,
-  coords:
-    Object.keys(state.instagram.locations).map(location => {
-      const { longitude, latitude } = state.instagram.locations[location];
-      return [longitude, latitude];
-    }) ||
-    Object.keys(state.destinations.destinationInfo).map(destination => {
-      const { longitude, latitude } = state.destinations.destinationInfo[
-        destination
-      ];
-      return [longitude, latitude];
-    }),
+  coords: !!state.user.instagramId
+    ? Object.keys(state.instagram.locations).map(location => {
+        const { longitude, latitude } = state.instagram.locations[location];
+        return [longitude, latitude];
+      })
+    : Object.keys(state.destinations.destinationInfo).map(destination => {
+        const { longitude, latitude } = state.destinations.destinationInfo[
+          destination
+        ];
+        return [longitude, latitude];
+      }),
   isInstagram: !!state.user.instagramId
 });
 
