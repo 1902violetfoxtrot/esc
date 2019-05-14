@@ -8,7 +8,7 @@ import {
   UserHome,
   FilesUploader,
   Instagram,
-  ResultsMap
+  ResultsMap,
 } from './components';
 import { me } from './store';
 
@@ -29,11 +29,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/resultsMap" component={ResultsMap} />
-        {isInstagram ? (
-            <Instagram />
-        ) : (
-            <FilesUploader />
-        )}
+        {isInstagram ? <Instagram /> : <FilesUploader />}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
