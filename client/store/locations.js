@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const GET_FLIGHTS = 'GET_FLIGHTS';
+const CLEAR_FLIGHTS = 'CLEAR_FLIGHTS';
 
 const initialState = {
   returning: {},
@@ -11,6 +12,10 @@ const getFlights = (departing, returning) => ({
   type: GET_FLIGHTS,
   departing,
   returning
+});
+
+export const clearFlights = () => ({
+  type: CLEAR_FLIGHTS
 });
 
 const getSingleFlightUnqueued = async (
@@ -61,6 +66,8 @@ export const getFlightsThunk = (
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case CLEAR_FLIGHTS:
+      return initialState;
     case GET_FLIGHTS:
       const flightReducer = (total, flight) => {
         const flights = flight.ourBestFlights;
