@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { instagramThunk } from '../store/instagramImages';
+import Slider from 'react-slick';
 
 class Instagram extends Component {
   constructor(props) {
@@ -10,6 +11,10 @@ class Instagram extends Component {
     this.props.getImages();
   }
   render() {
+    const settings = {
+      arrows: false,
+      fade: true
+    };
     const { instagramImages } = this.props.data;
 
     if (!instagramImages) {
@@ -20,14 +25,16 @@ class Instagram extends Component {
       );
     } else {
       return (
-        <div>
-          {instagramImages.map(image => {
-            return (
-              <ul key={image}>
-                <img src={image} height="200" width="200" />
-              </ul>
-            );
-          })}
+        <div className="ui center aligned big image">
+          <Slider {...settings}>
+            {instagramImages.map(image => {
+              return (
+                <ul key={image}>
+                  <img src={image} />
+                </ul>
+              );
+            })}
+          </Slider>
         </div>
       );
     }
