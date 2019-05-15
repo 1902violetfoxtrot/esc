@@ -60,10 +60,10 @@ class FlightInfo extends Component {
           return (
             <div key={element.city}>
               <div>
-                <label className="ui header">{element.city}</label>
+                <label className="ui large blue header">{element.city}</label>
               </div>
-              <label role="list" className="ui list header">
-                <div className="icon">
+              <label role="list" className="ui header list container">
+                <div className="ui small header icon">
                   Departing
                   <i aria-hidden="true" className="fas fa-plane-departure" />
                 </div>
@@ -83,7 +83,7 @@ class FlightInfo extends Component {
                     </div>
                   );
                 })}
-                <div className="icon">
+                <div className="ui medium header icon">
                   Returning
                   <i aria-hidden="true" className="fas fa-plane-departure" />
                 </div>
