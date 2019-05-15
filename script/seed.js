@@ -91,7 +91,7 @@ async function seed() {
     { name: 'cyprus', longitude: 33.4299, latitude: 35.1264, code: 'LCA' },
     { name: 'auckland', longitude: 174.7633, latitude: -36.8485, code: 'AKL' },
     { name: 'aruba', longitude: 69.9683, latitude: 12.5211, code: 'AUA' },
-    { name: 'adelaide', longitude: 138.6007, latitude: 34.9285, code: 'ADL' }, // 30
+    { name: 'adelaide', longitude: 138.6007, latitude: -34.9285, code: 'ADL' }, // 30
     { name: 'acapulco', longitude: -99.8237, latitude: 16.8531, code: 'ACA' },
     { name: 'cancun', longitude: -86.8515, latitude: 21.1619, code: 'CUN' },
     {
