@@ -20,6 +20,7 @@ redisClient.on('error', function(err) {
 const checkFlightInRedis = async (key, origin, destination, departureDate) => {
   const flightReply = await redisClient.getAsync(key);
   if (flightReply !== null) return JSON.parse(flightReply);
+  await sleep(120);
   const toReturn = await flightsAPI.getFlights(
     origin,
     destination,
@@ -67,26 +68,6 @@ router.get('/closestAirport', async (req, res, next) => {
   }
 });
 
-function queue(func, waitTime) {
-  const funcQueue = [];
-  let isWaiting;
-  const executeFunc = function(...params) {
-    isWaiting = true;
-    func(...params);
-    setTimeout(play, waitTime);
-  };
-  const play = function() {
-    isWaiting = false;
-    if (funcQueue.length) {
-      const params = funcQueue.shift();
-      executeFunc(...params);
-    }
-  };
-  return function(...params) {
-    if (isWaiting) {
-      funcQueue.push(params);
-    } else {
-      executeFunc(...params);
-    }
-  };
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

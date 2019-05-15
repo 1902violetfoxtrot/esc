@@ -18,25 +18,12 @@ export const clearFlights = () => ({
   type: CLEAR_FLIGHTS
 });
 
-const getSingleFlightUnqueued = async (
-  from,
-  to,
-  date,
-  direction,
-  arr,
-  backup,
-  backup2
-) => {
+const getSingleFlight = async (from, to, date, direction, backup, backup2) => {
   const { data } = await axios.get(
     `/api/flights?origin=${from}&destination=${to}&departureDate=${date}&direction=${direction}&backup=${backup}&backup2=${backup2}`
   );
-  if (data !== 'no') arr.push(data);
+  return data;
 };
-
-const getSingleFlight = queue(
-  (...params) => getSingleFlightUnqueued(...params),
-  700
-);
 
 export const getFlightsThunk = (
   origin,
@@ -46,30 +33,26 @@ export const getFlightsThunk = (
   backup,
   backup2
 ) => async dispatch => {
-  let toFlights = [];
-  let fromFlights = [];
-  destinations.map(destination => {
-    getSingleFlight(
-      origin,
-      destination,
-      departureDate,
-      'to',
-      toFlights,
-      backup,
-      backup2
-    );
-    getSingleFlight(
-      destination,
-      origin,
-      returnDate,
-      'from',
-      fromFlights,
-      backup,
-      backup2
-    );
-  });
+  const toFlights = (await Promise.all(
+    destinations.map(destination =>
+      getSingleFlight(origin, destination, departureDate, 'to', backup, backup2)
+    )
+  )).filter(f => f !== 'no');
 
-  setTimeout(() => dispatch(getFlights(toFlights, fromFlights)), 15000);
+  const fromFlights = (await Promise.all(
+    destinations.map(destination =>
+      getSingleFlight(
+        destination,
+        origin,
+        returnDate,
+        'from',
+        fromFlights,
+        backup,
+        backup2
+      )
+    )
+  )).filter(f => f !== 'no');
+  dispatch(getFlights(toFlights, fromFlights));
 };
 
 export default function(state = initialState, action) {
@@ -85,16 +68,16 @@ export default function(state = initialState, action) {
       const newDepartingFlights = action.departing.reduce(flightReducer, {});
       const newReturningFlights = action.returning.reduce(flightReducer, {});
 
-      const departingKeys =  Object.keys(newDepartingFlights);
+      const departingKeys = Object.keys(newDepartingFlights);
       const returningKeys = Object.keys(newReturningFlights);
       const validDestinations = departingKeys.filter(code =>
         returningKeys.includes(code)
       );
       departingKeys.map(key => {
-        if (!validDestinations.includes(key)) delete newDepartingFlights[key]
+        if (!validDestinations.includes(key)) delete newDepartingFlights[key];
       });
       returningKeys.map(key => {
-        if (!validDestinations.includes(key)) delete newReturningFlights[key]
+        if (!validDestinations.includes(key)) delete newReturningFlights[key];
       });
 
       return {
@@ -105,28 +88,4 @@ export default function(state = initialState, action) {
     default:
       return state;
   }
-}
-
-function queue(func, waitTime) {
-  const funcQueue = [];
-  let isWaiting;
-  const executeFunc = function(...params) {
-    isWaiting = true;
-    func(...params);
-    setTimeout(play, waitTime);
-  };
-  const play = function() {
-    isWaiting = false;
-    if (funcQueue.length) {
-      const params = funcQueue.shift();
-      executeFunc(...params);
-    }
-  };
-  return function(...params) {
-    if (isWaiting) {
-      funcQueue.push(params);
-    } else {
-      executeFunc(...params);
-    }
-  };
 }
