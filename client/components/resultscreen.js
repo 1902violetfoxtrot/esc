@@ -2,6 +2,7 @@ import React from 'react';
 import ResultsMap from './ResultsMap';
 import BudgetBar from './portableBudgetBar';
 import queryString from 'query-string';
+import FlightInfo from './FlightInfo';
 
 class ResultScreen extends React.Component {
   constructor() {
@@ -19,8 +20,8 @@ class ResultScreen extends React.Component {
     const rawCoords = coords.split(',');
     const realCoords = [];
     while (rawCoords.length) {
-      realCoords.push([ rawCoords.shift(), rawCoords.shift() ]);
-    };
+      realCoords.push([rawCoords.shift(), rawCoords.shift()]);
+    }
     this.setState({
       coords: realCoords
     });
@@ -39,6 +40,7 @@ class ResultScreen extends React.Component {
         <BudgetBar budget={this.state.budget} onChange={this.onBudgetChange} />
         <ResultsMap coords={this.state.coords} />
         {/* and then the list of flights to the side somewhere here */}
+        <FlightInfo />
       </div>
     );
   }
