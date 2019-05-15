@@ -76,7 +76,7 @@ class FlightInfo extends Component {
                   );
                 })}
                 Returning
-                <i aria-hidden="true" className="fas fa-plane-departure" />
+                <i aria-hidden="true" className="fas fa-plane-arrival" />
                 {element.returning.map((returns, i) => {
                   return (
                     <div key={i} role="listitem" className="item">
