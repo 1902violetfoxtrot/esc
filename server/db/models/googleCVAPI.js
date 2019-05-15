@@ -38,6 +38,7 @@ class GoogleCVAPI {
       })
     );
     let setArray = Array.from(uniqueLabelOutput);
+    console.log(setArray);
 
     let locationNames = await Promise.all(
       setArray.map(async currLabel => {
@@ -73,7 +74,7 @@ class GoogleCVAPI {
     let bestCities = [];
     let cityMatches = setArray.length;
 
-    while (bestCities.length < 5) {
+    while (bestCities.length < 5 && cityMatches > 0) {
       for (let key in locationOccurence) {
         if (locationOccurence[key] === cityMatches) {
           bestCities.push(key);
