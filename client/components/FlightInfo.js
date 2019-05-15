@@ -12,7 +12,8 @@ class FlightInfo extends Component {
       departing,
       destinations,
       instagramLocs,
-      instagramUser
+      instagramUser,
+      budget
     } = this.props;
 
     let destinationChoices = {};
@@ -41,8 +42,8 @@ class FlightInfo extends Component {
           // });
           let flightsObj = {
             city: locationName,
-            departing: flightsDeparting,
-            returning: flightsReturning,
+            departing: flightsDeparting.filter(({price}) => Number(price) <= budget),
+            returning: flightsReturning.filter(({price}) => Number(price) <= budget),
             // totals: totalPrices
           };
           totalFlightsArr.push(flightsObj);
@@ -76,7 +77,7 @@ class FlightInfo extends Component {
                   );
                 })}
                 Returning
-                <i aria-hidden="true" className="fas fa-plane-departure" />
+                <i aria-hidden="true" className="fas fa-plane-arrival" />
                 {element.returning.map((returns, i) => {
                   return (
                     <div key={i} role="listitem" className="item">

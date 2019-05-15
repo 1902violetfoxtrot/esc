@@ -98,7 +98,7 @@ class ResultsMap extends Component {
       return (
         <div className="map">
           <ComposableMap projection={this.projection} height={600} width={1300}>
-            <ZoomableGroup>
+            <ZoomableGroup disablePanning={true}>
               <Geographies geography={mapData}>
                 {(geographies, projection) =>
                   geographies.map((geography, i) => (

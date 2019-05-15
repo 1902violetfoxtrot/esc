@@ -34,13 +34,13 @@ class ResultScreen extends React.Component {
   }
 
   render() {
-    console.log('properties:', this.props);
+//    console.log(this.props);
     return (
       <div>
         <BudgetBar budget={this.state.budget} onChange={this.onBudgetChange} />
         <ResultsMap coords={this.state.coords} />
         {/* and then the list of flights to the side somewhere here */}
-        <FlightInfo />
+        <FlightInfo budget={this.state.budget} />
       </div>
     );
   }
