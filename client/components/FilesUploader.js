@@ -89,10 +89,6 @@ class FilesUploader extends Component {
                 )}
               </Dropzone>
             </div>
-            <TripInfoForm
-              clicked={this.state.clicked}
-              handleClicked={this.handleClicked}
-            />
           </div>
         ) : (
           <div className="ui segment">
@@ -142,12 +138,13 @@ class FilesUploader extends Component {
                 )}
               </Dropzone>
             </div>
-            <TripInfoForm
-              clicked={this.state.clicked}
-              handleClicked={this.handleClicked}
-            />
           </div>
         )}
+
+        <TripInfoForm
+          clicked={this.state.clicked}
+          handleClicked={this.handleClicked}
+        />
       </div>
     );
   }

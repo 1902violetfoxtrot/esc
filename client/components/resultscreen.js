@@ -8,22 +8,25 @@ class ResultScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      budget: 1000, // should be passed down, placeholder
+      budget: 1000,
       flights: [], // should be calculated and then passed down
-      coords: [[]]
+      coords: [[]],
+      seats: 1
     };
     this.onBudgetChange = this.onBudgetChange.bind(this);
   }
 
   componentDidMount() {
-    const { coords } = queryString.parse(this.props.location.search);
+    const { budget, coords, seats } = queryString.parse(this.props.location.search);
     const rawCoords = coords.split(',');
     const realCoords = [];
     while (rawCoords.length) {
       realCoords.push([rawCoords.shift(), rawCoords.shift()]);
     }
     this.setState({
-      coords: realCoords
+      budget: Number(budget),
+      coords: realCoords,
+      seats: Number(seats)
     });
   }
 
@@ -50,7 +53,7 @@ class ResultScreen extends React.Component {
         </div>
         {/* and then the list of flights to the side somewhere here */}
         <div className="four wide column">
-          <FlightInfo budget={this.state.budget} />
+          <FlightInfo budget={this.state.budget} seats={this.state.seats} />
         </div>
       </div>
     );

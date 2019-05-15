@@ -13,7 +13,8 @@ class FlightInfo extends Component {
       destinations,
       instagramLocs,
       instagramUser,
-      budget
+      budget,
+      seats
     } = this.props;
 
     let destinationChoices = {};
@@ -32,12 +33,12 @@ class FlightInfo extends Component {
         let flightsReturning = returning[airportCode] || [];
         if (flightsDeparting)
           flightsDeparting = flightsDeparting
-            .filter(({ price }) => Number(price) <= budget)
+            .filter(({ price }) => Number(price) <= (budget / (2 * seats)))
             .sort((a, b) => Number(b.price) - Number(a.price))
             .slice(0, 5);
         if (flightsReturning)
           flightsReturning = flightsReturning
-            .filter(({ price }) => Number(price) <= budget)
+            .filter(({ price }) => Number(price) <= (budget / (2 * seats)))
             .sort((a, b) => Number(b.price) - Number(a.price))
             .slice(0, 5);
 
@@ -98,7 +99,7 @@ class FlightInfo extends Component {
                       <div className="content">
                         <div>Airline: {departure.carrier}</div>
                         <div>Class: {departure.class}</div>
-                        <div>${departure.price}</div>
+                        <div>${departure.price} / seat</div>
                       </div>
                     </div>
                   );
@@ -107,7 +108,7 @@ class FlightInfo extends Component {
                   <div className="icon">
                     <i className="fas fa-plane-arrival" />
                   </div>
-                  returning
+                  Returning
                 </label>
                 {element.returning.map((returns, i) => {
                   return (
@@ -119,7 +120,7 @@ class FlightInfo extends Component {
                       <div className="content">
                         <div>Airline: {returns.carrier}</div>
                         <div>Class: {returns.class}</div>
-                        <div>${returns.price}</div>
+                        <div>${returns.price} / seat</div>
                       </div>
                     </div>
                   );
