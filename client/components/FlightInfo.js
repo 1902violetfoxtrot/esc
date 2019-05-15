@@ -28,10 +28,22 @@ class FlightInfo extends Component {
       if (destinationChoices.hasOwnProperty(airportCode)) {
         let locationName = destinationChoices[airportCode].name;
         locationName = locationName[0].toUpperCase() + locationName.slice(1);
-        const flightsDeparting = departing[airportCode];
-        const flightsReturning = returning[airportCode];
+        let flightsDeparting = departing[airportCode] || [];
+        let flightsReturning = returning[airportCode] || [];
+        if (flightsDeparting)
+          flightsDeparting = flightsDeparting.filter(
+            ({ price }) => Number(price) <= budget
+          )
+          .sort( (a, b) => Number(b.price) - Number(a.price) )
+          .slice(0, 5);
+        if (flightsReturning)
+          flightsReturning = flightsReturning.filter(
+            ({ price }) => Number(price) <= budget
+          )
+          .sort( (a, b) => Number(b.price) - Number(a.price) )
+          .slice(0, 5);
 
-        if (flightsDeparting && flightsReturning) {
+        if (flightsDeparting.length && flightsReturning.length) {
           // const totalPrices = flightsDeparting.map((departure, idx) => {
           //   if (departure) {
           //     let sum =
@@ -42,9 +54,8 @@ class FlightInfo extends Component {
           // });
           let flightsObj = {
             city: locationName,
-
-            departing: flightsDeparting.filter(({price}) => Number(price) <= budget),
-            returning: flightsReturning.filter(({price}) => Number(price) <= budget),
+            departing: flightsDeparting,
+            returning: flightsReturning
             // totals: totalPrices
           };
           totalFlightsArr.push(flightsObj);
