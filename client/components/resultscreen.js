@@ -36,11 +36,22 @@ class ResultScreen extends React.Component {
   render() {
 //    console.log(this.props);
     return (
-      <div>
-        <BudgetBar budget={this.state.budget} onChange={this.onBudgetChange} />
-        <ResultsMap coords={this.state.coords} />
+      <div className="ui padded grid">
+        <div className="ui grid eleven wide column">
+          <div className="centered two column row">
+            <BudgetBar
+              budget={this.state.budget}
+              onChange={this.onBudgetChange}
+            />
+          </div>
+          <div className="row">
+            <ResultsMap coords={this.state.coords} />
+          </div>
+        </div>
         {/* and then the list of flights to the side somewhere here */}
-        <FlightInfo budget={this.state.budget} />
+        <div className="four wide column">
+          <FlightInfo budget={this.state.budget} />
+        </div>
       </div>
     );
   }

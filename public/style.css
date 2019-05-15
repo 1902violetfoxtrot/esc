@@ -80,5 +80,10 @@ input[type='date']::-webkit-inner-spin-button {
 }
 
 .map {
-  background-color: #4392F1;
+  background-color: #4392f1;
+}
+
+svg {
+  width: 100% !important;
+  height: 100% !important;
 }
