@@ -28,19 +28,57 @@ const checkFlightInRedis = async (key, origin, destination, departureDate) => {
   );
   await redisClient.setAsync(key, JSON.stringify(toReturn));
   return toReturn;
-}
+};
 
 router.get('/', async (req, res, next) => {
   try {
-    const { origin, destination, departureDate, direction, backup, backup2 } = req.query;
+    const {
+      origin,
+      destination,
+      departureDate,
+      direction,
+      backup,
+      backup2
+    } = req.query;
     const key = `${origin}-${destination} ${departureDate}`;
-    let flightReply = await checkFlightInRedis(key, origin, destination, departureDate);
+    let flightReply = await checkFlightInRedis(
+      key,
+      origin,
+      destination,
+      departureDate
+    );
     let cont = true;
 
     if (flightReply === 'no flights found!') {
-      flightReply = await checkFlightInRedis(key + 'backup', backup, destination, departureDate);
+      flightReply =
+        direction === 'from'
+          ? await checkFlightInRedis(
+              `${origin}-${backup} ${departureDate}`,
+              origin,
+              backup,
+              departureDate
+            )
+          : await checkFlightInRedis(
+              `${backup}-${destination} ${departureDate}`,
+              backup,
+              destination,
+              departureDate
+            );
       if (flightReply === 'no flights found!') {
-        flightReply = await checkFlightInRedis(key + 'backup2', backup2, destination, departureDate);
+        flightReply =
+          direction === 'from'
+            ? await checkFlightInRedis(
+                `${origin}-${backup2} ${departureDate}`,
+                origin,
+                backup2,
+                departureDate
+              )
+            : await checkFlightInRedis(
+                `${backup2}-${destination} ${departureDate}`,
+                backup2,
+                destination,
+                departureDate
+              );
         if (flightReply === 'no flights found!') {
           cont = false;
           res.json('no');

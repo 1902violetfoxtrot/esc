@@ -41,15 +41,7 @@ export const getFlightsThunk = (
 
   const fromFlights = (await Promise.all(
     destinations.map(destination =>
-      getSingleFlight(
-        destination,
-        origin,
-        returnDate,
-        'from',
-        fromFlights,
-        backup,
-        backup2
-      )
+      getSingleFlight(destination, origin, returnDate, 'from', backup, backup2)
     )
   )).filter(f => f !== 'no');
   dispatch(getFlights(toFlights, fromFlights));
