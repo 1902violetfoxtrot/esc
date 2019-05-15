@@ -3,6 +3,8 @@
 A web application that gives users travel destination recommendations, the flight costs for those destinations based on images they upload or images from the user’s Instagram feed, their budget, number of people traveling and travel time constraints.
 
 [Visit here!](https://lets-esc.herokuapp.com/)
+![Results Map](https://raw.githubusercontent.com/1902violetfoxtrot/esc/master/images/esc2.png)
+
 
 ## How It Works
 Step 1 is image identification. Images are uploaded manually by the user, or loaded from the user's Instagram account. They're passed on to be indentified in the Google Cloud Vision API. Labels are returned and further categorized into the tags that we use to organize potential travel destinations.
@@ -30,3 +32,5 @@ Required:
 5. `npm run start-server` to start the server.
 6. Go to http://localhost:8080.
 7. There it is!
+
+![Input Form](https://raw.githubusercontent.com/1902violetfoxtrot/esc/master/images/esc1.png)
