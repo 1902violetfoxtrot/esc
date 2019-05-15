@@ -40,7 +40,6 @@ class FlightInfo extends Component {
           //     return sum.toFixed(2);
           //   }
           // });
-          console.log(flightsDeparting);
           let flightsObj = {
             city: locationName,
             departing: flightsDeparting.filter(({price}) => Number(price) <= budget),
