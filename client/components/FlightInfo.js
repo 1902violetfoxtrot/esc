@@ -33,11 +33,15 @@ class FlightInfo extends Component {
         if (flightsDeparting)
           flightsDeparting = flightsDeparting.filter(
             ({ price }) => Number(price) <= budget
-          );
+          )
+          .sort( (a, b) => Number(b.price) - Number(a.price) )
+          .slice(0, 5);
         if (flightsReturning)
           flightsReturning = flightsReturning.filter(
             ({ price }) => Number(price) <= budget
-          );
+          )
+          .sort( (a, b) => Number(b.price) - Number(a.price) )
+          .slice(0, 5);
 
         if (flightsDeparting.length && flightsReturning.length) {
           // const totalPrices = flightsDeparting.map((departure, idx) => {
