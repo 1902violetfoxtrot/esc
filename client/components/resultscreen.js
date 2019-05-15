@@ -34,7 +34,7 @@ class ResultScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log('properties:', this.props);
     return (
       <div className="ui grid">
         <div className="ui grid eleven wide column">

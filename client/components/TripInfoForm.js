@@ -68,10 +68,10 @@ class TripInfoForm extends React.Component {
             ];
             return [longitude, latitude];
           });
-      const coords = coordsSource.reduce((prev, pair) => {
-        return prev + pair[0] + ',' + pair[1] + ',';
-      }, '');
-      history.push(`/results?coords=${coords}`);
+      const coords = coordsSource.reduce( (prev, pair) => {
+        return prev + pair[0] + ',' + pair[1] + ','
+      }, '' );
+      history.push(`/results?coords=${coords.slice(0, -1)}`);
     }
   }
 
