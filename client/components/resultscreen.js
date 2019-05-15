@@ -33,7 +33,7 @@ class ResultScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log('properties:', this.props);
     return (
       <div>
         <BudgetBar budget={this.state.budget} onChange={this.onBudgetChange} />
