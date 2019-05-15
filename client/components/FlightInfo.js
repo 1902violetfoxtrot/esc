@@ -12,7 +12,8 @@ class FlightInfo extends Component {
       departing,
       destinations,
       instagramLocs,
-      instagramUser
+      instagramUser,
+      budget
     } = this.props;
 
     let destinationChoices = {};
@@ -41,8 +42,9 @@ class FlightInfo extends Component {
           // });
           let flightsObj = {
             city: locationName,
-            departing: flightsDeparting,
-            returning: flightsReturning
+
+            departing: flightsDeparting.filter(({price}) => Number(price) <= budget),
+            returning: flightsReturning.filter(({price}) => Number(price) <= budget),
             // totals: totalPrices
           };
           totalFlightsArr.push(flightsObj);

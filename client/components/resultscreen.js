@@ -34,7 +34,7 @@ class ResultScreen extends React.Component {
   }
 
   render() {
-    console.log('properties:', this.props);
+//    console.log(this.props);
     return (
       <div className="ui padded grid">
         <div className="ui grid eleven wide column">
@@ -50,7 +50,7 @@ class ResultScreen extends React.Component {
         </div>
         {/* and then the list of flights to the side somewhere here */}
         <div className="four wide column">
-          <FlightInfo />
+          <FlightInfo budget={this.state.budget} />
         </div>
       </div>
     );
