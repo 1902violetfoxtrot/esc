@@ -18,7 +18,7 @@ const BudgetBar = props => {
         <input
           type="number"
           min="100"
-          max="10000"
+          max="3000"
           id="budgetInput"
           value={props.budget}
           onChange={props.onChange}
@@ -29,7 +29,7 @@ const BudgetBar = props => {
         <input
           type="range"
           min="100"
-          max="10000"
+          max="3000"
           step="50"
           className="slider column"
           id="budgetSlider"

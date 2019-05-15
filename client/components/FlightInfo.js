@@ -31,17 +31,15 @@ class FlightInfo extends Component {
         let flightsDeparting = departing[airportCode] || [];
         let flightsReturning = returning[airportCode] || [];
         if (flightsDeparting)
-          flightsDeparting = flightsDeparting.filter(
-            ({ price }) => Number(price) <= budget
-          )
-          .sort( (a, b) => Number(b.price) - Number(a.price) )
-          .slice(0, 5);
+          flightsDeparting = flightsDeparting
+            .filter(({ price }) => Number(price) <= budget)
+            .sort((a, b) => Number(b.price) - Number(a.price))
+            .slice(0, 5);
         if (flightsReturning)
-          flightsReturning = flightsReturning.filter(
-            ({ price }) => Number(price) <= budget
-          )
-          .sort( (a, b) => Number(b.price) - Number(a.price) )
-          .slice(0, 5);
+          flightsReturning = flightsReturning
+            .filter(({ price }) => Number(price) <= budget)
+            .sort((a, b) => Number(b.price) - Number(a.price))
+            .slice(0, 5);
 
         if (flightsDeparting.length && flightsReturning.length) {
           // const totalPrices = flightsDeparting.map((departure, idx) => {
@@ -67,19 +65,28 @@ class FlightInfo extends Component {
 
   render() {
     const flightsInfoArr = this.makeFlightsArr();
+    if (!flightsInfoArr.length) {
+      return (
+        <div className="ui centered medium header">
+          There are no flights at this price
+        </div>
+      );
+    }
     return (
       <div className="flights">
         {flightsInfoArr.map(element => {
           return (
             <div key={element.city}>
               <div>
-                <label className="ui header">{element.city}</label>
+                <label className="ui large blue header">{element.city}</label>
               </div>
-              <label role="list" className="ui list header">
-                <div className="icon">
+              <label role="list" className="ui list container">
+                <label className="ui medium header">
+                  <div className="icon">
+                    <i className="fas fa-plane-departure" />
+                  </div>
                   Departing
-                  <i aria-hidden="true" className="fas fa-plane-departure" />
-                </div>
+                </label>
 
                 {element.departing.map((departure, i) => {
                   return (
@@ -96,10 +103,12 @@ class FlightInfo extends Component {
                     </div>
                   );
                 })}
-                <div className="icon">
-                  Returning
-                  <i aria-hidden="true" className="fas fa-plane-departure" />
-                </div>
+                <label className="ui medium header">
+                  <div className="icon">
+                    <i className="fas fa-plane-arrival" />
+                  </div>
+                  returning
+                </label>
                 {element.returning.map((returns, i) => {
                   return (
                     <div

@@ -67,8 +67,7 @@ class FilesUploader extends Component {
                           <div className="dropzone">
                             <i className="images outline huge icon" />
                             <div className="ui header">
-                              Drag 'n' drop some files here, or click to select
-                              files
+                              <i>Upload an image of your ideal escape</i>
                             </div>
                           </div>
                         </div>
