@@ -3,7 +3,7 @@
 A web application that gives users travel destination recommendations, the flight costs for those destinations based on images they upload or images from the user’s Instagram feed, their budget, number of people traveling and travel time constraints.
 
 [Visit here!](https://lets-esc.herokuapp.com/)
-![alt text](https://raw.githubusercontent.com/1902violetfoxtrot/esc/master/images/esc2.png)
+![Results Map](https://raw.githubusercontent.com/1902violetfoxtrot/esc/master/images/esc2.png)
 
 
 ## How It Works
@@ -33,4 +33,4 @@ Required:
 6. Go to http://localhost:8080.
 7. There it is!
 
-![alt text](https://raw.githubusercontent.com/1902violetfoxtrot/esc/master/images/esc1.png)
+![Input Form](https://raw.githubusercontent.com/1902violetfoxtrot/esc/master/images/esc1.png)
