@@ -37,7 +37,7 @@ class ResultScreen extends React.Component {
 //    console.log(this.props);
     return (
       <div className="ui padded grid">
-        <div className="ui grid eleven wide column">
+        <div className="ui padded grid eleven wide column">
           <div className="centered two column row">
             <BudgetBar
               budget={this.state.budget}
