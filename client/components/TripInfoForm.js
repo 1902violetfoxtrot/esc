@@ -56,7 +56,6 @@ class TripInfoForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.flightsGot && !prevProps.flightsGot) {
-      //history.push('/results');
       const coordsSource = this.props.instagramUser
         ? Object.keys(this.props.instagramLocs).map(location => {
             const { longitude, latitude } = this.props.instagramLocs[location];
@@ -71,7 +70,9 @@ class TripInfoForm extends React.Component {
       const coords = coordsSource.reduce( (prev, pair) => {
         return prev + pair[0] + ',' + pair[1] + ','
       }, '' );
-      history.push(`/results?coords=${coords.slice(0, -1)}`);
+      const { adults, children } = this.state;
+      const seats = adults + children
+      history.push(`/results?coords=${coords.slice(0, -1)}&seats=${seats}`);
     }
   }
 
@@ -113,7 +114,7 @@ class TripInfoForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     this.props.handleClicked();
-    const { departure, returnDate, adults, children, infants } = this.state;
+    const { departure, returnDate } = this.state;
     window.navigator.geolocation.getCurrentPosition(async response => {
       const { longitude, latitude } = response.coords;
       const originData = await Axios.get(
