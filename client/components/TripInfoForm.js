@@ -57,7 +57,6 @@ class TripInfoForm extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.flightsGot && !prevProps.flightsGot) {
       //history.push('/results');
-      console.log('destinations:', this.props.destinations);
       const coordsSource = this.props.instagramUser
         ? Object.keys(this.props.instagramLocs).map(location => {
             const { longitude, latitude } = this.props.instagramLocs[location];
@@ -69,9 +68,9 @@ class TripInfoForm extends React.Component {
             ];
             return [longitude, latitude];
           });
-      const coords = coordsSource.reduce( (prev, pair) => {
-        return prev + pair[0] + ',' + pair[1] + ','
-      }, '' );
+      const coords = coordsSource.reduce((prev, pair) => {
+        return prev + pair[0] + ',' + pair[1] + ',';
+      }, '');
       history.push(`/results?coords=${coords}`);
     }
   }
@@ -247,7 +246,7 @@ class TripInfoForm extends React.Component {
               <div className="column">
                 {!this.state.clicked &&
                 (Object.keys(this.props.destinations).length ||
-                Object.keys(this.props.instagramLocs).length) &&
+                  Object.keys(this.props.instagramLocs).length) &&
                 this.state.departure &&
                 this.state.returnDate &&
                 this.state.adults ? (

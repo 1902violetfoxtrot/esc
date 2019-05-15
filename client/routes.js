@@ -8,13 +8,7 @@ import {
   UserHome,
   FilesUploader,
   Instagram,
-<<<<<<< HEAD
-  ResultsMap,
-||||||| merged common ancestors
-  ResultsMap
-=======
   ResultScreen
->>>>>>> master
 } from './components';
 import { me } from './store';
 
