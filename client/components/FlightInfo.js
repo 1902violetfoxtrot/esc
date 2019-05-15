@@ -42,6 +42,7 @@ class FlightInfo extends Component {
           // });
           let flightsObj = {
             city: locationName,
+
             departing: flightsDeparting.filter(({price}) => Number(price) <= budget),
             returning: flightsReturning.filter(({price}) => Number(price) <= budget),
             // totals: totalPrices
@@ -63,32 +64,47 @@ class FlightInfo extends Component {
               <div>
                 <label className="ui header">{element.city}</label>
               </div>
-              <div role="list" className="ui list">
-                Departing
-                <i aria-hidden="true" className="fas fa-plane-departure" />
+              <label role="list" className="ui list header">
+                <div className="icon">
+                  Departing
+                  <i aria-hidden="true" className="fas fa-plane-departure" />
+                </div>
+
                 {element.departing.map((departure, i) => {
                   return (
-                    <div key={i} role="listitem" className="item">
+                    <div
+                      key={i}
+                      role="listitem"
+                      className="ui container segment"
+                    >
                       <div className="content">
-                        Airline: {departure.carrier} Class: {departure.class}{' '}
-                        Price: ${departure.price}
+                        <div>Airline: {departure.carrier}</div>
+                        <div>Class: {departure.class}</div>
+                        <div>${departure.price}</div>
                       </div>
                     </div>
                   );
                 })}
-                Returning
-                <i aria-hidden="true" className="fas fa-plane-arrival" />
+                <div className="icon">
+                  Returning
+                  <i aria-hidden="true" className="fas fa-plane-departure" />
+                </div>
                 {element.returning.map((returns, i) => {
                   return (
-                    <div key={i} role="listitem" className="item">
+                    <div
+                      key={i}
+                      role="listitem"
+                      className="ui container segment"
+                    >
                       <div className="content">
-                        Airline: {returns.carrier} Class: {returns.class} Price:
-                        ${returns.price}
+                        <div>Airline: {returns.carrier}</div>
+                        <div>Class: {returns.class}</div>
+                        <div>${returns.price}</div>
                       </div>
                     </div>
                   );
                 })}
-              </div>
+              </label>
             </div>
           );
         })}
