@@ -8,7 +8,7 @@ class ResultScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      budget: 1000, // should be passed down, placeholder
+      budget: 1000,
       flights: [], // should be calculated and then passed down
       coords: [[]],
       seats: 1
@@ -17,13 +17,14 @@ class ResultScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { coords, seats } = queryString.parse(this.props.location.search);
+    const { budget, coords, seats } = queryString.parse(this.props.location.search);
     const rawCoords = coords.split(',');
     const realCoords = [];
     while (rawCoords.length) {
       realCoords.push([rawCoords.shift(), rawCoords.shift()]);
     }
     this.setState({
+      budget: Number(budget),
       coords: realCoords,
       seats: Number(seats)
     });

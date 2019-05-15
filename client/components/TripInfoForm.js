@@ -70,9 +70,9 @@ class TripInfoForm extends React.Component {
       const coords = coordsSource.reduce( (prev, pair) => {
         return prev + pair[0] + ',' + pair[1] + ','
       }, '' );
-      const { adults, children } = this.state;
-      const seats = adults + children
-      history.push(`/results?coords=${coords.slice(0, -1)}&seats=${seats}`);
+      const { adults, children, budget } = this.state;
+      const seats = Number(adults) + Number(children);
+      history.push(`/results?seats=${seats}&budget=${budget}&coords=${coords.slice(0, -1)}`);
     }
   }
 
@@ -245,7 +245,7 @@ class TripInfoForm extends React.Component {
 
             <div className="centered two column row">
               <div className="column">
-                {!this.state.clicked &&
+                {!this.props.clicked &&
                 (Object.keys(this.props.destinations).length ||
                   Object.keys(this.props.instagramLocs).length) &&
                 this.state.departure &&
