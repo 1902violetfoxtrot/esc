@@ -73,13 +73,16 @@ class GoogleCVAPI {
     let bestCities = [];
     let cityMatches = setArray.length;
 
-    for (let key in locationOccurence) {
-      if (locationOccurence[key] === cityMatches && bestCities.length < 5) {
-        bestCities.push(key);
+    while (bestCities.length < 5) {
+      for (let key in locationOccurence) {
+        if (locationOccurence[key] === cityMatches) {
+          bestCities.push(key);
+        }
       }
+      cityMatches--;
     }
 
-    return bestCities;
+    return bestCities.slice(0, 5);
   }
 }
 
