@@ -38,6 +38,7 @@ class GoogleCVAPI {
       })
     );
     let setArray = Array.from(uniqueLabelOutput);
+    uniqueLabelOutput.clear();
 
     let locationNames = await Promise.all(
       setArray.map(async currLabel => {
@@ -50,7 +51,6 @@ class GoogleCVAPI {
         let location = await labelSearchResult.getLocations();
 
         const locationList = location.map(currLocation => {
-          //console.log(currLocation.dataValues)
           return currLocation.dataValues.name;
         });
 
@@ -78,7 +78,7 @@ class GoogleCVAPI {
         bestCities.push(key);
       }
     }
-
+    this.labels = [];
     return bestCities;
   }
 }
