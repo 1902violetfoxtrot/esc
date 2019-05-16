@@ -5,6 +5,7 @@ import queryString from 'query-string';
 import FlightInfo from './FlightInfo';
 import { connect } from 'react-redux';
 import history from '../history';
+import { jsonGrow } from './jsonHelper';
 
 class ResultScreen extends React.Component {
   constructor() {
@@ -38,9 +39,9 @@ class ResultScreen extends React.Component {
       realCoords.push([rawCoords.shift(), rawCoords.shift()]);
     }
     const realSeats = Number(seats);
-    const realDeparting = JSON.parse(departing);
-    const realReturning = JSON.parse(returning);
-    const realDestinations = JSON.parse(destinations);
+    const realDeparting = jsonGrow(departing);
+    const realReturning = jsonGrow(returning);
+    const realDestinations = jsonGrow(destinations);
 
     this.setState({
       budget: realBudget,

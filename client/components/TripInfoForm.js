@@ -4,6 +4,7 @@ import { getFlightsThunk, clearFlights } from '../store';
 import Axios from 'axios';
 import history from '../history';
 import BudgetBar from './portableBudgetBar';
+import { jsonShrink } from './jsonHelper';
 
 const DAY = 24 * 60 * 60 * 1000;
 function getReadableDate(date) {
@@ -75,9 +76,9 @@ class TripInfoForm extends React.Component {
         `/results?seats=${seats}&budget=${budget}&coords=${coords.slice(
           0,
           -1
-        )}&departing=${JSON.stringify(departing)}
-        &returning=${JSON.stringify(returning)}
-        &destinations=${JSON.stringify(destinations)}`
+        )}&departing=${jsonShrink(departing)}
+        &returning=${jsonShrink(returning)}
+        &destinations=${jsonShrink(destinations)}`
       );
     }
   }
