@@ -3,13 +3,7 @@ const { User } = require('../db/models');
 const instagramAPI = require('../db/models/instagramAPI');
 const googleCV = require('../db/models/googleCVAPI');
 const { Location, Label } = require('../db/models');
-let redisClient;
 
-if (process.env.HEROKU_REDIS_RED_URL) {
-  redisClient = require('redis').createClient(process.env.HEROKU_REDIS_RED_URL);
-} else {
-  redisClient = require('redis').createClient();
-}
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -38,15 +32,9 @@ router.get('/instagram', async (req, res, next) => {
 });
 
 router.get('/instagramLocs', async (req, res, next) => {
-  let labels;
+  try {
+    let labels = await Label.findAll({ attributes: ['id', 'name'] });
 
-  redisClient.get('idAndLabels', async function(reply) {
-    if (reply) {
-      labels = JSON.parse(reply);
-    } else {
-      labels = await Label.findAll({ attributes: ['id', 'name'] });
-      redisClient.set('idAndLabels', JSON.stringify(labels));
-    }
     const locationName = await googleCV.getMostFrequentCities(labels, Label);
     const locations = await Promise.all(
       locationName.map(locName =>
@@ -57,5 +45,7 @@ router.get('/instagramLocs', async (req, res, next) => {
     );
 
     res.json(locations);
-  });
+  } catch (error) {
+    console.error(error);
+  }
 });
