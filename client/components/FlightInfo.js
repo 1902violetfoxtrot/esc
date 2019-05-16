@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Accordion, Icon } from 'semantic-ui-react';
 
 class FlightInfo extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
-    this.makeFlightsArr = this.makeFlightsArr.bind(this);
   }
 
   handleClick = (e, titleProps) => {
@@ -17,67 +15,9 @@ class FlightInfo extends Component {
     this.setState({ activeIndex: newIndex });
   };
 
-  makeFlightsArr() {
-    const {
-      returning,
-      departing,
-      destinations,
-      instagramLocs,
-      instagramUser,
-      budget,
-      seats
-    } = this.props;
-
-    let destinationChoices = {};
-    if (instagramUser) {
-      destinationChoices = instagramLocs;
-    } else {
-      destinationChoices = destinations;
-    }
-    let totalFlightsArr = [];
-
-    for (let airportCode in destinationChoices) {
-      if (destinationChoices.hasOwnProperty(airportCode)) {
-        let locationName = destinationChoices[airportCode].name;
-        locationName = locationName[0].toUpperCase() + locationName.slice(1);
-        let flightsDeparting = departing[airportCode] || [];
-        let flightsReturning = returning[airportCode] || [];
-        if (flightsDeparting)
-          flightsDeparting = flightsDeparting
-            .filter(({ price }) => Number(price) <= budget / (2 * seats))
-            .sort((a, b) => Number(b.price) - Number(a.price))
-            .slice(0, 5);
-        if (flightsReturning)
-          flightsReturning = flightsReturning
-            .filter(({ price }) => Number(price) <= budget / (2 * seats))
-            .sort((a, b) => Number(b.price) - Number(a.price))
-            .slice(0, 5);
-
-        if (flightsDeparting.length && flightsReturning.length) {
-          // const totalPrices = flightsDeparting.map((departure, idx) => {
-          //   if (departure) {
-          //     let sum =
-          //       parseFloat(departure.price, 10) +
-          //       parseFloat(flightsReturning[idx].price, 10);
-          //     return sum.toFixed(2);
-          //   }
-          // });
-          let flightsObj = {
-            city: locationName,
-            departing: flightsDeparting,
-            returning: flightsReturning
-            // totals: totalPrices
-          };
-          totalFlightsArr.push(flightsObj);
-        }
-      }
-    }
-    return totalFlightsArr;
-  }
-
   render() {
     const { activeIndex } = this.state;
-    const flightsInfoArr = this.makeFlightsArr();
+    const { flightsInfoArr } = this.props;
     if (!flightsInfoArr.length) {
       return (
         <div className="ui centered medium header">
@@ -94,7 +34,7 @@ class FlightInfo extends Component {
                 active={activeIndex === i}
                 index={i}
                 onClick={this.handleClick}
-                style={{fontSize: 28}}
+                style={{ fontSize: 28 }}
               >
                 <Icon name="dropdown" />
                 {element.city}
@@ -153,11 +93,5 @@ class FlightInfo extends Component {
     );
   }
 }
-const mapState = state => ({
-  returning: state.location.returning,
-  departing: state.location.departing,
-  destinations: state.destinations.destinationInfo,
-  instagramLocs: state.instagram.locations,
-  instagramUser: state.user.instagramId
-});
-export default connect(mapState)(FlightInfo);
+
+export default FlightInfo;

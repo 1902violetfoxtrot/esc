@@ -4,6 +4,7 @@ import { getFlightsThunk, clearFlights } from '../store';
 import Axios from 'axios';
 import history from '../history';
 import BudgetBar from './portableBudgetBar';
+import { jsonShrink } from './jsonHelper';
 
 const DAY = 24 * 60 * 60 * 1000;
 function getReadableDate(date) {
@@ -55,24 +56,30 @@ class TripInfoForm extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.flightsGot && !prevProps.flightsGot) {
-      const coordsSource = this.props.instagramUser
-        ? Object.keys(this.props.instagramLocs).map(location => {
-            const { longitude, latitude } = this.props.instagramLocs[location];
-            return [longitude, latitude];
-          })
-        : Object.keys(this.props.destinations).map(destination => {
-            const { longitude, latitude } = this.props.destinations[
-              destination
-            ];
-            return [longitude, latitude];
-          });
-      const coords = coordsSource.reduce( (prev, pair) => {
-        return prev + pair[0] + ',' + pair[1] + ','
-      }, '' );
+    if (
+      Object.keys(this.props.departing).length &&
+      !Object.keys(prevProps.departing).length
+    ) {
+      const coordsSource = Object.keys(this.props.destinations).map(
+        location => {
+          const { longitude, latitude } = this.props.destinations[location];
+          return [longitude, latitude];
+        }
+      );
+      const coords = coordsSource.reduce((prev, pair) => {
+        return prev + pair[0] + ',' + pair[1] + ',';
+      }, '');
       const { adults, children, budget } = this.state;
       const seats = Number(adults) + Number(children);
-      history.push(`/results?seats=${seats}&budget=${budget}&coords=${coords.slice(0, -1)}`);
+      const { departing, returning, destinations } = this.props;
+      history.push(
+        `/results?seats=${seats}&budget=${budget}&coords=${coords.slice(
+          0,
+          -1
+        )}&departing=${jsonShrink(departing)}
+        &returning=${jsonShrink(returning)}
+        &destinations=${jsonShrink(destinations)}`
+      );
     }
   }
 
@@ -120,13 +127,7 @@ class TripInfoForm extends React.Component {
       const originData = await Axios.get(
         `/api/flights/closestAirport?longitude=${longitude}&latitude=${latitude}`
       );
-      let destinationChoices = [];
-      const { destinations, instagramLocs } = this.props;
-      if (this.props.instagramUser) {
-        destinationChoices = Object.keys(instagramLocs);
-      } else {
-        destinationChoices = Object.keys(destinations);
-      }
+      const destinationChoices = Object.keys(this.props.destinations);
 
       const origin = originData.data.data[0].iataCode;
       const backupOrigin = originData.data.data[1].iataCode;
@@ -246,8 +247,7 @@ class TripInfoForm extends React.Component {
             <div className="centered two column row">
               <div className="column">
                 {!this.props.clicked &&
-                (Object.keys(this.props.destinations).length ||
-                  Object.keys(this.props.instagramLocs).length) &&
+                Object.keys(this.props.destinations).length &&
                 this.state.departure &&
                 this.state.returnDate &&
                 this.state.adults ? (
@@ -276,11 +276,12 @@ class TripInfoForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  destinations: state.destinations.destinationInfo,
-  flightsGot: Object.keys(state.location.departing).length,
-  instagramLocs: state.instagram.locations,
-  instagramImages: state.instagram.images,
-  instagramUser: state.user.instagramId
+  destinations: state.user.instagramId
+    ? state.instagram.locations
+    : state.destinations.destinationInfo,
+  departing: state.location.departing,
+  returning: state.location.returning,
+  instagramImages: state.instagram.images
 });
 
 const mapDispatchToProps = dispatch => ({
