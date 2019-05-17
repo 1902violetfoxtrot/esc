@@ -18,9 +18,12 @@ redisClient.on('error', function(err) {
 });
 
 const checkFlightInRedis = async (key, origin, destination, departureDate) => {
+  console.log('checking redis for flights', key);
   const flightReply = await redisClient.getAsync(key);
   if (flightReply !== null) return JSON.parse(flightReply);
+  console.log('and now I Sleep zzz');
   await sleep(120);
+  console.log('flights were not in redis; fetching right now and setting to', key);
   const toReturn = await flightsAPI.getFlights(
     origin,
     destination,
@@ -48,6 +51,7 @@ router.get('/', async (req, res, next) => {
       departureDate
     );
     let cont = true;
+    console.log('now arrived at the api route, looking for flights between', origin, 'and', destination);
 
     if (flightReply === 'no flights found!') {
       flightReply =
@@ -80,6 +84,11 @@ router.get('/', async (req, res, next) => {
                 departureDate
               );
         if (flightReply === 'no flights found!') {
+          console.log(
+            'welp, found nothing, tough shit, gotta throw the whole',
+            direction === 'from' ? origin : destination,
+            'out'
+          );
           cont = false;
           res.json('no');
           res.end();
@@ -87,6 +96,7 @@ router.get('/', async (req, res, next) => {
       }
     }
     if (cont) {
+      console.log('got the', key, 'from the cache!');
       let ourBestFlights = flightsAPI.getIATA(flightReply);
       const vacationPlace = direction === 'from' ? origin : destination;
       res.json({ ourBestFlights, vacationPlace });

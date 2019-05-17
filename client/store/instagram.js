@@ -6,8 +6,8 @@ const instagramState = {
 };
 
 const GET_IG_LOCATIONS = 'GET_IG_LOCATIONS';
-
 const SET_INSTAGRAM_IMAGES = 'SET_INSTAGRAM_IMAGES';
+const GET_FLIGHTS = 'GET_FLIGHTS';
 
 const getInstagramImages = images => ({
   type: SET_INSTAGRAM_IMAGES,
@@ -54,6 +54,24 @@ export default function(state = instagramState, action) {
         return info;
       }, {});
       return { ...state, locations: newInfo };
+    case GET_FLIGHTS:
+      const flightReducer = (total, flight) => {
+        const flights = flight.ourBestFlights;
+        if (flights.length) total[flight.vacationPlace] = flights;
+        return total;
+      };
+      const newDepartingFlights = action.departing.reduce(flightReducer, {});
+      const newReturningFlights = action.returning.reduce(flightReducer, {});
+      const departingKeys = Object.keys(newDepartingFlights);
+      const returningKeys = Object.keys(newReturningFlights);
+      const validDestinations = departingKeys.filter(code =>
+        returningKeys.includes(code)
+      );
+      const newLocations = { ...state.locations };
+      Object.keys(newLocations).map(key => {
+        if (!validDestinations.includes(key)) delete newLocations[key];
+      });
+      return { ...state, locations: newLocations };
     default:
       return state;
   }
