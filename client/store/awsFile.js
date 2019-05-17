@@ -13,7 +13,7 @@ const getMapData = data => ({
 export const awsMapThunk = () => {
   return async dispatch => {
     try {
-      const { data } = await axios.get('/api/AWS/');
+      const { data } = await axios.get('./map.json');
       dispatch(getMapData(data));
     } catch (error) {
       console.error(error);
