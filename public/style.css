@@ -87,3 +87,22 @@ svg {
   width: 100% !important;
   height: 100% !important;
 }
+
+.testing {
+  display: flex !important;
+  justify-content: center;
+}
+div.slick-track {
+  display: flex;
+  height: 557px;
+}
+div.slick-track img {
+  height: 100% !important;
+  width: 100%;
+  max-width: 200% !important;
+  object-fit: contain;
+}
+div.slick-slide, div.slick-slide div {
+  height: 100%;
+  align-self: center;
+}
