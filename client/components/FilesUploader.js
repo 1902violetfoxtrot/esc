@@ -39,7 +39,9 @@ class FilesUploader extends Component {
   render() {
     const settings = {
       arrows: false,
-      fade: true
+      fade: true,
+      autoplay: true,
+      autoplaySpeed: 3000
     };
     const MAX_SIZE = 10000000;
     const ACCEPTED_FILE_TYPES =
