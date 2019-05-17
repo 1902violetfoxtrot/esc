@@ -79,7 +79,7 @@ class FilesUploader extends Component {
                         <Slider {...settings}>
                           {files.map(file => {
                             return (
-                              <div key={file.name}>
+                              <div key={file.name} className='testing'>
                                 <img src={file.preview} />
                               </div>
                             );
