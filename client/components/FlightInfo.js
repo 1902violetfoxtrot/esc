@@ -4,7 +4,7 @@ import { Accordion, Icon } from 'semantic-ui-react';
 class FlightInfo extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeIndex: 0 };
+    this.state = { activeIndex: 6 };
   }
 
   handleClick = (e, titleProps) => {

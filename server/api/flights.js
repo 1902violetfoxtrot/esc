@@ -21,9 +21,6 @@ const checkFlightInRedis = async (key, origin, destination, departureDate) => {
   console.log('checking redis for flights', key);
   const flightReply = await redisClient.getAsync(key);
   if (flightReply !== null) return JSON.parse(flightReply);
-  console.log('and now I Sleep zzz');
-  await sleep(120);
-  console.log('flights were not in redis; fetching right now and setting to', key);
   const toReturn = await flightsAPI.getFlights(
     origin,
     destination,
@@ -117,5 +114,6 @@ router.get('/closestAirport', async (req, res, next) => {
 });
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => 
+    setTimeout(resolve, ms));
 }

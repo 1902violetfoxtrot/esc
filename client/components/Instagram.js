@@ -9,9 +9,9 @@ class Instagram extends Component {
     super(props);
     this.state = { clicked: false };
   }
-  componentDidMount() {
-    this.props.getImages();
-    this.props.getLocs();
+  async componentDidMount() {
+    await this.props.getImages();
+    await this.props.getLocs();
   }
   handleClicked = () => {
     this.setState({ clicked: true });
@@ -19,7 +19,9 @@ class Instagram extends Component {
   render() {
     const settings = {
       arrows: false,
-      fade: true
+      fade: true,
+      autoplay: true,
+      autoplaySpeed: 3000
     };
     const { images } = this.props;
     return (
@@ -48,10 +50,6 @@ class Instagram extends Component {
                 </div>
               )}
             </div>
-            <TripInfoForm
-              clicked={this.state.clicked}
-              handleClicked={this.handleClicked}
-            />
           </div>
         ) : (
           <div className="ui segment">
@@ -82,12 +80,12 @@ class Instagram extends Component {
                 </div>
               )}
             </div>
-            <TripInfoForm
-              clicked={this.state.clicked}
-              handleClicked={this.handleClicked}
-            />
           </div>
         )}
+        <TripInfoForm
+          clicked={this.state.clicked}
+          handleClicked={this.handleClicked}
+        />
       </div>
     );
   }

@@ -23,8 +23,7 @@ router.get('/', async (req, res, next) => {
 router.get('/instagram', async (req, res, next) => {
   try {
     const instagramImages = await instagramAPI.getImages();
-    const images = [...instagramImages];
-    await googleCV.setLabels(images);
+
     res.json(instagramImages).status(200);
   } catch (err) {
     next(err);
@@ -33,6 +32,9 @@ router.get('/instagram', async (req, res, next) => {
 
 router.get('/instagramLocs', async (req, res, next) => {
   try {
+    const instagramImages = await instagramAPI.getImages();
+    const images = [...instagramImages];
+    await googleCV.setLabels(images);
     let labels = await Label.findAll({ attributes: ['id', 'name'] });
 
     const locationName = await googleCV.getMostFrequentCities(labels, Label);
@@ -43,7 +45,7 @@ router.get('/instagramLocs', async (req, res, next) => {
         })
       )
     );
-
+    
     res.json(locations);
   } catch (error) {
     console.error(error);
