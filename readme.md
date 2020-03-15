@@ -1,8 +1,9 @@
 # ESCAPE
 
-A web application that gives users travel destination recommendations, the flight costs for those destinations based on images they upload or images from the user’s Instagram feed, their budget, number of people traveling and travel time constraints.
+![GitHub last commit](https://img.shields.io/github/last-commit/1902violetfoxtrot/esc) ![GitHub top language](https://img.shields.io/github/languages/top/1902violetfoxtrot/esc) ![GitHub package.json version](https://img.shields.io/github/package-json/v/1902violetfoxtrot/esc) ![GitHub](https://img.shields.io/github/license/1902violetfoxtrot/esc) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/1902violetfoxtrot/esc) ![GitHub issues](https://img.shields.io/github/issues/1902violetfoxtrot/esc) ![GitHub pull requests](https://img.shields.io/github/issues-pr/1902violetfoxtrot/esc)
 
-[Visit here!](https://lets-esc.herokuapp.com/)
+A web application that gives users travel destination recommendations and flight costs based on images they upload or images from the user’s Instagram feed, budget limits, number of people traveling and time constraints. Flight paths are rendered on a D3 globe.
+
 ![Results Map](https://raw.githubusercontent.com/1902violetfoxtrot/esc/master/images/esc2.png)
 
 
