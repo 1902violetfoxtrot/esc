@@ -44,7 +44,7 @@
     "bootstrap": "^4.3.1",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
-    "d3": "^5.9.2",
+    "d3": "^7.6.1",
     "d3-geo": "^1.11.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
